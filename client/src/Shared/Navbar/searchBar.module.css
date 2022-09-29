@@ -1,0 +1,16 @@
+/* From uiverse.io by @ercnersoy */
+.input {
+    border: none;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: #e8e8e8;
+    transition: 0.3s;
+    margin-top: 3rem;
+    height: 4rem;
+}
+   
+.input:focus {
+    outline-color: #e8e8e8;
+    background: #e8e8e8;
+    transition: 0.3s;
+}
