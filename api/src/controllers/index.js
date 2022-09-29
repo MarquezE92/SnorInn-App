@@ -4,20 +4,21 @@ const router = express.Router()
 // const { adminSchema, reviewsSchema, roomSchema, userSchema, reservationSchema } = require('../db')
 const { roomSchema } = require('../db')
 
-const addRooms = async()=>{
+const addRooms = async (type, place, n_beds, price, availability = true, photo, rating) => {
     const add = new roomSchema({
-        type: '123',
-        place: '123',
-        n_beds: 1,
-        price: 100,
-        availability: true,
-        services: [],
-        rating: 1
+        type,
+        place,
+        n_beds,
+        price,
+        availability,
+        rating,
     })
-    await add.save()
+    const addNewSchema = await add.save()
+    return addNewSchema;
+
 }
 
-const getRooms = async()=>{
+const getRooms = async () => {
     const response = await roomSchema.find()
     return response
 }
