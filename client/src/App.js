@@ -1,10 +1,15 @@
+import RoomForm from "./Admin/Features/RoomForm";
+import { Routes, Route } from "react-router-dom";
+
 
 
 function App() {
   return (
-    <div className="App">
-      SnorInnApp
-    </div>
+    <>
+    <Routes>
+      <Route path= '/create' element={<RoomForm/>}/>
+    </Routes>
+    </>
   );
 }
 

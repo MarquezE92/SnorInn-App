@@ -1,0 +1,74 @@
+.mainContainer {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: pink;
+}
+.mainDiv {
+    width: 60rem; 
+    height: 40rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.inputDiv {
+    display: flex;
+    padding-bottom: 3rem;
+    justify-content: space-between;
+}
+label {
+    align-self: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+  }
+
+input {
+    background-color: #F9FBFC;
+    padding: 0;
+    color: black;
+    font-size: 2rem;
+    width: 24rem;
+    height: 2rem;
+    border-style: none;
+ } 
+textarea {
+    background-color: #F9FBFC;
+    color: black;
+    font-size: 2rem;
+    height: 2rem;
+    width: 24rem;
+    border-style: none;
+    resize: none;
+    margin-top: 1rem;
+    padding: 0;
+}
+select {
+    width: 27rem;
+    height: 3rem;
+}
+
+.deleteButton {
+    width: 2rem;
+    height: 2rem;
+    background-color: red;
+    cursor: pointer;
+}
+
+.createButton {
+    background-color:rgb(143, 208, 208);
+    height: 5rem;
+    width: 10rem;
+    border-radius: 3rem;
+    align-self: center;
+    margin-top: 2rem;
+    border-style: none;
+    cursor: pointer;
+}
