@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const userClientSchema = mongoose.Schema({
-    _id: String,
     username: String,
     password: String,
     firstname: String,
@@ -10,7 +9,5 @@ const userClientSchema = mongoose.Schema({
     email: String,
     address: String,
     rating: Number
-});
-const userClientModel = mongoose.model('UserClient', userClientSchema);
-
-export default userClientModel;
+}, { versionKey: false });
+module.exports = mongoose.model('UserClient', userClientSchema);

@@ -1,13 +1,10 @@
 import mongoose from 'mongoose';
 
 const userAdminSchema = mongoose.Schema({
-    _id: String,
     username: String,
     passwword: String,
     rooms: Array,
     ban: String
-});
+}, { versionKey: false });
 
-const userAdminModel = mongoose.model('UserAdmin', userAdminSchema);
-
-export default userAdminModel;
+module.exports = mongoose.model('UserAdmin', userAdminSchema);
