@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import logoSnorInn from '../../Images/logoSnorInn.jpeg';
 import styles from './Navbar.module.css';
 
@@ -8,7 +9,10 @@ const NavBar = ()=> {
             <img src={logoSnorInn} alt="SnorInn" id={styles.logoImg}/>
             <button className={styles.navbarButton}>Home</button>
             <button className={styles.navbarButton}>About</button>
-            <button className={styles.navbarButton}>Rooms</button>
+            <button className={styles.navbarButton}>
+                <NavLink to="/rooms" className={styles.NavLink}>Rooms</NavLink>
+            </button>
+            
             <button className={styles.navbarButton}>LogIn</button>
         </div>
         )
