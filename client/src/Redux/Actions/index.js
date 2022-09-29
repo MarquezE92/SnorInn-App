@@ -8,3 +8,11 @@ export function GetAllRooms(){
 export function GetRoom(){
     console.log('esta funcion trae una sola habitacion')
 }
+
+export function CreateRoom(){
+    console.log('esta funcion crea una habitacion')
+}
+
+export function CreateReview(){
+    console.log('esta funcion crea una review')
+}
