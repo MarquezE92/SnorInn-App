@@ -18,4 +18,4 @@ const roomSchema = mongoose.Schema({
     }]
 }, {versionKey: false})
 
-module.exports = mongoose.model('Room', roomSchema)
+module.exports = mongoose.model('room', roomSchema)
