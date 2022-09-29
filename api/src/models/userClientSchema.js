@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const userClientSchema = mongoose.Schema({
     username: String,
@@ -8,6 +8,10 @@ const userClientSchema = mongoose.Schema({
     age: Number,
     email: String,
     address: String,
-    rating: Number
+    rating: Number,
+    reservationId: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Reservation'
+    }]
 }, { versionKey: false });
 module.exports = mongoose.model('UserClient', userClientSchema);

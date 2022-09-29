@@ -1,9 +1,13 @@
-import mongoose from 'mongoose';
+const  mongoose = require('mongoose');
+
 
 const userAdminSchema = mongoose.Schema({
     username: String,
     passwword: String,
-    rooms: Array,
+    rooms: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'room'
+    }],
     ban: Boolean
 }, { versionKey: false });
 
