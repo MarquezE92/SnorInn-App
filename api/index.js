@@ -10,11 +10,11 @@ const app = express();
 
 // CONFIGURACION DE PUERTO
 app.set('port', process.env.PORT || 3002)
-app.name = 'API';
+app.name = 'API'; 
 
 // CONSTANTE STING DE ATLAS
-const url = `mongodb+srv://SnorInn:SnorInn123@snorinn.zjmulm3.mongodb.net/?retryWrites=true&w=majority`;
-
+//const url = `mongodb+srv://SnorInn:SnorInn123@snorinn.zjmulm3.mongodb.net/?retryWrites=true&w=majority`;
+const url = `mongodb+srv://SnorInn:SnorInn123@snorinn.zjmulm3.mongodb.net/SnorInn`
 
 // UNION DE MONGODB CON LA APLICACION
 const connectionParams={
