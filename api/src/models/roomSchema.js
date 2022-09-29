@@ -7,7 +7,11 @@ const roomSchema = mongoose.Schema({
     price: Number,
     availability: Boolean,
     services: Array,
-    // photos: Image,
+    photos: {
+        type: mongoose.Schema.Types.ObjectId,
+        data: Buffer,
+        contentType: String
+    },
     rating: Number,
     reviews: [{
         type: mongoose.Schema.Types.ObjectId,

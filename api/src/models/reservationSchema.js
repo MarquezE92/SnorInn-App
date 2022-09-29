@@ -1,8 +1,14 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const reservationSchema = mongoose.Schema({
-    userId: String,
-    roomId: String,
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserClient'
+    },
+    roomId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'room'
+    },
     check_in: Date,
     checkIut: Date,
     price: Number
