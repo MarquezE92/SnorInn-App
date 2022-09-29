@@ -4,7 +4,7 @@ const userAdminSchema = mongoose.Schema({
     _id: String,
     username: String,
     passwword: String,
-    rooms: String,
+    rooms: Array,
     ban: String
 });
 
