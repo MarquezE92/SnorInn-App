@@ -1,26 +1,14 @@
-import React from 'react'
-import {useDispatch} from 'react-redux'
-import { GetAllRooms, GetRoom } from './Redux/Actions'
+import RoomForm from "./Admin/Features/RoomForm";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
-  
-  const Dispatch = useDispatch()
-  
-
-  function HandleRooms(){
-    Dispatch(GetAllRooms())
-  }
-
-  function HandleRoom(){
-    Dispatch(GetRoom())
-  }
-
+ 
   return (
-    <div className="App">
-      <h1>SnorInnApp</h1>
-      <button onClick={HandleRooms}>traer una habitacion</button>
-      <button onClick={HandleRoom}>traer todas habitacion</button>
-    </div>
+    <>
+    <Routes>
+      <Route path= '/create' element={<RoomForm/>}/>
+    </Routes>
+    </>
   );
 }
 
