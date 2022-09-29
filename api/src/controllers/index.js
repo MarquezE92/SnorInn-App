@@ -7,11 +7,10 @@ const { roomSchema } = require('../db')
 const addRooms = async()=>{
     const add = new roomSchema({
         type: '123',
-        place: '123',
+        place: '123 lol',
         n_beds: 1,
         price: 100,
         availability: true,
-        services: [],
         rating: 1
     })
     await add.save()

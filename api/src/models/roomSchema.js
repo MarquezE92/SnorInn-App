@@ -8,9 +8,8 @@ const roomSchema = mongoose.Schema({
     availability: Boolean,
     services: Array,
     photos: {
-        type: mongoose.Schema.Types.ObjectId,
         data: Buffer,
-        contentType: String
+        contentType: String,
     },
     rating: Number,
     reviews: [{
@@ -19,4 +18,4 @@ const roomSchema = mongoose.Schema({
     }]
 }, {versionKey: false})
 
-module.exports = mongoose.model('room', roomSchema)
+module.exports = mongoose.model('Room', roomSchema)
