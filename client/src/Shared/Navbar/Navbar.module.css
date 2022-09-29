@@ -1,0 +1,18 @@
+
+.navbarDiv {
+	display: flex;
+	justify-content: space-between;
+}
+
+.navbarButton {
+	border: none;
+	background-color: transparent;
+	padding: 1rem;
+	font-size: 2rem;
+	cursor: pointer;
+}
+
+#logoImg {
+	height: 10rem;
+	width: 15rem;
+}
