@@ -25,7 +25,18 @@ const getRooms = async () => {
     return response
 }
 
+const findByIdRoom = async (id) => {
+    const find = await roomSchema.findById(id)
+    return find
+}
+
+
+
+
+
+
 module.exports = {
     getRooms,
-    addRooms
+    addRooms,
+    findByIdRoom
 }
