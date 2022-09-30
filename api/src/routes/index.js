@@ -4,6 +4,7 @@ const axios = require('axios');
 const { getRooms, addRooms } = require('../controllers')
 const express = require('express')
 router.use(express.json())
+const getRoomsFindByPlace = require('../routes/getRoomByQueryR')
 //CONDIFURAR LAS RUTAS
 
 
@@ -27,4 +28,7 @@ router.post('/rooms', async (req, res) => {
         return res.status(404).send({ error: ' We sorry, cant insert data in Data Base' })
     }
 })
+
+router.get('/findName', getRoomsFindByPlace)
+
 module.exports = router;
