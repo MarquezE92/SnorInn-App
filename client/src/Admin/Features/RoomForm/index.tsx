@@ -1,26 +1,29 @@
 import React, { ChangeEvent, FormEvent } from "react";
 import { useState, useEffect } from "react";
 import styles from './index.module.css'
+import {useAppDispatch} from '../../../Redux/Store/hooks'
+import {IRoom, createRoom} from '../../../Redux/slice/rooms'
 
 
-interface IRoom {
-    type: string,
-    place: string,
-    n_beds: number,
-    price: number,
-    services: string[],
-    location: string,
-    photos: string,
-    min_user_rating: number,
-}
+
+// interface IRoom {
+//     type: string,
+//     place: string,
+//     n_beds: number,
+//     price: number,
+//     services: string[],
+//     location: string,
+//     photos: string,
+//     min_user_rating: number,
+// }
 
 const RoomForm = () => {
 const services = ['service1', 'service2', 'service3', 'service4']
-
+const dispatch = useAppDispatch()
 
 
   // const [errors, setErrors] = useState({});
-  const [input, setInput] = useState<IRoom>({
+  const [input, setInput] = useState<Partial<IRoom>>({
     type: '',
     place: '',
     n_beds: 0,
@@ -28,7 +31,6 @@ const services = ['service1', 'service2', 'service3', 'service4']
     services: [] ,
     location: '',
     photos: '',
-    min_user_rating: 0,
   });
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,16 +47,17 @@ const services = ['service1', 'service2', 'service3', 'service4']
   // };
 
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    if (!input.services.includes(e.target.value)){
-      setInput({
-        ...input,
-        services: [...input.services, e.target.value],
-      });}
+      if (input.services && !(input.services.includes(e.target.value)) ){
+        setInput({
+          ...input,
+          services: [...input.services, e.target.value],
+        });}
   }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     alert("Room created successfully");
+    dispatch(createRoom(input))
     setInput({
     type: '',
     place: '',
@@ -63,14 +66,13 @@ const services = ['service1', 'service2', 'service3', 'service4']
     services: [] ,
     location: '',
     photos: '',
-    min_user_rating: 0,
     });
   };
 
   const handleDelete = (e: string) => {
     setInput({
       ...input,
-      services: input.services.filter((el) => el !== e),
+      services: input.services && input.services.filter((el) => el !== e),
     });
   };
 
@@ -149,7 +151,7 @@ const services = ['service1', 'service2', 'service3', 'service4']
           Services:
           <ul>
             {" "}
-            {input.services.map((el) => (
+            {input.services && input.services.map((el) => (
               <li>
                 {el}
                 <button
