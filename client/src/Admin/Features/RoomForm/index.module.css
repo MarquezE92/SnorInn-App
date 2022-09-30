@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: pink;
+    background-color: rgb(239, 192, 192);
 }
 .mainDiv {
     width: 60rem; 
@@ -22,19 +22,28 @@
     display: flex;
     padding-bottom: 3rem;
     justify-content: space-between;
+   
+}
+.divInputPhotos {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 3rem;
+}
+.inputPhotos {
+    width: 100%;
 }
 label {
     align-self: center;
     text-align: center;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 1rem;
   }
 
 input {
     background-color: #F9FBFC;
     padding: 0;
     color: black;
-    font-size: 2rem;
+    font-size: 1rem;
     width: 24rem;
     height: 2rem;
     border-style: none;
@@ -71,4 +80,10 @@ select {
     margin-top: 2rem;
     border-style: none;
     cursor: pointer;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 1rem;
+    font-weight: bolder;
 }
