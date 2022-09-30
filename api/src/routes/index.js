@@ -17,9 +17,10 @@ router.get('/rooms', async (req, res) => {
 });
 
 router.post('/rooms', async (req, res) => {
-    const {type, place, n_beds, price, availability, rating} = req.body
+    const {type, place, n_beds, price, availability, rating, photos, services} = req.body
+    // console.log(photos)
     try {
-        const postRoom = await addRooms(type, place, n_beds, price, availability, rating)
+        const postRoom = await addRooms(req.body)
         return res.send(postRoom)
 
     } catch (error) {
