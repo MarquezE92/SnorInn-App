@@ -1,0 +1,83 @@
+
+.RoomCardContainer {
+ margin: 10rem 30rem;
+ height: 25rem;
+ width: 70rem;
+ border: 0.1rem solid black;
+ display: flex;
+ direction: column;
+ font-family: Monaco, monospace;
+ font-size: 1.5rem;
+ border-radius: 0.6rem;
+ box-shadow: 0.6rem 0.6rem 1.4rem #00000015;
+ border: none;
+ 
+}
+
+.RoomCardContainer:hover {
+	border: #ADDDD0 0.3rem solid;
+}
+
+.upperSection {
+ padding: 2rem;
+ width: 30rem;
+ display: flex;
+ direction: column;
+ justify-content: space-around;
+ align-items: center;
+}
+
+.beds {
+padding-left: 0.5rem;
+padding-right: 0.5rem;
+background-color: #ADDDD0;
+display: inline-block;
+border-radius: 0 2rem 2rem 0;
+}
+
+.bottomSection {
+ height: 7rem;
+ display: flex;
+ direction: column;
+ justify-content: flex-end;
+ align-items: flex-end;
+ font-size: 3rem;
+ padding: 1rem;
+}
+
+.Img {
+height: 100%;
+width: 40rem;
+}
+
+#place {
+font-size: 3.5rem;
+}
+
+button {
+	border: none;
+	font-weight: bold;
+	margin-right: 5rem;
+	cursor: pointer;
+	text-decoration: none;
+ 	background: transparent;
+}
+
+.viewButton {
+	background-color: #309177;
+	
+	padding: 1rem;
+	border-radius: 2rem;
+	font-size: 2rem;
+}
+
+.viewLink {
+	text-decoration: none;
+	color: white;
+}
+
+li {
+	display: inline-block;
+	margin: 1rem;
+
+}
