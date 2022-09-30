@@ -1,4 +1,6 @@
-
+.NavLink {
+	text-decoration: none;
+}
 .navbarDiv {
 	display: flex;
 	justify-content: space-between;
