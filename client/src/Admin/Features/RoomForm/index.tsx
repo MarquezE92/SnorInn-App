@@ -3,7 +3,11 @@ import { useState } from "react";
 import styles from './index.module.css'
 import {useAppDispatch} from '../../../Redux/Store/hooks'
 import {IRoom, createRoom} from '../../../Redux/slice/rooms'
-
+import { beds, services, types } from "./constants";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form'
+import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import { Modal } from "react-bootstrap";
 
 
 // interface IRoom {
@@ -18,72 +22,53 @@ import {IRoom, createRoom} from '../../../Redux/slice/rooms'
 // }
 
 const RoomForm = () => {
-const services = ['service1', 'service2', 'service3', 'service4']
+const servicesInfo = services
+const typesInfo = types
+const bedsInfo = beds
+
+
+
 const dispatch = useAppDispatch()
 
-
-  // const [errors, setErrors] = useState({});
-
-  const [errors, setErrors] = useState<Partial<IRoomValidate>>({});
+const [openModal, setOpenModal] = useState(false);
   const [input, setInput] = useState<Partial<IRoom>>({
-    type: '',
-    place: '',
+    type: ["Basic"],
+    name: '',
     n_beds: 0,
     price: 0,
     services: [] ,
-    location: '',
+    place: '',
     photos: [],
+    description: ''
   });
 
-  interface IRoomValidate {
-    [key: string]: any,
-}
 
-  const validateForm = (input:IRoomValidate) => {
-    let errors : any = {
-      type:'',
-      location: '',
-      price: '',
-      place: '',
-      n_beds: ''
-    };
-    if (!input.type.trim()) {
-      errors.type = "Type is required";
-    } 
-    else if (!input.place.trim()) {
-      errors.place = "Place is required";
-    }
-    else if (!input.location.trim()) {
-      errors.location = "Location is required";
-    }
-    else if (!input.price.trim()) {
-      errors.price = "Pls select a price";
-    }
-    else if (!input.n_beds.trim()) {
-      errors.n_beds = "Select a number of beds";
-    }
-    return errors;
-  };
+  const handleModal = () => {
+    setOpenModal(!openModal)
+  }
 
-  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeInput(e)
-    setErrors(validateForm(input));
-  };
-
+  
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
   };
-  // const handleChangeTextTarea = (e: ChangeEvent<HTMLTextAreaElement>) => {
-  //   setInput({
-  //     ...input,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
+  const handleChangeTextTarea = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+  };
+
 
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+      setInput({
+        ...input,
+        [e.target.name]: [e.target.value]
+      })
+  }
+  const handleServicesSelect = (e: ChangeEvent<HTMLSelectElement>) => {
       if (input.services && !(input.services.includes(e.target.value)) ){
         setInput({
           ...input,
@@ -91,18 +76,45 @@ const dispatch = useAppDispatch()
         });}
   }
 
+// SECCION CARGAR IMAGENES
+
+
+const handlePhotos = (e: ChangeEvent<any>) => {
+  const reader:any = new FileReader()
+    const file = e.target.files[0];
+    const isValidSize = file.size < 5000000
+    const isNameOfOneImageRegEx = /.(jpe?g|gif|png)$/i;
+    const isValidType = isNameOfOneImageRegEx.test(file.name)
+
+    if(!isValidSize) {
+      return alert("Image size must be smalles than 5mb")
+    }
+    if(!isValidType) {
+      return alert("You just can upload images")
+    }
+    else reader.onloadend = () => setInput(
+      {
+        ...input,
+       photos: [reader.result],
+      }
+    );  
+
+reader.readAsDataURL(file)
+}
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     alert("Room created successfully");
     dispatch(createRoom(input))
     setInput({
-    type: '',
+    type: [],
     place: '',
     n_beds: 0,
     price: 0,
     services: [] ,
-    location: '',
+    name: '',
     photos: [],
+    description: ""
     });
   };
 
@@ -117,96 +129,103 @@ const dispatch = useAppDispatch()
 
   return (
     <div className={styles.mainContainer}>
+
+      
+      
       <div className={styles.mainDiv}>
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.inputDiv}>
-            <label>Type:</label>
-            <input
-              className={styles.input}
-              type="text"
-              value={input.type}
+      <div className={styles.title}>Create a room reservation</div>
+        <Form onSubmit={handleSubmit} className={styles.formDiv}>
+          
+          
+            <FloatingLabel label="Type" className="mb-3">
+            <Form.Select
+              onChange={handleSelect}
               name="type"
-              onChange={handleChangeInput}
-              onBlur={handleBlur}
-              required
-              maxLength= {255}
-            />
-           {errors.type && (
-              <p className={styles.errorMessage}>{errors.type}</p>
-            )}
-          </div>
-          <div className={styles.inputDiv}>
-            <label>Place:</label>
-            <input
-              className={styles.input}
+            >
+              {typesInfo.map((el) => (
+              <option value={el} key={el}>{el}</option>
+            ))}
+            </Form.Select>
+            </FloatingLabel>
+           
+  
+          <FloatingLabel
+            label= "Place"
+            className="mb-3"
+            >
+               <Form.Control
               value={input.place}
               name="place"
               onChange={handleChangeInput}
-              onBlur={handleBlur}
               maxLength={255}
             />
-           {errors.place && (
-              <p className={styles.errorMessage}>{errors.place}</p>
-            )}
-          </div>
-          <div className={styles.inputDiv}>
-            <label>Location:</label>
-            <input
-              className={styles.input}
+          
+            </FloatingLabel>
+          
+          <FloatingLabel
+          label="Name"
+          className="mb-3"
+          >
+            <Form.Control
               type="text"
-              value={input.location}
-              name="location"
+              value={input.name}
+              name="name"
               onChange={handleChangeInput}
-              onBlur={handleBlur}
             />
-          </div>
-          {errors.location && (
-              <p className={styles.errorMessage}>{errors.location}</p>
-            )}
-          <div className={styles.divInputPhotos}>
-            <label>Photos:</label>
-            <input
+          
+          
+            </FloatingLabel>
+           <Form.Group className="mb-3">
+
+           <Form.Control
               type="file"
-              value={input.photos}
               name="photos"
-              onChange={handleChangeInput}
-              onBlur={handleBlur}
-              className={styles.inputPhotos}
+              onChange={handlePhotos}
+              accept='.jpg, .jpeg, .png, .gif'
             />
-          </div>
-          <div className={styles.inputDiv}>
-            <label>Beds:</label>
-            <input
-              value={input.n_beds}
-              name="n_beds"
-              onChange={handleChangeInput}
-              onBlur={handleBlur}
-              type="number"
-            />
-          </div>
-          {errors.n_beds && (
-              <p className={styles.errorMessage}>{errors.n_beds}</p>
-            )}
-          <div className={styles.inputDiv}>
-            <label>Price:</label>
-            <input
+           </Form.Group>
+           
+      
+          <FloatingLabel
+          label= "Number of beds"
+          className="mb-3">
+          
+            <Form.Select
+            name="n_beds"
+              onChange={handleSelect}
+            >
+              {bedsInfo.map((el) => (
+              <option value={el} key={el}>{el}</option>
+            ))}
+            </Form.Select>
+          </FloatingLabel>
+          
+          <FloatingLabel
+          label="Price"
+          className="mb-3">
+          
+            <Form.Control
               value={input.price}
               name="price"
               onChange={handleChangeInput}
-              onBlur={handleBlur}
               type="number"
+              min={"1"}
+              max={"1000000"}
             />
-          </div>
-          {errors.price && (
-              <p className={styles.errorMessage}>{errors.price}</p>
-            )}
-          <select onChange={handleSelect}>
-            {services.map((el) => (
+          </FloatingLabel>
+           
+           <FloatingLabel
+           label = "Services">
+            
+          <Form.Select onChange={handleServicesSelect}>
+            {servicesInfo.map((el) => (
               <option value={el} key={el}>{el}</option>
             ))}
-          </select>
-          Services:
-          <ul>
+          </Form.Select>
+           </FloatingLabel>
+
+          <Form.Text>Services:</Form.Text>
+          <ul className={styles.servicesList}>
             {" "}
             {input.services && input.services.map((el) => (
               <li key={el}>
@@ -221,10 +240,30 @@ const dispatch = useAppDispatch()
               </li>
             ))}
           </ul>
-          <button type="submit" className={styles.createButton}>
+          
+          <Button variant="secondary" className={styles.descriptionButton } onClick={() => handleModal()}>
+            Description
+            </Button>
+          <Button type="submit" >
             Create Reservation
-          </button>
-        </form>
+          </Button>
+        
+        </Form>
+        <Modal show={openModal} onHide={() => handleModal()}>
+        <Modal.Header>
+          <Modal.Title>Room description</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className={styles.modalBody}>
+        <Form.Control
+              as="textarea"
+              name="description"
+              className={styles.formControl}
+              value={input.description}
+              onChange={handleChangeTextTarea}
+            />
+          <Button onClick={() => handleModal()}>Set Description</Button>
+        </Modal.Body>
+        </Modal>
       </div>
     </div>
   );
