@@ -22,8 +22,8 @@ const addRooms = async ({type,name, description, place, n_beds, price, services,
 
 }
 
-const getRooms = async () => {
-    const response = await roomSchema.find()
+const getRooms = async (page) => {
+    const response = await roomSchema.paginate({},{limit:6, page: page})
     return response
 }
 

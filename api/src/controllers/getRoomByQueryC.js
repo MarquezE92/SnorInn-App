@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
 const {roomSchema} = require('../db')
 
-const getRoomsbyFilters = async (place) => {
+const getRoomsbyFilters = async (place, page) => {
     try{
-            const foundRoom = await roomSchema.find({
-                place: {$regex: place} 
-            })
+            const foundRoom = await roomSchema.paginate({place: {$regex: place, $options: "i" }} ,{limit: 6, page: page})
             return foundRoom
 
     } catch (error) {
