@@ -4,6 +4,8 @@ import Card from "./User/Features/Card";
 import RoomCard from "./User/Features/RoomCard";
 import RoomDetail from "./User/Features/RoomDetail";
 import { Routes, Route } from "react-router-dom";
+import Home from "./User/Views/Home";
+
 
 function App() {
  
@@ -11,6 +13,7 @@ function App() {
     <>
     <NavBar/>
     <Routes>
+      <Route path="/" element={<Home/>}/>
       <Route path= '/create' element={<RoomForm/>}/>
       <Route path= '/rooms' element={<RoomCard/>}/>
       <Route path= '/rooms/card' element={<Card/>}/>

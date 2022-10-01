@@ -33,7 +33,7 @@ export const roomSlice = createSlice({
         setRooms :(state, action:PayloadAction<IRoom[]>)=>{
             state.Rooms = action.payload
         },
-        setRoom :(state, action:PayloadAction<IRoom>)=>{
+        setDetailRoom :(state, action:PayloadAction<IRoom>)=>{
             state.Room = action.payload
         },
         addCreatedRoom:(state, action:PayloadAction<IRoom>)=>{
@@ -46,11 +46,14 @@ export const roomSlice = createSlice({
         });
         builder.addCase(createRoom.fulfilled,(state, action)=>{
             state.Rooms.push(action.payload)
+        });
+        builder.addCase(getDetailRoom.fulfilled,(state, action)=>{
+            state.Room = action.payload
         })
     }
 })
 
-export const {setRooms, setRoom, addCreatedRoom} = roomSlice.actions
+export const {setRooms, setDetailRoom, addCreatedRoom} = roomSlice.actions
 export default roomSlice.reducer
 
 
@@ -62,6 +65,15 @@ export const getAllRooms = createAsyncThunk<IRoom[]>('rooms/getAllRooms', async 
         console.log(error)
     }
 })
+
+export const getDetailRoom = createAsyncThunk<IRoom>('rooms/getDetailRoom', async (_id) => {
+    try{
+        const json = await axios.get(`http://localhost:3002/rooms/${_id}`)
+        return json.data
+    }catch(error){
+        console.log(error)
+    }
+}) 
 
 export const createRoom = createAsyncThunk<IRoom,Partial<IRoom>>('rooms/createRoom', async (value)=>{
     try{
