@@ -2,23 +2,30 @@ const { Router } = require('express');
 const router = Router();
 const axios = require('axios');
 const { getRooms, addRooms,findByIdRoom } = require('../controllers')
+// const { getRoomsbyFilters } = require('./getRoomByQueryR')
 const express = require('express')
 router.use(express.json())
-const getRoomsFindByPlace = require('../routes/getRoomByQueryR')
+const {getRoomsbyFilters} = require('../controllers/getRoomByQueryC')
 //CONDIFURAR LAS RUTAS
 
 
 router.get('/rooms', async (req, res) => {
+    const { place } = req.query
     try {
-        const response = await getRooms()
-        return res.status(200).send(response)
+        if(place){
+            const filter = await getRoomsbyFilters(place)
+            if(filter.length) return res.status(200).send(filter)
+                              return res.status(404).send({error: 'that room does not exist'})
+        } 
+            const response = await getRooms()
+            return res.status(200).send(response)
     } catch (error) {
-        return res.status(404).send({ error: 'xd casi' })
+        return res.status(404).send({ error: error.message })
     }
 });
 
 router.post('/rooms', async (req, res) => {
-    const {type, place, n_beds, price, availability, rating, photos, services} = req.body
+    const {type, name, description, place, n_beds, price, availability, rating, photos, services} = req.body
     // console.log(photos)
     try {
         const postRoom = await addRooms(req.body)
@@ -39,7 +46,7 @@ router.get('/rooms/:id', async (req, res) => {
         return res.status(404).send({error: 'We are sorry, we couldnt find the room'})
     }
 });
-
-router.get('/findName', getRoomsFindByPlace)
+// route
+// router.get('/findName', getRoomFilter)
 
 module.exports = router;

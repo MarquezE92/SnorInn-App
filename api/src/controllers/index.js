@@ -4,9 +4,11 @@ const mongoose = require('mongoose')
 // const { adminSchema, reviewsSchema, roomSchema, userSchema, reservationSchema } = require('../db')
 const { roomSchema } = require('../db')
 
-const addRooms = async ({type, place, n_beds, price, services, availability = true, photos = ['ñ'], rating}) => {
+const addRooms = async ({type,name, description, place, n_beds, price, services, availability = true, photos = ['ñ'], rating}) => {
     const add = new roomSchema({
         type,
+        name,
+        description,
         place,
         n_beds,
         price,

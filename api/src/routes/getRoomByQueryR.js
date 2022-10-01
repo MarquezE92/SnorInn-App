@@ -1,18 +1,19 @@
 const { Router } = require('express');
 const router = Router();
-const {getRoomsFindByName} = require('../controllers/getRoomByQueryC');
+const {getRoomsbyFilters} = require('../controllers/getRoomByQueryC');
 const express = require('express');
 router.use(express.json());
 
-const getRoomsFindByPlace = async (req, res) => {
+const getRoomFilter = async (req, res) => {
     const { place } = req.query
     try {
-        const response = await getRoomsFindByName(place)
-        return res.status(200).send(response)
+        const response = await getRoomsbyFilters(place)
+        if(response.length) return res.status(200).send(response)
+        return res.status(404).send({error: 'that room does not exist'})
 
     } catch (error) {
-        return res.status(404).send({error: 'that room does not exist'})
+        return res.status(404).send({error: error.message})
     }
 };
 
-module.exports = getRoomsFindByPlace;
+module.exports = getRoomFilter;
