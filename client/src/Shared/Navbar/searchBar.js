@@ -20,7 +20,7 @@ export default function SearchBar(){
     return(
         <>
         <form>
-            <input type="text" value={search} className={style.input} placeholder="buscador..." onChange={handleChange}/>
+            <input type="text" value={search} className={style.input} placeholder="Search by name..." onChange={handleChange}/>
         </form>
         </>
     )
