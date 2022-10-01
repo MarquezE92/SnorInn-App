@@ -33,7 +33,7 @@ export const roomSlice = createSlice({
         setRooms :(state, action:PayloadAction<IRoom[]>)=>{
             state.Rooms = action.payload
         },
-        setRoom :(state, action:PayloadAction<IRoom>)=>{
+        setDetailRoom :(state, action:PayloadAction<IRoom>)=>{
             state.Room = action.payload
         },
         addCreatedRoom:(state, action:PayloadAction<IRoom>)=>{
@@ -53,7 +53,7 @@ export const roomSlice = createSlice({
     }
 })
 
-export const {setRooms, setRoom, addCreatedRoom} = roomSlice.actions
+export const {setRooms, setDetailRoom, addCreatedRoom} = roomSlice.actions
 export default roomSlice.reducer
 
 
