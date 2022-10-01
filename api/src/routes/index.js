@@ -14,11 +14,11 @@ router.get('/rooms', async (req, res) => {
     try {
         if(place){
             const filter = await getRoomsbyFilters(place)
-            return res.status(200).send(filter)
-        } else {
+            if(filter.length) return res.status(200).send(filter)
+                              return res.status(404).send({error: 'that room does not exist'})
+        } 
             const response = await getRooms()
             return res.status(200).send(response)
-        }
     } catch (error) {
         return res.status(404).send({ error: error.message })
     }
@@ -46,7 +46,7 @@ router.get('/rooms/:id', async (req, res) => {
         return res.status(404).send({error: 'We are sorry, we couldnt find the room'})
     }
 });
-
+// route
 // router.get('/findName', getRoomFilter)
 
 module.exports = router;

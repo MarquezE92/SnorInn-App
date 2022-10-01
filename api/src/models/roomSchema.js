@@ -17,5 +17,6 @@ const roomSchema = mongoose.Schema({
         ref: 'reviews'
     }]
 }, {versionKey: false})
+//state
 
 module.exports = mongoose.model('room', roomSchema)
