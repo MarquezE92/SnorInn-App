@@ -1,12 +1,13 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate-v2')
 
 const roomSchema = mongoose.Schema({
     name: String,
     description: String,
-    type: String,
+    type: String, //cambie por un array
     place: String,
-    n_beds: Number,
-    price: Number,
+    n_beds: Number, // cambie por un array
+    price: Number, // aca paso de number a string
     availability: Boolean,
     // location: [{type: String}],
     services: [{type: String}],
@@ -17,6 +18,7 @@ const roomSchema = mongoose.Schema({
         ref: 'reviews'
     }]
 }, {versionKey: false})
-//state
+
+roomSchema.plugin(mongoosePaginate)
 
 module.exports = mongoose.model('room', roomSchema)

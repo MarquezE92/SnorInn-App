@@ -6,23 +6,41 @@ const { getRooms, addRooms,findByIdRoom } = require('../controllers')
 const express = require('express')
 router.use(express.json())
 const {getRoomsbyFilters} = require('../controllers/getRoomByQueryC')
+const filtersByQuery = require('../controllers/filtersByQuery')
 //CONDIFURAR LAS RUTAS
 
 
-router.get('/rooms', async (req, res) => {
-    const { place } = req.query
+router.get('/rooms', async (req, res) => { //esta va solo por paginado y asigando por query la pagina a permanecer
+    const page = parseInt(req.query.page) || 1
     try {
-        if(place){
-            const filter = await getRoomsbyFilters(place)
-            if(filter.length) return res.status(200).send(filter)
-                              return res.status(404).send({error: 'that room does not exist'})
-        } 
-            const response = await getRooms()
+            const response = await getRooms(page)
             return res.status(200).send(response)
     } catch (error) {
         return res.status(404).send({ error: error.message })
     }
 });
+
+router.get('/rooms/:place', async (req, res) => { // esta va atener el filtro de atributo
+    const place = req.params.place
+    const page = parseInt(req.query.page) || 1
+    const { type, name, n_beds } = req.query
+
+    try{
+        if(type || name || n_beds) {
+        let filterResult = await filtersByQuery(place, name, n_beds, type, page)
+        if(!filterResult.totalDocs) return res.status(404).send({error: 'that place does not exist'})
+        return res.status(200).send(filterResult)
+        }
+        const filter = await getRoomsbyFilters(place, page)
+        if(filter.totalDocs) return res.status(200).send(filter)
+        return res.status(404).send({error: 'that place does not exist'})
+    
+        } catch (error) {
+        return res.status(404).send({ error: error.message })    
+    }
+});
+
+
 
 router.post('/rooms', async (req, res) => {
     const {type, name, description, place, n_beds, price, availability, rating, photos, services} = req.body
@@ -36,7 +54,7 @@ router.post('/rooms', async (req, res) => {
     }
 })
 
-router.get('/rooms/:id', async (req, res) => {
+router.get('/room/:id', async (req, res) => {
     const id  = req.params.id
     console.log (id)
     try {
@@ -46,7 +64,8 @@ router.get('/rooms/:id', async (req, res) => {
         return res.status(404).send({error: 'We are sorry, we couldnt find the room'})
     }
 });
-// route
-// router.get('/findName', getRoomFilter)
+
+
+///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
 
 module.exports = router;
