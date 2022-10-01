@@ -10,15 +10,15 @@ const Home =()=>{
                 <form>
                   
                     <select>
-                        <option disabled selected >place</option>
-                        <option value="provincia1">provincia1</option>
-                        <option value="provincia2">provincia2</option>
-                        <option value="provincia3">provincia3</option>
-                        <option value="provincia4">provincia4</option>
+                        <option disabled selected >PLACE</option>
+                        <option value="provincia1">Bogotá</option>
+                        <option value="provincia2">Buenos Aires</option>
+                        <option value="provincia3">Montevideo</option>
+                        <option value="provincia4">Lima</option>
                     </select>
                   
                     <select>
-                        <option disabled selected>n° beds</option>
+                        <option disabled selected>N° BEDS</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -26,10 +26,10 @@ const Home =()=>{
                     </select>
                     
                     <select>
-                        <option disabled selected>category</option>
-                        <option value="basic">basic</option>
-                        <option value="standard">standard</option>
-                        <option value="premiun">premiun</option>
+                        <option disabled selected>CATEGORY</option>
+                        <option value="basic">Basic</option>
+                        <option value="standard">Standard</option>
+                        <option value="premiun">Premiun</option>
                     </select>
                     
                     <button className={style.learn_more}>

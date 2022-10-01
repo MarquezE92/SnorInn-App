@@ -18,14 +18,16 @@
 .card form{
 	display: flex;
 	justify-content: space-around;
-	margin-top: 3rem;
+	width: 100%;
 }
 
 .card select{
-	max-width: 10rem;
+	width: 10rem;
 	border: none;
+	border-radius: 0.5rem 0.5rem 0 0;
 	border-bottom: solid 0.2rem #ADDDD0;
 	cursor: pointer;
+	text-align: center;
 }
 
 
@@ -33,9 +35,12 @@
 /*form container*/
 /*-------------------------------------------*/
 .card {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	margin-top: 10vw;
 	width: 70rem;
-	height: 10rem;
+	height: 8rem;
 	border-radius: .5rem;
 	background: rgb(236, 236, 236);
 	box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
