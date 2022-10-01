@@ -1,0 +1,49 @@
+
+.photosDiv {
+	display: flex;
+	direction: column;
+	justify-content: center;
+	margin-top: 2rem;
+}
+
+.photo {
+	width: 40rem;
+}
+
+.infoContainer {
+	display: flex;
+	direction: column;
+	justify-content: space-around;
+	margin-top: 2rem;
+	font-family: Monaco, monospace;
+}
+
+#place {
+	font-size: 3rem;
+}
+
+#reserveContainer {
+	margin-top: 4rem;
+	margin-left: 2rem;
+	display: flex;
+}
+
+#price {
+	font-size: 3rem;
+	font-weight: bold;
+	color: #309177;
+}
+
+#reserveBtn {
+	margin-left: 1rem;
+	padding: 1rem;
+	background-color: #309177;
+	color: white;
+	border-radius: 0.5rem;
+	font-size: 2rem;
+}
+
+#reserveBtn:hover {
+ 	background-color: #ADDDD0;
+ 	color: #309177;
+ }

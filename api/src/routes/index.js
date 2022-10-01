@@ -4,6 +4,7 @@ const axios = require('axios');
 const { getRooms, addRooms,findByIdRoom } = require('../controllers')
 const express = require('express')
 router.use(express.json())
+const getRoomsFindByPlace = require('../routes/getRoomByQueryR')
 //CONDIFURAR LAS RUTAS
 
 
@@ -39,6 +40,6 @@ router.get('/rooms/:id', async (req, res) => {
     }
 });
 
-
+router.get('/findName', getRoomsFindByPlace)
 
 module.exports = router;
