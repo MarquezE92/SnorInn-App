@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import styles from './index.module.css';
 import { beds } from './database.js';
-import SearchBar from '../SearchBar/index'
+import SortBy from '../SortBy'
 
 
 
@@ -11,8 +11,8 @@ const RoomCard = () => {
 
 
 const roomInfo =  beds.map((el) => {return {
- place: el.place,
- n_beds: el.n_beds,
+ 	 place: el.place,
+ 	 n_beds: el.n_beds,
     price: el.price,
     services: el.services,
     photo: el.photo,
@@ -44,7 +44,7 @@ console.log(roomInfo)
 
 return (
 	<div className={styles.pageContainer}>
-		<SearchBar 
+		<SortBy
 		/>
 	
 	<div className={styles.mainDiv}>
