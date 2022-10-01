@@ -8,7 +8,7 @@
 
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	
 }
 
 /*-------------------------------------------*/
@@ -23,13 +23,17 @@
 
 .card select{
 	max-width: 10rem;
-
+	border: none;
+	border-bottom: solid 0.2rem #ADDDD0;
+	cursor: pointer;
 }
+
 
 /*-------------------------------------------*/
 /*form container*/
 /*-------------------------------------------*/
 .card {
+	margin-top: 10vw;
 	width: 70rem;
 	height: 10rem;
 	border-radius: .5rem;

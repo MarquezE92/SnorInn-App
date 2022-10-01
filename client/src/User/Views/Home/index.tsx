@@ -8,15 +8,15 @@ const Home =()=>{
         <div className={style.fondo}>
             <div className={style.card}>
                 <form>
+                  
                     <select>
-                        
                         <option disabled selected >place</option>
                         <option value="provincia1">provincia1</option>
                         <option value="provincia2">provincia2</option>
                         <option value="provincia3">provincia3</option>
                         <option value="provincia4">provincia4</option>
                     </select>
-                    
+                  
                     <select>
                         <option disabled selected>n° beds</option>
                         <option value="1">1</option>
