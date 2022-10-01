@@ -3,14 +3,14 @@
     border: none;
     padding: 1rem;
     border-radius: 1rem;
-    background: #e8e8e8;
+    background: rgba(173, 221, 208, 0.5);
     transition: 0.3s;
-    margin-top: 3rem;
-    height: 4rem;
+    height: 3rem;
+
 }
    
 .input:focus {
-    outline-color: #e8e8e8;
-    background: #e8e8e8;
+    outline-color: rgba(173, 221, 208, 1);
+    background: rgba(173, 221, 208, 0.5);
     transition: 0.3s;
 }
