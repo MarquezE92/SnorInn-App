@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const {roomSchema} = require('../db')
 
-const getRoomsFindByName = async (place) => {
+const getRoomsbyFilters = async (place) => {
     try{
         //const {place} = req.query;
         if(place){
@@ -20,5 +20,5 @@ const getRoomsFindByName = async (place) => {
 }
 
 module.exports = {
-    getRoomsFindByName
+    getRoomsbyFilters
 }

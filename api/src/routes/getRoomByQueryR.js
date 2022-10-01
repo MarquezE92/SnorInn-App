@@ -1,13 +1,13 @@
 const { Router } = require('express');
 const router = Router();
-const {getRoomsFindByName} = require('../controllers/getRoomByQueryC');
+const {getRoomsbyFilters} = require('../controllers/getRoomByQueryC');
 const express = require('express');
 router.use(express.json());
 
-const getRoomsFindByPlace = async (req, res) => {
+const getRoomFilter = async (req, res) => {
     const { place } = req.query
     try {
-        const response = await getRoomsFindByName(place)
+        const response = await getRoomsbyFilters(place)
         return res.status(200).send(response)
 
     } catch (error) {
@@ -15,4 +15,4 @@ const getRoomsFindByPlace = async (req, res) => {
     }
 };
 
-module.exports = getRoomsFindByPlace;
+module.exports = getRoomFilter;
