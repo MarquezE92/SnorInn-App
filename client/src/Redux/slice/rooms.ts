@@ -10,7 +10,7 @@ export interface IRoom{
     price: number;
     availability: boolean;
     location: string;
-    photos: string;
+    photos: string[];
     services: string[];
     rating: number;
     reviews: string[]
