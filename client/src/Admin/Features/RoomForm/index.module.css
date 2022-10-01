@@ -2,21 +2,28 @@
     height: 100vh;
     width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgb(239, 192, 192);
+   background-image: url(../../../Images/tamara-malaniy-X-f12TWUE4U-unsplash.jpg);
+   background-position: center center;
+   background-repeat: no-repeat;
+   background-size: cover;
 }
 .mainDiv {
-    width: 60rem; 
-    height: 40rem;
+    width: 40rem; 
+    height: 50rem;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.556);
 }
-.form {
+
+.formDiv {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    width: 80%;
 }
 .inputDiv {
     display: flex;
@@ -32,43 +39,17 @@
 .inputPhotos {
     width: 100%;
 }
-label {
-    align-self: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1rem;
-  }
-
-input {
-    background-color: #F9FBFC;
-    padding: 0;
-    color: black;
-    font-size: 1rem;
-    width: 24rem;
-    height: 2rem;
-    border-style: none;
- } 
-textarea {
-    background-color: #F9FBFC;
-    color: black;
-    font-size: 2rem;
-    height: 2rem;
-    width: 24rem;
-    border-style: none;
-    resize: none;
-    margin-top: 1rem;
-    padding: 0;
+.inputDescription {
+    height: 20rem;
+    margin-bottom: 2rem;
+    text-align: left;
+    vertical-align: top;
 }
-select {
-    width: 27rem;
-    height: 3rem;
-}
-
-.deleteButton {
-    width: 2rem;
+.title {
+    font-size: 1.5rem;
     height: 2rem;
-    background-color: red;
-    cursor: pointer;
+    margin-bottom: 1rem;
+    font-weight: bolder;
 }
 
 .createButton {
@@ -86,4 +67,39 @@ select {
     color: red;
     font-size: 1rem;
     font-weight: bolder;
+}
+.servicesList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 0;
+}
+.servicesList li {
+    font-size: 10px;
+    display: flex;
+    width: 10.2rem;
+    justify-content: space-between;
+    margin: 0;
+    padding-bottom: 0.5rem;
+    padding-right: 1rem;
+}
+.deleteButton {
+    width: 1.3rem;
+    height: 1.3rem;
+    background-color: #0d6efd;
+    cursor: pointer;
+}
+.descriptionButton {
+    margin-bottom: 1rem;
+}
+
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.formControl {
+    height: 20rem;
+    margin-bottom: 2rem;
 }

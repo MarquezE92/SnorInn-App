@@ -4,16 +4,17 @@ import axios from 'axios'
 
 export interface IRoom{
     _id: string;
-    type:string;
+    type:string[];
     place: string;
     n_beds: number;
     price: number;
     availability: boolean;
-    location: string;
-    photos: string[];
+    name: string;
+    photos: any;
     services: string[];
     rating: number;
-    reviews: string[]
+    reviews: Object[]
+    description: string;
 }
 
 interface IState{

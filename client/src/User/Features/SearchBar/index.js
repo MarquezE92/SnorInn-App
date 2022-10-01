@@ -1,4 +1,4 @@
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 import styles from './searchbar.module.css'
 
 const SearchBar = () => {
