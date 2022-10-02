@@ -1,5 +1,6 @@
 
-import React, { useState, ChangeEvent} from "react";
+import React, { useState, ChangeEvent, FormEvent} from "react";
+import {useAppDispatch} from '../../../Redux/Store/hooks';
 import style from './Home.module.css'
 
 
@@ -7,13 +8,14 @@ import style from './Home.module.css'
 
 const Home =()=>{
 
+    const dispatch = useAppDispatch();
 
     const [select, setSelect] = useState<Object>({
         place:'',
         name:'',
         n_beds:'',
         category:''
-    })
+    });
 
 
     const findBy=(e:ChangeEvent<HTMLSelectElement>)=>{
@@ -22,29 +24,29 @@ const Home =()=>{
             [e.target.name] : [e.target.value]
         })
 
-    }
+    };
 
     const searchBy = (e:any)=>{
         e.preventDefault()
-    }
+    };
 
-    
     const handleSubmit = (e: FormEvent)=>{
         e.preventDefault()
     };
 
 
     
-
-
-
     return(
         <div className={style.fondo}>
             <div className={style.card}>
                 <form onSubmit={handleSubmit}>
                   
                     <select name="place" onChange={findBy}>
-                       ñ
+                        <option disabled selected >PLACE</option>
+                        <option value="provincia1">Bogotá</option>
+                        <option value="provincia2">Buenos Aires</option>
+                        <option value="provincia3">Montevideo</option>
+                        <option value="provincia4">Lima</option>
                     </select>
                   
                     <select name="n_beds" onChange={findBy}>
