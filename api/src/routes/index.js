@@ -7,6 +7,7 @@ const express = require('express')
 router.use(express.json())
 const {getRoomsbyFilters} = require('../controllers/getRoomByQueryC')
 const filtersByQuery = require('../controllers/filtersByQuery')
+const {getName} = require('../controllers/getNameQuery')
 //CONDIFURAR LAS RUTAS
 
 
@@ -40,6 +41,16 @@ router.get('/rooms/:place', async (req, res) => { // esta va atener el filtro de
     }
 });
 
+router.get('/find', async (req, res) =>{
+    const name = req.query.name 
+    const page = parseInt(req.query.page) || 1
+    try{
+        const findOne = await getName(name, page) 
+        return res.send(findOne)
+    } catch (error) {
+        return res.status(404).send({ error: error.message }) 
+    }
+})
 
 
 router.post('/rooms', async (req, res) => {
