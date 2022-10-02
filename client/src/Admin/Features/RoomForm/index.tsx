@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from './index.module.css'
 import {useAppDispatch} from '../../../Redux/Store/hooks'
 import {IRoom, createRoom} from '../../../Redux/slice/rooms'
-import { beds, services, types } from "./constants";
+import { beds, services, types, places, rating } from "./constants";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
@@ -25,8 +25,8 @@ const RoomForm = () => {
 const servicesInfo = services
 const typesInfo = types
 const bedsInfo = beds
-
-
+const placesInfo = places
+const ratingInfo = rating
 
 const dispatch = useAppDispatch()
 
@@ -39,9 +39,10 @@ const [openModal, setOpenModal] = useState(false);
     services: [] ,
     place: '',
     photos: [],
-    description: ''
+    description: '',
+    rating: 0,
   });
-
+  const [validated, setValidated] = useState(false);
 
   const handleModal = () => {
     setOpenModal(!openModal)
@@ -65,7 +66,7 @@ const [openModal, setOpenModal] = useState(false);
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
       setInput({
         ...input,
-        [e.target.name]: [e.target.value]
+        [e.target.name]: e.target.value
       })
   }
   const handleServicesSelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -102,20 +103,27 @@ const handlePhotos = (e: ChangeEvent<any>) => {
 reader.readAsDataURL(file)
 }
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    alert("Room created successfully");
-    dispatch(createRoom(input))
-    setInput({
-    type: [],
-    place: '',
-    n_beds: 0,
-    price: 0,
-    services: [] ,
-    name: '',
-    photos: [],
-    description: ""
-    });
+  const handleSubmit = (e: FormEvent<any>) => {
+    if (e.currentTarget.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      setValidated(true);
+    }
+    else {
+      alert("Room created successfully");
+      dispatch(createRoom(input))
+      setInput({
+      type: [],
+      place: '',
+      n_beds: 0,
+      price: 0,
+      services: [] ,
+      name: '',
+      photos: [],
+      description: "",
+      rating: 0,
+      });
+    }
   };
 
 
@@ -129,19 +137,21 @@ reader.readAsDataURL(file)
 
   return (
     <div className={styles.mainContainer}>
-
-      
-      
       <div className={styles.mainDiv}>
       <div className={styles.title}>Create a room reservation</div>
-        <Form onSubmit={handleSubmit} className={styles.formDiv}>
+        <Form onSubmit={handleSubmit} className={styles.formDiv} noValidate validated={validated}>
           
           
             <FloatingLabel label="Type" className="mb-3">
             <Form.Select
               onChange={handleSelect}
               name="type"
+              required
+              defaultValue={""}
             >
+               <option disabled value={""}>
+          Choose an option
+        </option>
               {typesInfo.map((el) => (
               <option value={el} key={el}>{el}</option>
             ))}
@@ -153,12 +163,19 @@ reader.readAsDataURL(file)
             label= "Place"
             className="mb-3"
             >
-               <Form.Control
-              value={input.place}
+                 <Form.Select
               name="place"
-              onChange={handleChangeInput}
-              maxLength={255}
-            />
+              onChange={handleSelect}
+              required
+              defaultValue={""}
+            >
+               <option disabled value={""}>
+          Choose an option
+        </option>
+              {placesInfo.map((el) => (
+              <option value={el} key={el}>{el}</option>
+            ))}
+            </Form.Select>
           
             </FloatingLabel>
           
@@ -171,9 +188,12 @@ reader.readAsDataURL(file)
               value={input.name}
               name="name"
               onChange={handleChangeInput}
+              required
             />
-          
-          
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">
+            Please provide a name.
+          </Form.Control.Feedback>
             </FloatingLabel>
            <Form.Group className="mb-3">
 
@@ -182,9 +202,10 @@ reader.readAsDataURL(file)
               name="photos"
               onChange={handlePhotos}
               accept='.jpg, .jpeg, .png, .gif'
+              required
             />
            </Form.Group>
-           
+           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
       
           <FloatingLabel
           label= "Number of beds"
@@ -193,13 +214,35 @@ reader.readAsDataURL(file)
             <Form.Select
             name="n_beds"
               onChange={handleSelect}
+              required 
+              defaultValue={""}
             >
+              <option disabled value={""}>
+          Choose an option
+        </option>
               {bedsInfo.map((el) => (
               <option value={el} key={el}>{el}</option>
             ))}
             </Form.Select>
           </FloatingLabel>
+          <FloatingLabel
+          label= "Rating"
+          className="mb-3">
           
+            <Form.Select
+            name="rating"
+              onChange={handleSelect}
+              required 
+              defaultValue={""}
+            >
+              <option disabled value={""}>
+          Choose an option
+        </option>
+              {ratingInfo.map((el) => (
+              <option value={el} key={el}>{el}</option>
+            ))}
+            </Form.Select>
+          </FloatingLabel>
           <FloatingLabel
           label="Price"
           className="mb-3">
@@ -211,13 +254,21 @@ reader.readAsDataURL(file)
               type="number"
               min={"1"}
               max={"1000000"}
+              required
             />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+            Please provide a price.
+          </Form.Control.Feedback>
           </FloatingLabel>
            
            <FloatingLabel
            label = "Services">
             
-          <Form.Select onChange={handleServicesSelect}>
+          <Form.Select onChange={handleServicesSelect} required defaultValue={""}>
+          <option disabled value={""}>
+          Choose an option
+        </option>
             {servicesInfo.map((el) => (
               <option value={el} key={el}>{el}</option>
             ))}
@@ -261,7 +312,7 @@ reader.readAsDataURL(file)
               value={input.description}
               onChange={handleChangeTextTarea}
             />
-          <Button onClick={() => handleModal()}>Set Description</Button>
+          <Button onClick={() => handleModal()} >Set Description</Button>
         </Modal.Body>
         </Modal>
       </div>

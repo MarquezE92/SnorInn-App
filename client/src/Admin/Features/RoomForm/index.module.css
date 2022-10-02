@@ -53,7 +53,7 @@
 }
 
 .createButton {
-    background-color:rgb(143, 208, 208);
+    background-color:#ADDDD0;
     height: 5rem;
     width: 10rem;
     border-radius: 3rem;
@@ -87,11 +87,12 @@
 .deleteButton {
     width: 1.3rem;
     height: 1.3rem;
-    background-color: #0d6efd;
+    background-color: #ADDDD0;
     cursor: pointer;
 }
 .descriptionButton {
     margin-bottom: 1rem;
+    
 }
 
 .modalBody {
@@ -103,3 +104,4 @@
     height: 20rem;
     margin-bottom: 2rem;
 }
+
