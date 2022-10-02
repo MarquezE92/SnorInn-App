@@ -1,7 +1,8 @@
 import {Link} from 'react-router-dom';
 import styles from './index.module.css';
 import { beds } from './database.js';
-import SortBy from '../SortBy'
+import SortBy from '../SortBy';
+import SearchForm  from '../SearchForm';
 
 
 
@@ -44,9 +45,9 @@ console.log(roomInfo)
 
 return (
 	<div className={styles.pageContainer}>
-		<SortBy
-		/>
-	
+		<SearchForm />
+		<SortBy />
+		
 	<div className={styles.mainDiv}>
 		{roomInfo?.map((el:any) => {return <div className={styles.RoomCardContainer} key={el.name}>
 			<div className={styles.imgContainer}><img src={el.photo} alt='not found'/> </div>
