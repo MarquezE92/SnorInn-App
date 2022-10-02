@@ -1,13 +1,31 @@
-import React from "react";
-import style from './Home.module.css'
+import React, {FormEvent, useEffect} from 'react';
+import {useAppDispatch, useAppSelector} from '../../../Redux/Store/hooks';
+import style from './Home.module.css';
+import {getAllRooms} from '../../../Redux/slice/rooms';
 
 
 const Home =()=>{
 
+    const dispatch = useAppDispatch();
+
+    const allRooms = useAppSelector(state=> state.rooms);
+
+    useEffect(()=>{
+        dispatch(getAllRooms());
+    },[]);
+
+    const handleSubmit = (e: FormEvent)=>{
+        e.preventDefault();
+        console.log(allRooms.Rooms)
+    };
+
+    
+
+
     return(
         <div className={style.fondo}>
             <div className={style.card}>
-                <form>
+                <form onSubmit={handleSubmit}>
                   
                     <select>
                         <option disabled selected >PLACE</option>
@@ -32,7 +50,7 @@ const Home =()=>{
                         <option value="premiun">Premiun</option>
                     </select>
                     
-                    <button className={style.learn_more}>
+                    <button className={style.learn_more} type="submit">
                         <span className={style.circle} aria-hidden="true">
                         <span id={style.arrow} className={style.icon}></span>
                         </span>
