@@ -1,13 +1,13 @@
+
 import React, { useState, ChangeEvent} from "react";
 import style from './Home.module.css'
 
 
 
+
 const Home =()=>{
 
-    // const dispatch = useAppDispatch()
-    // const rooms = useAppSelector((state)=>state.rooms)
-    
+
     const [select, setSelect] = useState<Object>({
         place:'',
         name:'',
@@ -26,18 +26,22 @@ const Home =()=>{
 
     const searchBy = (e:any)=>{
         e.preventDefault()
-       
     }
+
+    
+    const handleSubmit = (e: FormEvent)=>{
+        e.preventDefault()
+    };
+
 
     
 
 
-   
 
     return(
         <div className={style.fondo}>
             <div className={style.card}>
-                <form>
+                <form onSubmit={handleSubmit}>
                   
                     <select name="place" onChange={findBy}>
                        ñ
@@ -58,7 +62,8 @@ const Home =()=>{
                         <option value="premiun">Premiun</option>
                     </select>
                     
-                    <button className={style.learn_more} onClick={searchBy}>
+
+                    <button className={style.learn_more} type="submit" onClick={searchBy} >
                         <span className={style.circle} aria-hidden="true">
                         <span id={style.arrow} className={style.icon}></span>
                         </span>
