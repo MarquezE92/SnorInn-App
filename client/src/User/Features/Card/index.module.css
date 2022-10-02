@@ -1,13 +1,11 @@
 
 .RoomCardContainer {
- margin: 10rem 30rem;
- height: 25rem;
- width: 70rem;
+ height: 20rem;
+ width: 60rem;
  border: 0.1rem solid black;
  display: flex;
  direction: column;
- font-family: Monaco, monospace;
- font-size: 1.5rem;
+ font-size: 1.1rem;
  border-radius: 0.6rem;
  box-shadow: 0.6rem 0.6rem 1.4rem #00000015;
  border: none;
@@ -19,7 +17,7 @@
 }
 
 .upperSection {
- padding: 2rem;
+ padding: 1rem;
  width: 30rem;
  display: flex;
  direction: column;
@@ -36,22 +34,22 @@ border-radius: 0 2rem 2rem 0;
 }
 
 .bottomSection {
- height: 7rem;
+ height: 5rem;
  display: flex;
  direction: column;
  justify-content: flex-end;
  align-items: flex-end;
- font-size: 3rem;
+ font-size: 2.5rem;
  padding: 1rem;
 }
 
 .Img {
 height: 100%;
-width: 40rem;
+width: 30rem;
 }
 
 #place {
-font-size: 3.5rem;
+font-size: 3rem;
 }
 
 button {
@@ -65,12 +63,14 @@ button {
 
 .viewButton {
 	background-color: #309177;
-	
-	padding: 1rem;
+	padding: 0.3rem 1rem 0.3rem 1rem;
 	border-radius: 2rem;
 	font-size: 2rem;
 }
 
+.viewButton:hover {
+
+}
 .viewLink {
 	text-decoration: none;
 	color: white;
@@ -81,3 +81,4 @@ li {
 	margin: 1rem;
 
 }
+
