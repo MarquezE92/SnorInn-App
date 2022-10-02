@@ -1,21 +1,27 @@
 const { Router } = require('express');
 const router = Router();
 const axios = require('axios');
-const { getRooms, addRooms,findByIdRoom } = require('../controllers')
+const { getRooms, addRooms, findByIdRoom } = require('../controllers')
 // const { getRoomsbyFilters } = require('./getRoomByQueryR')
 const express = require('express')
 router.use(express.json())
-const {getRoomsbyFilters} = require('../controllers/getRoomByQueryC')
+const { getRoomsbyFilters } = require('../controllers/getRoomByQueryC')
 const filtersByQuery = require('../controllers/filtersByQuery')
-const {getName} = require('../controllers/getNameQuery')
+const { getName } = require('../controllers/getNameQuery')
 //CONDIFURAR LAS RUTAS
 
 
 router.get('/rooms', async (req, res) => { //esta va solo por paginado y asigando por query la pagina a permanecer
     const page = parseInt(req.query.page) || 1
+    const { type, name, n_beds } = req.query
     try {
-            const response = await getRooms(page)
-            return res.status(200).send(response)
+        if (type || name || n_beds) {
+            let filterResult = await filtersByQuery(null, name, n_beds, type, page)
+            if (!filterResult.totalDocs) return res.status(404).send({ error: 'that place does not exist' })
+            return res.status(200).send(filterResult)
+        }
+        const response = await getRooms(page)
+        return res.status(200).send(response)
     } catch (error) {
         return res.status(404).send({ error: error.message })
     }
@@ -26,35 +32,35 @@ router.get('/rooms/:place', async (req, res) => { // esta va atener el filtro de
     const page = parseInt(req.query.page) || 1
     const { type, name, n_beds } = req.query
 
-    try{
-        if(type || name || n_beds) {
-        let filterResult = await filtersByQuery(place, name, n_beds, type, page)
-        if(!filterResult.totalDocs) return res.status(404).send({error: 'that place does not exist'})
-        return res.status(200).send(filterResult)
+    try {
+        if (type || name || n_beds) {
+            let filterResult = await filtersByQuery(place, name, n_beds, type, page)
+            if (!filterResult.totalDocs) return res.status(404).send({ error: 'that place does not exist' })
+            return res.status(200).send(filterResult)
         }
         const filter = await getRoomsbyFilters(place, page)
-        if(filter.totalDocs) return res.status(200).send(filter)
-        return res.status(404).send({error: 'that place does not exist'})
-    
-        } catch (error) {
-        return res.status(404).send({ error: error.message })    
+        if (filter.totalDocs) return res.status(200).send(filter)
+        return res.status(404).send({ error: 'that place does not exist' })
+
+    } catch (error) {
+        return res.status(404).send({ error: error.message })
     }
 });
 
-router.get('/find', async (req, res) =>{
-    const name = req.query.name 
+router.get('/find', async (req, res) => {
+    const name = req.query.name
     const page = parseInt(req.query.page) || 1
-    try{
-        const findOne = await getName(name, page) 
+    try {
+        const findOne = await getName(name, page)
         return res.send(findOne)
     } catch (error) {
-        return res.status(404).send({ error: error.message }) 
+        return res.status(404).send({ error: error.message })
     }
 })
 
 
 router.post('/rooms', async (req, res) => {
-    const {type, name, description, place, n_beds, price, availability, rating, photos, services} = req.body
+    const { type, name, description, place, n_beds, price, availability, rating, photos, services } = req.body
     // console.log(photos)
     try {
         const postRoom = await addRooms(req.body)
@@ -66,13 +72,13 @@ router.post('/rooms', async (req, res) => {
 })
 
 router.get('/room/:id', async (req, res) => {
-    const id  = req.params.id
-    console.log (id)
+    const id = req.params.id
+    console.log(id)
     try {
         const findRoom = await findByIdRoom(req.params.id)
         return res.status(200).send(findRoom)
     } catch (error) {
-        return res.status(404).send({error: 'We are sorry, we couldnt find the room'})
+        return res.status(404).send({ error: 'We are sorry, we couldnt find the room' })
     }
 });
 
