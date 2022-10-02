@@ -1,22 +1,22 @@
-
 import React, { useState, ChangeEvent, FormEvent} from "react";
 import {useAppDispatch} from '../../../Redux/Store/hooks';
-import style from './Home.module.css'
-
-
+import {useNavigate} from 'react-router-dom';
+import {getRoomsByAllQuery} from '../../../Redux/slice/rooms';
+import style from './Home.module.css';
+import {ISelect, places} from './constantes';
 
 
 const Home =()=>{
 
     const dispatch = useAppDispatch();
 
-    const [select, setSelect] = useState<Object>({
+    const navigate = useNavigate();
+
+    const [select, setSelect] = useState<ISelect>({
         place:'',
-        name:'',
         n_beds:'',
         category:''
     });
-
 
     const findBy=(e:ChangeEvent<HTMLSelectElement>)=>{
         setSelect({
@@ -26,12 +26,16 @@ const Home =()=>{
 
     };
 
-    const searchBy = (e:any)=>{
+   /* const searchBy = (e:any)=>{
         e.preventDefault()
-    };
+    };*/
 
     const handleSubmit = (e: FormEvent)=>{
-        e.preventDefault()
+        e.preventDefault();
+        if(!select.place || !select.n_beds || !select.category)
+        return alert("Select ALL 3 (place, number of beds and category) to search for a room.");
+        dispatch(getRoomsByAllQuery(select))
+        navigate('/rooms', {replace:true});
     };
 
 
@@ -43,10 +47,11 @@ const Home =()=>{
                   
                     <select name="place" onChange={findBy}>
                         <option disabled selected >PLACE</option>
-                        <option value="provincia1">Bogotá</option>
-                        <option value="provincia2">Buenos Aires</option>
-                        <option value="provincia3">Montevideo</option>
-                        <option value="provincia4">Lima</option>
+                        {
+                            places?.map((place:string, i:number)=> (
+                        <option key={i} value={place}>{place}</option>
+                        ))
+                        }
                     </select>
                   
                     <select name="n_beds" onChange={findBy}>
@@ -65,7 +70,7 @@ const Home =()=>{
                     </select>
                     
 
-                    <button className={style.learn_more} type="submit" onClick={searchBy} >
+                    <button className={style.learn_more} type="submit" /*onClick={searchBy} */>
                         <span className={style.circle} aria-hidden="true">
                         <span id={style.arrow} className={style.icon}></span>
                         </span>
