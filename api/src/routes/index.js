@@ -9,8 +9,9 @@ const { getRoomsbyFilters } = require('../controllers/getRoomByQueryC')
 const filtersByQuery = require('../controllers/filtersByQuery')
 const { getName } = require('../controllers/getNameQuery')
 const { getAllRooms } = require('../controllers/getAllRooms')
-const {sortByPrice} = require('../controllers/orderByPrice')
-const {sortByRating} = require('../controllers/orderByRating')
+const { sortByPrice } = require('../controllers/orderByPrice')
+const { sortByRating } = require('../controllers/orderByRating')
+const { deleteRoom } = require('../controllers/deleteById')
 
 //CONDIFURAR LAS RUTAS
 
@@ -118,6 +119,18 @@ router.get('/orderByRating', async (req, res) => {
         return res.status(404).send({ error: 'We are sorry, we couldnt find the room' })
     }
 
+});
+
+
+router.delete('/room/:id', async (req, res) => {
+    const id = req.params.id
+    console.log(id)
+    try {
+        const findRoom = await deleteRoom(req.params.id)
+        return res.status(200).send('The room was deleted')
+    } catch (error) {
+        return res.status(404).send({ error: 'We are sorry, we couldnt delete the room' })
+    }
 });
 
 
