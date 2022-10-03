@@ -9,6 +9,7 @@ const { getRoomsbyFilters } = require('../controllers/getRoomByQueryC')
 const filtersByQuery = require('../controllers/filtersByQuery')
 const { getName } = require('../controllers/getNameQuery')
 const { getAllRooms } = require('../controllers/getAllRooms')
+const {sortByPrice} = require('../controllers/orderByPrice')
 //CONDIFURAR LAS RUTAS
 
 
@@ -92,6 +93,18 @@ router.get('/allRooms', async (req, res) => {
     }
 
 });
+router.get('/orderByPrice', async (req, res) => {
+    const page = parseInt(req.query.page) || 1
+    const order = req.query.order || 'asc'
+    try {
+        const orderByPrice = await sortByPrice(page, order)
+        res.status(200).send(orderByPrice)
+    } catch (error) {
+        return res.status(404).send({ error: 'We are sorry, we couldnt find the room' })
+    }
+
+});
+
 
 
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
