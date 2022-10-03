@@ -10,6 +10,8 @@ const filtersByQuery = require('../controllers/filtersByQuery')
 const { getName } = require('../controllers/getNameQuery')
 const { getAllRooms } = require('../controllers/getAllRooms')
 const {sortByPrice} = require('../controllers/orderByPrice')
+const {sortByRating} = require('../controllers/orderByRating')
+
 //CONDIFURAR LAS RUTAS
 
 
@@ -99,6 +101,19 @@ router.get('/orderByPrice', async (req, res) => {
     try {
         const orderByPrice = await sortByPrice(page, order)
         res.status(200).send(orderByPrice)
+    } catch (error) {
+        return res.status(404).send({ error: 'We are sorry, we couldnt find the room' })
+    }
+
+});
+
+
+router.get('/orderByRating', async (req, res) => {
+    const page = parseInt(req.query.page) || 1
+    const order = req.query.order || 'asc'
+    try {
+        const orderByRating = await sortByRating(page, order)
+        res.status(200).send(orderByRating)
     } catch (error) {
         return res.status(404).send({ error: 'We are sorry, we couldnt find the room' })
     }
