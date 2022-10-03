@@ -1,6 +1,6 @@
 import style from "./searchBar.module.css";
 import { useAppDispatch } from "../../Redux/Store/hooks";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { getRoomsByName } from "../../Redux/slice/rooms";
 
 const SearchBar = () => {
@@ -10,14 +10,14 @@ const SearchBar = () => {
   const onSearchValueChange = (event:ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
   };
-  function handleKeyDown(e: React.KeyboardEvent<HTMLElement>) {
-    if (e.key === "Enter") {
-      if (searchValue) {
-        dispatch(getRoomsByName(searchValue));
-        setSearchValue("");
-      }
-    }
-  }
+
+
+  useEffect(
+    () => {
+      setTimeout(() => {dispatch(getRoomsByName(searchValue))}, 1000)
+      
+    }, [searchValue]
+  )
 
   return (
     <>
@@ -28,7 +28,6 @@ const SearchBar = () => {
           className={style.input}
           placeholder="Search by name..."
           onChange={onSearchValueChange}
-          onKeyDown={handleKeyDown}
         />
       </form>
     </>
