@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import styles from './index.module.css';
-import { beds } from './database.js';
+//import { beds } from './database.js';
 import SortBy from '../SortBy';
 import SearchForm  from '../SearchForm';
 import { useEffect } from 'react';
@@ -32,7 +32,7 @@ return (
               return (
                 <>
                   <Card
-				  	id = {el._id}
+				  					_id = {el._id}
                     photos={el.photos}
                     name={el.name}
                     services={el.services.map((el) => el)}
