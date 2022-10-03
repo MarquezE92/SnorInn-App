@@ -14,8 +14,8 @@ const SearchBar = () => {
 
   useEffect(
     () => {
-      setTimeout(() => {dispatch(getRoomsByName(searchValue))}, 1000)
-      
+      if(searchValue.length > 0)
+      dispatch(getRoomsByName(searchValue))
     }, [searchValue]
   )
 

@@ -37,7 +37,7 @@ const Home =()=>{
         if(!select.place || !select.n_beds || !select.type)
         return alert("Select ALL 3 (place, number of beds and category) to search for a room.");
         dispatch(getRoomsByAllQuery(select))
-        navigate('/rooms', {replace:true});
+        setTimeout(()=>{navigate('/rooms', {replace:true})}, 1000);
     };
 
 
@@ -66,9 +66,9 @@ const Home =()=>{
                     
                     <select name="type" onChange={findBy}>
                         <option disabled selected>CATEGORY</option>
-                        <option value="basic">Basic</option>
-                        <option value="standard">Standard</option>
-                        <option value="Premium">Premiun</option>
+                        <option value="Basic">Basic</option>
+                        <option value="Standard">Standard</option>
+                        <option value="Premium">Premium</option>
                     </select>
                     
 
