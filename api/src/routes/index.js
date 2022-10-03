@@ -107,6 +107,7 @@ router.get('/orderByPrice', async (req, res) => {
 
 });
 
+
 router.get('/orderByRating', async (req, res) => {
     const page = parseInt(req.query.page) || 1
     const order = req.query.order || 'asc'
