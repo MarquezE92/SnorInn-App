@@ -19,7 +19,7 @@ function App() {
       <Route path= '/create' element={<RoomForm/>}/>
       <Route path= '/rooms' element={<RoomCard/>}/>
       <Route path= '/rooms/card' element={<Card/>}/>
-      <Route path= '/detail' element={<RoomDetail/>}/>
+      <Route path= '/detail/:id' element={<RoomDetail/>}/>
     </Routes>
     </>
   );

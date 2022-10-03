@@ -28,11 +28,14 @@ const bedsInfo = beds
 const placesInfo = places
 const ratingInfo = rating
 
+
+
+
 const dispatch = useAppDispatch()
 
 const [openModal, setOpenModal] = useState(false);
   const [input, setInput] = useState<Partial<IRoom>>({
-    type: ["Basic"],
+    type: '',
     name: '',
     n_beds: 0,
     price: 0,
@@ -113,7 +116,7 @@ reader.readAsDataURL(file)
       alert("Room created successfully");
       dispatch(createRoom(input))
       setInput({
-      type: [],
+      type: '',
       place: '',
       n_beds: 0,
       price: 0,
@@ -138,7 +141,7 @@ reader.readAsDataURL(file)
   return (
     <div className={styles.mainContainer}>
       <div className={styles.mainDiv}>
-      <div className={styles.title}>Create a room reservation</div>
+      <div className={styles.title}>Create a room </div>
         <Form onSubmit={handleSubmit} className={styles.formDiv} noValidate validated={validated}>
           
           
@@ -295,8 +298,8 @@ reader.readAsDataURL(file)
           <Button variant="secondary" className={styles.descriptionButton } onClick={() => handleModal()}>
             Description
             </Button>
-          <Button type="submit" >
-            Create Reservation
+          <Button type="submit" variant="dark">
+            Create room
           </Button>
         
         </Form>
