@@ -72,13 +72,10 @@ export const roomSlice = createSlice({
     },
     extraReducers:(builder)=>{
         builder.addCase(getRoomsByPage.fulfilled,(state, action)=>{
-            console.log(action)
             state.Rooms = action.payload
-            console.log(state.Rooms)
         });
 
         builder.addCase(sortRoomsPrice.fulfilled,(state, action:any)=>{
-            console.log(state.Rooms, action)
             state.Rooms = action.payload === 'Cheaper' ?
             state.Rooms.sort((a:any , b:any )=> {
                 if (a.price === b.price) {
@@ -100,9 +97,7 @@ export const roomSlice = createSlice({
                 })
         });
 
-
         builder.addCase(sortRoomsRating.fulfilled,(state, action:any)=>{
-            console.log(action)
             state.Rooms = action.payload === 'More Popular' ?
             state.Rooms.sort((a:any , b:any )=> {
                 if (a.rating === b.rating) {
@@ -132,6 +127,10 @@ export const roomSlice = createSlice({
             state.Rooms = action.payload
         });
 
+        builder.addCase(getRoomsByName.fulfilled,(state, action)=>{
+            state.Rooms = action.payload
+        });
+
         builder.addCase(getDetailRoom.fulfilled,(state, action)=>{
             state.Room = action.payload
         });
@@ -146,7 +145,7 @@ export const {setRooms, setDetailRoom, addCreatedRoom, sortRoomsByPrice, sortRoo
 export default roomSlice.reducer
 
 
-type Query ={
+export type Query ={
     place:string;
     name:string;
     n_beds:string;
@@ -176,15 +175,12 @@ export const getRoomsByPlace = createAsyncThunk<IRoom[],Partial<Query>>('rooms/g
    
 })
 
-export const getRoomsByName = createAsyncThunk<IRoom[],Partial<Query>>('rooms/getRoomsByName', async (value)=>{
+export const getRoomsByName = createAsyncThunk<IRoom[],any>('rooms/getRoomsByName', async (value)=>{
     
     const url = `http://localhost:3002/rooms`
-    if(value.place){
-        const json = await axios.get(url+`?name=${value.name}`)
-        
-        console.log(json.data.docs)
+        const json = await axios.get(url+`?name=${value}`)
         return json.data.docs
-    }
+
     
 })
 
@@ -218,10 +214,9 @@ export const sortRoomsRating = createAsyncThunk<IRoom[],any>('rooms/sortRoomsRat
 
 export const getRoomsByAllQuery = createAsyncThunk<IRoom[],Partial<Query>>('rooms/getRoomsByAllQuery', async (value)=>{
 
-    const url = `http://localhost:3002/rooms `
+    //const url = `http://localhost:3002/rooms`
     if(value.place){
-        const json = await axios.get(url+`/${value.place}?n_beds=${value.n_beds || 1}&type=${value.type || 'basic'}&page=${value.page || 1}`)
-        console.log(json.data.docs)
+        const json = await axios.get(`http://localhost:3002/rooms/${value.place}?n_beds=${value.n_beds}&type=${value.type}`)
         return json.data.docs
     }
     

@@ -34,8 +34,7 @@ const SortBy = ()=> {
         dispatch(getRoomsByPage(1))
     },[])
 
-    console.log('componente sort price',rooms.Rooms.map(el=>el.price))
-    console.log('componente sort rating',rooms.Rooms.map(el=>el.rating))
+    
     
 	return(
         
