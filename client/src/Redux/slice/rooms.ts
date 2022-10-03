@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export interface IRoom{
     _id: string;
-    type:string[];
+    type:string;
     place: string;
     n_beds: number;
     price: number;
@@ -13,18 +13,32 @@ export interface IRoom{
     photos: any;
     services: string[];
     rating: number;
-    reviews: Object[]
+    reviews: Object;
     description: string;
 }
 
 interface IState{
     Rooms:IRoom[];
-    Room:IRoom|{}
+    Room:IRoom
+
 }
 
 const initialState:IState={
     Rooms:[],
-    Room:{}
+    Room:{
+        _id: '',
+        type: '',
+        place: '',
+        n_beds: 0,
+        price: 0,
+        availability: true,
+        name: '',
+        photos: '',
+        services: [''],
+        rating: 0,
+        reviews: {},
+        description: ''
+    }
 }
 
 export const roomSlice = createSlice({
@@ -213,9 +227,12 @@ export const getRoomsByAllQuery = createAsyncThunk<IRoom[],Partial<Query>>('room
     
 })
 
-export const getDetailRoom = createAsyncThunk<IRoom, any>('rooms/getDetailRoom', async (_id) => {
+
+export const getDetailRoom = createAsyncThunk<IRoom, any>('room/getDetailRoom', async (_id) => {
+
     try{
-        const json = await axios.get(`http://localhost:3002/rooms/${_id}`)
+        const json = await axios.get(`http://localhost:3002/room/${_id}`)
+        console.log(json.data)
         return json.data
     }catch(error){
         console.log(error)

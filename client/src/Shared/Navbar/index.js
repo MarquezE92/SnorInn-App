@@ -17,7 +17,9 @@ const NavBar = ()=> {
                 <NavLink to="/rooms" className={styles.NavLink}>Rooms</NavLink>
             </button>
             
-            <button className={styles.navbarButton}>Admin</button>
+            <button className={styles.navbarButton}>
+            <NavLink to="/admin" className={styles.NavLink}>Admin</NavLink>
+            </button>
         </div>
         )
 };
