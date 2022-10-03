@@ -16,7 +16,7 @@ const RoomCard = () => {
 const dispatch = useAppDispatch();
 const rooms = useAppSelector((state:RootState) => state.rooms.Rooms);
 
-console.log(rooms)
+
 useEffect(()=> {
 	dispatch(getRoomsByPage(1))
 	

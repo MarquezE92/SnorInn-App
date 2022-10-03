@@ -3,8 +3,8 @@ import {useAppDispatch} from '../../../Redux/Store/hooks';
 import {useNavigate} from 'react-router-dom';
 import {getRoomsByAllQuery} from '../../../Redux/slice/rooms';
 import style from './Home.module.css';
-import {ISelect, places} from './constantes';
-
+import {places} from './constantes';
+import {Query} from '../../../Redux/slice/rooms'
 
 const Home =()=>{
 
@@ -12,10 +12,12 @@ const Home =()=>{
 
     const navigate = useNavigate();
 
-    const [select, setSelect] = useState<ISelect>({
+    const [select, setSelect] = useState<Query>({
         place:'',
+        name:'',
         n_beds:'',
-        category:''
+        page:1,
+        type:''
     });
 
     const findBy=(e:ChangeEvent<HTMLSelectElement>)=>{
@@ -32,7 +34,7 @@ const Home =()=>{
 
     const handleSubmit = (e: FormEvent)=>{
         e.preventDefault();
-        if(!select.place || !select.n_beds || !select.category)
+        if(!select.place || !select.n_beds || !select.type)
         return alert("Select ALL 3 (place, number of beds and category) to search for a room.");
         dispatch(getRoomsByAllQuery(select))
         navigate('/rooms', {replace:true});
@@ -62,15 +64,15 @@ const Home =()=>{
                         <option value="4">4</option>
                     </select>
                     
-                    <select name="category" onChange={findBy}>
+                    <select name="type" onChange={findBy}>
                         <option disabled selected>CATEGORY</option>
                         <option value="basic">Basic</option>
                         <option value="standard">Standard</option>
-                        <option value="premiun">Premiun</option>
+                        <option value="Premium">Premiun</option>
                     </select>
                     
 
-                    <button className={style.learn_more} type="submit" /*onClick={searchBy} */>
+                    <button className={style.learn_more} type="submit" onClick={handleSubmit} >
                         <span className={style.circle} aria-hidden="true">
                         <span id={style.arrow} className={style.icon}></span>
                         </span>
