@@ -11,7 +11,7 @@ const SortBy = ()=> {
 	const [input, setInput] = useState('');
     const dispatch = useAppDispatch()
     const rooms =  useAppSelector((state)=>state.rooms)
-
+    
     
 	function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
         setInput(e.target.value)
@@ -30,12 +30,6 @@ const SortBy = ()=> {
     }
 
     
-    useEffect(()=>{
-        dispatch(getRoomsByPage(1))
-    },[])
-
-    
-    
 	return(
         
         <div className={styles.sortDiv}>
@@ -50,7 +44,10 @@ const SortBy = ()=> {
                 <option value="More Popular">More Popular</option>
                 <option value="Less Popular">Less Popular</option>
             </select>
-            <SearchBar/>
+            <SearchBar
+           
+            
+            />
 		</div>
 		)
 	

@@ -1,10 +1,10 @@
 .NavLink {
 	text-decoration: none;
 	color: #282936;
-	
+	align-self: center;
 }
 
-.NavLink:hover {
+.navbarButton:hover {
 	color: #282936;
 	border-bottom: solid 0.2rem #ADDDD0;
 }
@@ -17,15 +17,13 @@
 }
 
 .navbarButton {
-	background-color: transparent;
-	padding: 1rem;
-	font-size: 2rem;
-	cursor: pointer;
 	
+	background-color: transparent;
+	padding: 0.5rem;
+	font-size: 2rem;
 }
 
 #logoImg {
 	height: 5rem;
 	width: 8rem;
 }
-

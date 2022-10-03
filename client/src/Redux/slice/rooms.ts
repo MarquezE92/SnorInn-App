@@ -169,7 +169,6 @@ export const getRoomsByPlace = createAsyncThunk<IRoom[],Partial<Query>>('rooms/g
     if(value.place){
         const json = await axios.get(url+`/${value.place}`)
             
-        console.log(json.data.docs)
         return json.data.docs
     }
    
@@ -227,7 +226,7 @@ export const getDetailRoom = createAsyncThunk<IRoom, any>('room/getDetailRoom', 
 
     try{
         const json = await axios.get(`http://localhost:3002/room/${_id}`)
-        console.log(json.data)
+
         return json.data
     }catch(error){
         console.log(error)
@@ -237,7 +236,7 @@ export const getDetailRoom = createAsyncThunk<IRoom, any>('room/getDetailRoom', 
 export const createRoom = createAsyncThunk<IRoom,Partial<IRoom>>('rooms/createRoom', async (value)=>{
     try{
         const json = await axios.post('http://localhost:3002/rooms',value)
-        console.log(json.data)
+     
         return json.data
     }catch(error){
         console.log(error)
