@@ -8,6 +8,7 @@ router.use(express.json())
 const { getRoomsbyFilters } = require('../controllers/getRoomByQueryC')
 const filtersByQuery = require('../controllers/filtersByQuery')
 const { getName } = require('../controllers/getNameQuery')
+const { getAllRooms } = require('../controllers/getAllRooms')
 //CONDIFURAR LAS RUTAS
 
 
@@ -80,6 +81,16 @@ router.get('/room/:id', async (req, res) => {
     } catch (error) {
         return res.status(404).send({ error: 'We are sorry, we couldnt find the room' })
     }
+});
+
+router.get('/allRooms', async (req, res) => {
+    try {
+        const allRooms = await getAllRooms()
+        res.status(200).send(allRooms)
+    } catch (error) {
+        return res.status(404).send({ error: 'We are sorry, we couldnt find the room' })
+    }
+
 });
 
 
