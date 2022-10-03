@@ -1,17 +1,13 @@
 
 .mainDiv {
-    height: 100vh;
+    height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url('../../../Images/hiroshi-kimura-rUgO55Cg8qQ-unsplash.jpg');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-image: url('../../../Images/brianna-tucker-bU5BjwyQbOM-unsplash.jpg');
 }
 
 .card {
-    position: absolute;
     width: 350px;
     height: 454px;
     display: flex;
@@ -37,7 +33,7 @@
    .card .info {
     text-align: center;
     margin-top: 0.4em;
-    background: linear-gradient(120deg, #ADDDD0 0%, #4e9e89 100%);
+    background: black;
     background-clip: border-box;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -52,12 +48,12 @@
     margin-top: 1em;
     color: #fff;
     text-decoration: none;
-    background: linear-gradient(90deg, #ADDDD0 0%, #4e9e89 100%);
+    background: linear-gradient(90deg, #7c8180 0%, #000000 100%);
     padding: .5em 2em;
     border-radius: 0.7em;
    }
    
-   .card a:active {
-    box-shadow: inset 3px 3px 3px #0056ff,
-                inset -3px -3px 3px #00c2ff;
+   .card a:hover {
+        padding: 20px 60px;
+        color: white;
    }

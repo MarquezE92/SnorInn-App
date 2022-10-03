@@ -1,77 +1,80 @@
 import React from 'react';
 import styles from './index.module.css';
-
+import { useAppDispatch } from '../../../Redux/Store/hooks';
+import { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
+import { getDetailRoom } from '../../../Redux/slice/rooms';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../Redux/Store/store';
+import { Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
 const RoomDetail = ()=> {
+	const [modal, setModal] = useState(false);
 
-interface IRoom {
-	type: string,
-    place: string,
-    location: string,
-    n_beds: number,
-    price: number,
-    services: string[],
-    photos: string[],
-    rating: number,
-    reviews: string[]
-};
+	const dispatch = useAppDispatch()
+	const {id} = useParams(); 
+	const rooms = useSelector((state:RootState) => state.rooms.Room);
 
-const services: string[] = ['air-conditioned', 'TV', 'WiFi', 'safe-box', 'parking'];
+	const handleAlert = () => {
+		alert("Room is already reserved")
+	}
+	const handleModal = () => {
+		setModal(!modal)
+	  }
 
-const photos: string[] = ['https://dorahotel.com.ar/templates/republica/images/pagina/contenido/habitaciones/fichas/triple_standard/01.jpg?f=310322',
-'https://dorahotel.com.ar/templates/republica/images/pagina/contenido/habitaciones/fichas/triple_standard/05.jpg?f=310322',
-'https://dorahotel.com.ar/templates/republica/images/pagina/contenido/habitaciones/fichas/triple_standard/02.jpg?f=310322'];
-
-const reviews: string[] = ['Great', `I can't wait to come back`]
-
-const Room:IRoom = {
-	type: 'Standard',
-	place: 'Dorá Hotel',
-	location: '963 Maipú St., Buenos Aires City, Argentina',
-	n_beds: 3,
-	price: 3500,
-	services,
-	photos,
-	rating: 4,
-	reviews
-};
+useEffect(() => {
+    dispatch(getDetailRoom(id));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 return (
-	<>
+	<div className={styles.mainDiv}>
+	<div className={styles.card}>
+	
 	<div className={styles.photosDiv}>
-		{Room.photos?.map((photo:string, i:number)=> (
-	 		 		<img key={i} src={photo} alt={`slide ${i}`} className={styles.photo}/>
-	 		 		))}
+		<img src={rooms.photos} alt="A beautiful room... maybe?" />
+		<Button onClick={() => handleModal()} variant="dark">Description</Button>
 	</div>
 	<div className={styles.infoContainer}>
+	 <div className={styles.principalInfo}>
+		<h1 className={styles.place}>{rooms.name}</h1>
+		<h3>{rooms.place}</h3>
+	 </div>
+	 <h2>{rooms.type}</h2>
+		<h2>{rooms.n_beds} beds</h2>
+		<h2>Services:</h2>
+	 <div className={styles.servicesContainer}>
+
+		{rooms.services?.map((service:string, i:number)=> (
+	 		 		<h2 key={i}>✓ {service}</h2>
+	 		 		))}
+	 </div>
 	 <div>
-		<h1 id={styles.place}>{Room.place}</h1>
-		<h3>{Room.location}</h3>
-		<div id={styles.reserveContainer}>
-			<div id={styles.price}>
-			Only ${Room.price}
+	 	<h1>Rating: {rooms.rating}☆</h1>
+	 	<div className={styles.reserveContainer}>
+			<div className={styles.price}>
+			Only ${rooms.price}
 			</div>
-			<button id={styles.reserveBtn}>
-			Reserve Now
+			<button className={styles.reserveBtn} onClick={() => handleAlert()}>
+			Already reserved
 			</button>
 		</div>
 	 </div>
-	 <div>
-		<h2>{Room.type}</h2>
-		<h2>{Room.n_beds} beds</h2>
-		{Room.services?.map((service:string, i:number)=> (
-	 		 		<h2 key={i}>✓ {service}</h2>
-	 		 		))}
-	    
-	 </div>
-	 <div>
-	 	<h1>Reviews: {Room.rating}☆</h1>
-	 	{Room.reviews?.map((review:string, i:number)=> (
-	 		 		<h2 key={i} className={styles.review}>-"{review}"</h2>
-	 		 		))}
-	 </div>
+	
+	 <Modal show={modal} onHide={() => handleModal()}  size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Room description</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className={styles.modalBody}>
+         {rooms.description}
+        </Modal.Body>
+        </Modal>
+
 	</div>
-	</>
+	</div>
+	</div>
 	)
 };
 
