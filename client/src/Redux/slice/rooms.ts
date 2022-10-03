@@ -13,7 +13,7 @@ export interface IRoom{
     photos: any;
     services: string[];
     rating: number;
-    reviews: Object
+    reviews: Object;
     description: string;
 }
 

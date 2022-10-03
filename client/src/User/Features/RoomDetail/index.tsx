@@ -16,7 +16,9 @@ const RoomDetail = ()=> {
 	const {id} = useParams(); 
 	const rooms = useSelector((state:RootState) => state.rooms.Room);
 
-
+	const handleAlert = () => {
+		alert("Room is already reserved")
+	}
 	const handleModal = () => {
 		setModal(!modal)
 	  }
@@ -53,8 +55,8 @@ return (
 			<div className={styles.price}>
 			Only ${rooms.price}
 			</div>
-			<button className={styles.reserveBtn}>
-			Reserve Now
+			<button className={styles.reserveBtn} onClick={() => handleAlert()}>
+			Already reserved
 			</button>
 		</div>
 	 </div>

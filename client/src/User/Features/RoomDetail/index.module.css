@@ -40,6 +40,8 @@
 	justify-content: space-around;
 	margin-top: 2rem;
 	font-family: Monaco, monospace;
+	padding-right: 5%;
+
 }
 .principalInfo h3 {
 	text-align: center;
