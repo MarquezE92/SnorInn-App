@@ -1,0 +1,17 @@
+
+.pageNumbers {
+	text-align: center;
+}
+
+.numbers {
+	margin-right: 3rem;
+	padding: 0.3rem 1rem;
+	border-radius: 2rem;
+	background-color: #ADDDD0;
+}
+
+.numbers:hover {
+	border: 0.2rem solid #ADDDD0;
+	color: #ADDDD0;
+	background-color: transparent;
+}

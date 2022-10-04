@@ -1,15 +1,30 @@
 import styles from "./index.module.css";
 import SortBy from "../SortBy";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getRoomsByPage } from "../../../Redux/slice/rooms";
 import { useAppDispatch } from "../../../Redux/Store/hooks";
 import { useAppSelector } from "../../../Redux/Store/hooks";
 import { RootState } from "../../../Redux/Store/store";
 import Card from "../Card";
+import Paginated from "../Paginated/Paginated";
 
 const RoomCard = () => {
   const dispatch = useAppDispatch();
   const rooms = useAppSelector((state: RootState) => state.rooms.Rooms);
+
+
+//-----------------------------ESTADOS LOCALES/FUNCIONES PARA EL PAGINADO----------------------
+
+const [currentPage, setCurrentPage] = useState(1);
+const [roomsPerPage, setRoomsPerPage] = useState(6);
+const lastRoom:number = currentPage * roomsPerPage;
+const firstRoom:number = lastRoom - roomsPerPage;
+const currentRooms = rooms.slice(firstRoom, lastRoom);
+
+function paginated(pageNumber:number) {
+  setCurrentPage(pageNumber)
+};
+//------------------------------------------------------------------------------------------
 
   console.log(rooms.length)
 
@@ -29,6 +44,12 @@ useEffect(() => {
     <div className={styles.pageContainer}>
       
       <SortBy />
+    
+      <Paginated
+      roomsPerPage={roomsPerPage}
+      rooms={rooms.length}
+      paginated={paginated}
+      />
 
       <div className={styles.mainDiv}>
         {rooms?.map((el) => {
