@@ -153,10 +153,10 @@ export type Query ={
     type:string
 }
 
-export const getRoomsByPage = createAsyncThunk<IRoom[],Number>('rooms/getRoomsByPage', async (value)=>{
+export const getRoomsByPage = createAsyncThunk<IRoom[]>('rooms/getRoomsByPage', async ()=>{
     try{
-        const json = await axios.get(`http://localhost:3002/rooms?page=${value || 1}`)
-        return json.data.docs
+        const json = await axios.get(`http://localhost:3002/allrooms`)
+        return json.data
     }catch(error){
         console.log(error)
     }

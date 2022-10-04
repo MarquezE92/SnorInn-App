@@ -30,12 +30,12 @@ function paginated(pageNumber:number) {
 
 useEffect(() => {
     if (rooms.length < 1) {
-      dispatch(getRoomsByPage(1))}
+      dispatch(getRoomsByPage())}
   }, [])
    
   useEffect(() => {
     return () => {
-      dispatch(getRoomsByPage(1));
+      dispatch(getRoomsByPage());
     }
 }, []);
 
@@ -52,7 +52,7 @@ useEffect(() => {
       />
 
       <div className={styles.mainDiv}>
-        {rooms?.map((el) => {
+        {currentRooms?.map((el) => {
           return (
             <>
               <Card
