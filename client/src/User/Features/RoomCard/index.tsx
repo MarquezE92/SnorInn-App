@@ -6,6 +6,7 @@ import { useAppDispatch } from "../../../Redux/Store/hooks";
 import { useAppSelector } from "../../../Redux/Store/hooks";
 import { RootState } from "../../../Redux/Store/store";
 import Card from "../Card";
+import SearchForm from "../SearchForm";
 
 const RoomCard = () => {
   const dispatch = useAppDispatch();
@@ -29,7 +30,7 @@ useEffect(() => {
     <div className={styles.pageContainer}>
       
       <SortBy />
-
+      <SearchForm/>
       <div className={styles.mainDiv}>
         {rooms?.map((el) => {
           return (
