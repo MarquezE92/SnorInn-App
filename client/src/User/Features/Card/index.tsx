@@ -16,6 +16,7 @@ const Card = ({photos, name, rating, n_beds, services, price, _id}:Props)=> {
 
 
 return (
+	<Link to={`/rooms/${_id}`} className={styles.viewLink}>
 	<div className={styles.RoomCardContainer}>
 	 <img src={photos[0]} alt="habitación" className={styles.Img}/>
 	 <div className={styles.secondColumnDiv}>
@@ -32,13 +33,12 @@ return (
 	   </ul>
 	  </div>
 	  <div className={styles.bottomSection}>
-	   <button className={styles.viewButton}>
-	    <Link to={`/rooms/${_id}`} className={styles.viewLink} >View</Link>
-	   </button>
-	   <div>${price}</div>
+	   
+	   <div className={styles.price}>${price}</div>
 	  </div>
 	 </div>
 	</div>
+	</Link>
 	)
 
 }

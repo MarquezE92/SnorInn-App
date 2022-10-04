@@ -8,6 +8,7 @@
 	padding: 0.3rem 1rem;
 	border-radius: 2rem;
 	background-color: #ADDDD0;
+	border: 0.2rem solid transparent;
 }
 
 .numbers:hover {
