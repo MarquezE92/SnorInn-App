@@ -30,6 +30,7 @@ const userClientSchema = mongoose.Schema({
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Reservation'
     // }]
+
 }, { versionKey: false });
 userClientSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);

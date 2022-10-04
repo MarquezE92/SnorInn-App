@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import logoSnorInn from "../../Images/logoSnorInn.jpeg";
 import styles from "./Navbar.module.css";
+import Login from "../Login";
 
 const NavBar = () => {
   return (
@@ -15,10 +16,8 @@ const NavBar = () => {
       <NavLink to="/rooms" className={styles.NavLink}>
         <button className={styles.navbarButton}>Rooms </button>
       </NavLink>
-
-      <NavLink to="/admin" className={styles.NavLink}>
-        <button className={styles.navbarButton}>Admin</button>
-      </NavLink>
+        <button className={styles.navbarButton}> <Login/></button>
+       
     </div>
   );
 };

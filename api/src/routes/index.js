@@ -11,7 +11,9 @@ const { getName } = require('../controllers/getNameQuery')
 const { getAllRooms } = require('../controllers/getAllRooms')
 const { sortByPrice } = require('../controllers/orderByPrice')
 const { sortByRating } = require('../controllers/orderByRating')
-const { deleteRoom } = require('../controllers/deleteById')
+const { deleteRoom } = require('../controllers/deleteById');
+const { roomSchema } = require('../db');
+const { putRoom } = require('../controllers/putRoomById');
 
 //CONDIFURAR LAS RUTAS
 
@@ -133,6 +135,16 @@ router.delete('/room/:id', async (req, res) => {
     }
 });
 
+router.put("/rooms/:id", async (req, res) => {
+    const getId = req.params.id
+    const body = req.body
+    try {
+        const roomUpdated = await putRoom(getId, body)
+        return res.status(200).send(roomUpdated)
+    } catch (error) {
+        return res.status(404).send({ error: 'We are sorry, we couldnt update the room' })
+    }
+  });
 
 
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
