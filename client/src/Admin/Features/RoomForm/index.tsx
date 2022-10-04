@@ -10,17 +10,6 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import { Modal } from "react-bootstrap";
 
 
-// interface IRoom {
-//     type: string,
-//     place: string,
-//     n_beds: number,
-//     price: number,
-//     services: string[],
-//     location: string,
-//     photos: string,
-//     min_user_rating: number,
-// }
-
 const RoomForm = () => {
 const servicesInfo = services
 const typesInfo = types

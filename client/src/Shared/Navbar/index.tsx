@@ -1,13 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import logoSnorInn from "../../Images/logoSnorInn.jpeg";
 import styles from "./Navbar.module.css";
-import Login from "../Login";
+import Login from "../LoginUser";
 
 const NavBar = () => {
   return (
     <div className={styles.navbarDiv}>
-      <img src={logoSnorInn} alt="SnorInn" id={styles.logoImg} />
+      <img src={require("../../Images/logoSnorInn.jpeg")} alt="SnorInn" id={styles.logoImg} />
 
       <NavLink to="/" className={styles.NavLink}>
         <button className={styles.navbarButton}>Home</button>

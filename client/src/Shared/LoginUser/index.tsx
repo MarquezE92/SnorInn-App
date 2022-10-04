@@ -1,0 +1,91 @@
+import React, { useState } from "react";
+import { Modal } from "react-bootstrap";
+import { NavLink, Link } from "react-router-dom";
+import styles from "./login.module.css";
+import { ChangeEvent } from "react";
+
+
+interface Authentication {
+  email: string;
+  password: string;
+}
+
+const Login = () => {
+  const [modal, setModal] = useState(false);
+  const [input, setInput] = useState<Authentication>({
+    email: "",
+    password: "",
+  });
+
+
+  const handleModal = () => {
+    setModal(!modal);
+  };
+
+  const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    }
+    )
+  }
+
+
+  return (
+    <>
+      <button onClick={() => handleModal()}>Login</button>
+      <Modal show={modal} onHide={() => handleModal()}>
+        <div className={styles.mainDiv}>
+          <h2 className={styles.title}>Login or Sign up</h2>
+          <form className={styles.form}>
+            <label className={styles.subtitle} htmlFor="email">
+              Email
+            </label>
+            <input
+              className={styles.input}
+              type="email"
+              id="email"
+              name="email"
+              value={input.email}
+              onChange={handleInput}
+            />
+            <label className={styles.subtitle} htmlFor="password">
+              Password
+            </label>
+            <input
+              className={styles.input}
+              type="password"
+              id="password"
+              name="password"
+              value={input.password}
+              onChange={handleInput}
+            />
+            <div
+              className={styles.buttonModal}
+              onClick={() => () => handleModal()}
+            >
+              <NavLink to="/admin">Continue with email</NavLink>
+            </div>
+          </form>
+          <h2 className={styles.title}>or use one of these options</h2>
+          <div className={styles.imageContainer}>
+            <button className={styles.cardImg}>
+              <img src={require("./images/facebook.png")} alt="description"/>
+            </button>
+            <button className={styles.cardImg}>
+              <img src={require("./images/gmail.png")} alt="description"/>
+            </button>
+          </div>
+          <div>
+            Don't have an account yet?
+            <Link to="/signup" onClick={() => handleModal()}>
+              Sign up
+            </Link>
+          </div>
+        </div>
+      </Modal>
+    </>
+  );
+};
+
+export default Login;
