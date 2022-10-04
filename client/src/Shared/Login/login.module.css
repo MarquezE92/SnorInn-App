@@ -3,7 +3,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 20px 50px;
+    padding: 40px 50px;
+    max-height: 604px;
 }
 
 .title {
@@ -65,7 +66,7 @@
     cursor: pointer;
    }
    .cardImg:hover {
-    padding: 80px 70px;
+    transform: scale(1.15);
    }
    .cardImg img{
     width: 50px;
