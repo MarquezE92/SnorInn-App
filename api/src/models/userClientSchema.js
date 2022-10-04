@@ -9,6 +9,10 @@ const userClientSchema = mongoose.Schema({
     email: String,
     address: String,
     rating: Number,
+    favoritesRomms: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'room'
+    }],
     reservationId: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Reservation'
