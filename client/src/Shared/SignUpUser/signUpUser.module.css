@@ -1,19 +1,38 @@
+.principalContainer {
+    height: 95vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(90deg, rgba(78,143,124,1) 0%, rgba(173,221,208,1) 48%, rgba(190,222,222,1) 100%);
+}
 .mainDiv {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     padding: 40px 50px;
-    max-height: 604px;
+    width: 500px;
+    height: 700px;
+    box-shadow: 0.3em 0.3em 0.7em #00000053;
+    background: white;
 }
-
+.form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .title {
     font-size: 21px;
     padding-top: 30px;
-    padding-bottom: 30px;
+    
     font-weight: bolder;
 }
-
+.subtitle {
+    padding: 10px 30px;
+}
 
 .buttonModal {
     width: 80%;
@@ -30,6 +49,13 @@
 .buttonModal a{
     color: inherit;
     text-decoration: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 40px
+}
+.buttonModal a:hover{
+   color: white;
 }
 
 .buttonModal:hover {
@@ -51,6 +77,7 @@
     display: flex;
     width: 80%;
     justify-content: space-evenly;
+    padding-bottom: 20px;
 }
 
   .cardImg {

@@ -6,8 +6,8 @@ import RoomDetail from "./User/Features/RoomDetail";
 import { Routes, Route } from "react-router-dom";
 import Home from "./User/Views/Home";
 import AdminDashboard from "./Admin/Features/Dashboard";
-import Login from "./Shared/Login";
-
+import Login from "./Shared/LoginUser";
+import SignUpUser from "./Shared/SignUpUser";
 
 function App() {
  
@@ -17,6 +17,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home/>}/>
       <Route path="/login" element={<Login/>}/>
+      <Route path="/signup" element={<SignUpUser/>}/>
       <Route path="/admin" element={<AdminDashboard/>}/>
       <Route path= '/create' element={<RoomForm/>}/>
       <Route path= '/rooms' element={<RoomCard/>}/>
