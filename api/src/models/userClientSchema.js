@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs')
 
 const userClientSchema = mongoose.Schema({
-    local:{
+    local: {
         email: String,
         password: String
     },
-    facebook:{
+    facebook: {
         email: String,
         password: String,
         id: String,
@@ -17,7 +17,7 @@ const userClientSchema = mongoose.Schema({
         password: String,
         id: String,
         token: String
-    }
+    },
     // username: String,
     // password: String,
     // firstname: String,
@@ -29,7 +29,11 @@ const userClientSchema = mongoose.Schema({
     // reservationId: [{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Reservation'
-    // }]
+    // }],
+    favorites: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'romm'
+    }]
 
 }, { versionKey: false });
 userClientSchema.methods.generateHash = function (password) {
