@@ -2,17 +2,14 @@ const  mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs')
 
 const userAdminSchema = mongoose.Schema({
-    local:{
-        email: String,
-        password: String
-    },
-    // username: String,
-    // passwword: String,
-    // rooms: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'room'
-    // }],
-    // ban: Boolean
+
+    email: String,
+    password: String,
+    rooms: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'room'
+    }],
+    ban: Boolean
 }, { versionKey: false });
 
 
