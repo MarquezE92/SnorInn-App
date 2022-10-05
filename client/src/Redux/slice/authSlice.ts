@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { PendingActionFromAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
 import axios from 'axios';
 
 interface Users {
