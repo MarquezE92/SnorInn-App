@@ -20,9 +20,9 @@ const CheckutForm = () => {
 
             // FEEEEEEEEEEEEEEEER, ABAJO HAY QUE CAMBIAR LA RUTA FIJATE SI FUNCIONA ASI NOMÁS O HAY QUE HACER UNA ACTION //
 
-            const {data} = await axios.post("http://localhost:3002/api/checkout", {
+            const {data} = await axios.post("http://localhost:3002/dataPeyment", {
                 id,
-                ammount: 10000,
+                amount: 10000,
             })
             console.log(data())
         }}
