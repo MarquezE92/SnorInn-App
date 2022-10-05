@@ -1,32 +1,54 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import styles from "./signUpUser.module.css";
 import { useState } from "react";
 import { ChangeEvent } from "react";
-
-interface Authentication {
-  email: string;
-  password: string;
-}
+import { useAppDispatch } from "../../Redux/Store/hooks";
+import { signUpUser } from "../../Redux/slice/authSlice";
 
 const SignUpUser = () => {
-    const [input, setInput] = useState<Authentication>({
-        email: "",
-        password: "",
-      });
+  interface Login {
+    email: string;
+    password: string;
+  }
 
-    const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
-        setInput({
-          ...input,
-          [e.target.name]: e.target.value
-        }
-        )
-      }
+  const dispatch = useAppDispatch();
+
+  const [input, setInput] = useState<Login>({
+    email: "",
+    password: "",
+  });
+
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+  //     setInput(prevState => ({
+  //       ...prevState,
+  //       local: {
+  //         ...prevState.local,
+  //         [name]: value
+  //       }
+  //   })
+  //     )}
+
+  // [e.target.name]: e.target.value
+
+  const handleSubmit = (e:FormEvent) => {
+    e.preventDefault();
+    dispatch(signUpUser(input))
+    setInput({ email: "", password: "" });
+  };
 
   return (
     <div className={styles.principalContainer}>
       <div className={styles.mainDiv}>
         <h2 className={styles.title}>Welcome to SnorInn</h2>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <label className={styles.subtitle} htmlFor="email">
             Email
           </label>
@@ -49,7 +71,7 @@ const SignUpUser = () => {
             value={input.password}
             onChange={handleInput}
           />
-          <input className={styles.buttonModal} type='submit' value="Sign up"/>
+          <input className={styles.buttonModal} type="submit" value="Sign up" />
         </form>
         <h2 className={styles.title}>or use one of these options</h2>
         <div className={styles.imageContainer}>

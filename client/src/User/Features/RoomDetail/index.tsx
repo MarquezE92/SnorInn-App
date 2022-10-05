@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './index.module.css';
 import { useAppDispatch } from '../../../Redux/Store/hooks';
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getDetailRoom} from '../../../Redux/slice/rooms';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Redux/Store/store';
@@ -13,7 +13,6 @@ const RoomDetail = ()=> {
 	const [modal, setModal] = useState(false);
 
 	const dispatch = useAppDispatch()
-	const navigate = useNavigate()
 	const {id} = useParams(); 
 	const rooms = useSelector((state:RootState) => state.rooms.Room);
 

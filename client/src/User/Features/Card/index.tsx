@@ -10,6 +10,7 @@ type Props = {
     photos: any;
     services: string[];
     rating: number;
+	
 };
 
 const Card = ({photos, name, rating, n_beds, services, price, _id}:Props)=> {

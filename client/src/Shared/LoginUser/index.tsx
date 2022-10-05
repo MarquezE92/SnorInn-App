@@ -2,20 +2,26 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { NavLink, Link } from "react-router-dom";
 import styles from "./login.module.css";
-import { ChangeEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
+import { signInUser } from "../../Redux/slice/authSlice";
+import { useAppDispatch } from "../../Redux/Store/hooks";
 
 
+const Login = () => {
+  
 interface Authentication {
   email: string;
   password: string;
 }
 
-const Login = () => {
+  const dispatch = useAppDispatch();
+
   const [modal, setModal] = useState(false);
   const [input, setInput] = useState<Authentication>({
     email: "",
     password: "",
   });
+
 
 
   const handleModal = () => {
@@ -29,11 +35,17 @@ const Login = () => {
     }
     )
   }
-
+ const handleSubmit = (e:FormEvent) => {
+    e.preventDefault()
+        dispatch(signInUser({
+          email : [input.email],
+          password: [input.password]
+        }))
+      }
 
   return (
-    <>
-      <button onClick={() => handleModal()}>Login</button>
+    <div>
+      <a onClick={() => handleModal()}>Login</a>
       <Modal show={modal} onHide={() => handleModal()}>
         <div className={styles.mainDiv}>
           <h2 className={styles.title}>Login or Sign up</h2>
@@ -84,7 +96,7 @@ const Login = () => {
           </div>
         </div>
       </Modal>
-    </>
+    </div>
   );
 };
 
