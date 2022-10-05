@@ -7,6 +7,9 @@ import Home from "./User/Views/Home";
 import AdminDashboard from "./Admin/Features/Dashboard";
 import Login from "./Shared/LoginUser";
 import SignUpUser from "./Shared/SignUpUser";
+import Stripe from "./Stripe";
+
+
 
 function App() {
  
@@ -21,6 +24,7 @@ function App() {
       <Route path= '/create' element={<RoomForm/>}/>
       <Route path= '/rooms' element={<RoomCard/>}/>
       <Route path= '/rooms/:id' element={<RoomDetail/>}/>
+      <Route path="/stripe" element={<Stripe/>}/>
     </Routes>
     </>
   );
