@@ -16,7 +16,12 @@ const roomSchema = mongoose.Schema({
     reviews: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'reviews'
-    }]
+    }],
+    userAdminId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserAdmin'
+    },
+
 }, {versionKey: false})
 
 roomSchema.plugin(mongoosePaginate)
