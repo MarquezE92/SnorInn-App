@@ -26,19 +26,18 @@ function paginated(pageNumber:number) {
 };
 //------------------------------------------------------------------------------------------
 
-  console.log(rooms.length)
+
 
 useEffect(() => {
     if (rooms.length < 1) {
       dispatch(getRoomsByPage())}
-  }, [])
+  },[rooms])
    
   useEffect(() => {
     return () => {
       dispatch(getRoomsByPage());
     }
-}, []);
-
+}, [rooms]);
 
   return (
     <div className={styles.pageContainer}>

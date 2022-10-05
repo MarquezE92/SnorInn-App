@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './index.module.css';
 import { useAppDispatch } from '../../../Redux/Store/hooks';
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
-import { getDetailRoom } from '../../../Redux/slice/rooms';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getDetailRoom} from '../../../Redux/slice/rooms';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Redux/Store/store';
 import { Button } from 'react-bootstrap';
@@ -13,8 +13,10 @@ const RoomDetail = ()=> {
 	const [modal, setModal] = useState(false);
 
 	const dispatch = useAppDispatch()
+	const navigate = useNavigate()
 	const {id} = useParams(); 
 	const rooms = useSelector((state:RootState) => state.rooms.Room);
+
 
 	const handleAlert = () => {
 		alert("Room is already reserved")
@@ -27,9 +29,13 @@ useEffect(() => {
     dispatch(getDetailRoom(id));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+
+  
+
 return (
 	<div className={styles.mainDiv}>
 	<div className={styles.card}>
+
 	
 	<div className={styles.photosDiv}>
 		<img src={rooms.photos} alt="A beautiful room... maybe?" />
