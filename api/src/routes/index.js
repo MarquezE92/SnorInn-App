@@ -16,6 +16,7 @@ const { sortByRating } = require('../controllers/orderByRating')
 const { deleteRoom } = require('../controllers/deleteById');
 const { roomSchema } = require('../db');
 const { putRoom } = require('../controllers/putRoomById');
+const { addResrevation } = require('../controllers/postReservation')
 
 //CONDIFURAR LAS RUTAS
 
@@ -170,6 +171,19 @@ router.post('/dataPeyment', async (req, res) => {
         res.status(404).json({message: error.raw.message})
     }
 });
+
+router.post('/reservation', async (req, res) => {
+    const { userId, roomId, check_in, check_out } = req.body
+    try {
+        const postReservation = await addResrevation(req.body)
+        return res.status(200).send(postReservation)
+
+    } catch (error) {
+        return res.status(404).send({ error: error.message})
+    }
+})
+
+
 
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
 

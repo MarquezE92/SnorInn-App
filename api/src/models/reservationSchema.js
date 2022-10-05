@@ -10,8 +10,8 @@ const reservationSchema = mongoose.Schema({
         ref: 'room'
     },
     check_in: Date,
-    checkIut: Date,
-    price: Number
+    check_out: Date,
+    //price: Number
 }, { versionKey: false });
 
 module.exports = mongoose.model('Reservation', reservationSchema);
