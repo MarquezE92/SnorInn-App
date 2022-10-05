@@ -5,6 +5,8 @@ const { getRooms, addRooms, findByIdRoom } = require('../controllers')
 // const { getRoomsbyFilters } = require('./getRoomByQueryR')
 const express = require('express')
 router.use(express.json())
+const Stripe = require('stripe');
+const cors = require('cors'); // Exporta libreria para que no haya conflictos entre los puertos del FRONTEND y BACKEND
 const { getRoomsbyFilters } = require('../controllers/getRoomByQueryC')
 const filtersByQuery = require('../controllers/filtersByQuery')
 const { getName } = require('../controllers/getNameQuery')
@@ -146,6 +148,28 @@ router.put("/rooms/:id", async (req, res) => {
     }
   });
 
+// STRIPE KEY PRIVATE
+const stripe = new Stripe('sk_test_51LpGDXJjFvmrQ5VMHJn0DT1tfOuKTeIz4fwyW0qd5e1deE4HC3Xkt07y9defbZNttmdg8id3zVNox95Y26L1LKVT00pOXoh4ma')
+router.post('/dataPeyment', async (req, res) => {
+    const { id, amount } = req.body
+    try {
+        const paymentData = await stripe.paymentIntents.create({
+            amount,
+            currency: 'USD',
+            //description: "HAbitacion en hotel Luxury",
+            payment_method: id,
+            confirm: true,
+            //succsess_url: 'http://localhost:3002/responsePayment',
+            //cancel_url: 'http://localhost:3002/badResponse'
+        });
+        console.log(paymentData)
+        return res.status(200).send({message: 'Succesfull payment' })
+        
+
+    } catch (error) {
+        res.status(404).json({message: error.raw.message})
+    }
+});
 
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
 
