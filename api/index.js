@@ -7,6 +7,8 @@ const morgan = require('morgan');
 const passport = require('passport')
 const flash = require('connect-flash')
 const session = require('express-session')
+const Stripe = require('stripe');
+const cors = require('cors'); // Exporta libreria para que no haya conflictos entre los puertos del FRONTEND y BACKEND
 
 // INICIALIZACION
 const app = express();
@@ -19,6 +21,9 @@ app.name = 'API';
 // CONSTANTE STRING DE ATLAS
 //const url = `mongodb+srv://SnorInn:SnorInn123@snorinn.zjmulm3.mongodb.net/?retryWrites=true&w=majority`;
 const url = `mongodb+srv://SnorInn:SnorInn123@snorinn.zjmulm3.mongodb.net/SnorInn`
+
+// STRIPE KEY PRIVATE
+const stripe = new Stripe('sk_test_51LpGDXJjFvmrQ5VMHJn0DT1tfOuKTeIz4fwyW0qd5e1deE4HC3Xkt07y9defbZNttmdg8id3zVNox95Y26L1LKVT00pOXoh4ma')
 
 // UNION DE MONGODB CON LA APLICACION
 const connectionParams = {
@@ -62,6 +67,7 @@ app.use((err, req, res, next) => {
     console.error(err);
     res.status(status).send(message);
 });
+app.use(cors({origin: 'http://localhost:3000'}));
 
 
 // SERVIDOR ESCUCHANDO EN 
