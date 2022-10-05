@@ -14,4 +14,4 @@ const reservationSchema = mongoose.Schema({
     //price: Number
 }, { versionKey: false });
 
-module.exports = mongoose.model('Reservation', reservationSchema);
+module.exports = mongoose.model('reservation', reservationSchema);
