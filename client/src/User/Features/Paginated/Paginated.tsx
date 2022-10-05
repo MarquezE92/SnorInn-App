@@ -12,8 +12,8 @@ const Paginated = ({roomsPerPage, rooms, paginated}:Props)=> {
        return (
         <div className={styles.pageNumbers}>
      {
-      pageNumbers?.map(number=>(
-        <button onClick={()=>paginated(number)} key={number} className={styles.numbers}>{number}</button>
+      pageNumbers?.map((number,index)=>(
+        <button onClick={()=>paginated(number)} key={index} className={styles.numbers}>{number}</button>
         ))
       }
         </div>

@@ -37,7 +37,7 @@ const Home =()=>{
         if(!select.place || !select.n_beds || !select.type)
         return alert("Select ALL 3 (place, number of beds and category) to search for a room.");
         dispatch(getRoomsByAllQuery(select))
-        setTimeout(()=>{navigate('/rooms', {replace:true})}, 1000);
+        setTimeout(()=>{navigate('/rooms', {replace:true})}, 2000);
     };
 
 
@@ -47,8 +47,8 @@ const Home =()=>{
             <div className={style.card}>
                 <form onSubmit={handleSubmit}>
                   
-                    <select name="place" onChange={findBy}>
-                        <option disabled selected >PLACE</option>
+                    <select name="place" onChange={findBy}  defaultValue="place">
+                        <option disabled value='place'>PLACE</option>
                         {
                             places?.map((place:string, i:number)=> (
                         <option key={i} value={place}>{place}</option>
@@ -56,16 +56,16 @@ const Home =()=>{
                         }
                     </select>
                   
-                    <select name="n_beds" onChange={findBy}>
-                        <option disabled selected>N° BEDS</option>
+                    <select name="n_beds" onChange={findBy} defaultValue="n_beds">
+                        <option value= 'n_beds'disabled >N° BEDS</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
                     </select>
                     
-                    <select name="type" onChange={findBy}>
-                        <option disabled selected>CATEGORY</option>
+                    <select name="type" onChange={findBy} defaultValue="category" >
+                        <option value='category' disabled >CATEGORY</option>
                         <option value="Basic">Basic</option>
                         <option value="Standard">Standard</option>
                         <option value="Premium">Premium</option>

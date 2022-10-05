@@ -24,14 +24,20 @@ const currentRooms = rooms.slice(firstRoom, lastRoom);
 function paginated(pageNumber:number) {
   setCurrentPage(pageNumber)
 };
+
+
+
 //------------------------------------------------------------------------------------------
 
+console.log(rooms.length)
+
 useEffect(() => {
-   setTimeout(() => {
-    if(currentRooms.length<=0){
+  
+    if(rooms.length < 1){
       dispatch(getRoomsByPage())
+      console.log("hola estoy roto")
     }
-   },1000);
+   ;
 
    return ()=>{
     dispatch(emptyRooms())
@@ -42,7 +48,8 @@ useEffect(() => {
   return (
     <div className={styles.pageContainer}>
       
-      <SortBy />
+      <SortBy 
+      />
     
       <Paginated
       roomsPerPage={roomsPerPage}
@@ -65,6 +72,7 @@ useEffect(() => {
                 rating={el.rating}
                 n_beds={el.n_beds}
                 price={el.price}
+                key={el._id}
               />
             </>
           );
