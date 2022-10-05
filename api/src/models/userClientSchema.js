@@ -29,7 +29,7 @@ const userClientSchema = mongoose.Schema({
     // reservationId: [{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Reservation'
-    // }],
+    // }]
     favorites: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'romm'
