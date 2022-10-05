@@ -5,7 +5,8 @@
 
 .numbers {
 	margin-right: 3rem;
-	padding: 0.3rem 1rem;
+	height: 2.5rem;
+	width: 2.5rem;
 	border-radius: 2rem;
 	background-color: #ADDDD0;
 	border: 0.2rem solid transparent;
