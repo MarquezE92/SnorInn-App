@@ -19,7 +19,7 @@ export interface IRoom{
 
 interface IState{
     Rooms:IRoom[];
-    Room:IRoom
+    Room:IRoom,
 
 }
 
@@ -38,7 +38,7 @@ const initialState:IState={
         rating: 0,
         reviews: {},
         description: ''
-    }
+    },
 }
 
 export const roomSlice = createSlice({
@@ -46,6 +46,10 @@ export const roomSlice = createSlice({
     initialState,
     reducers:{
         setRooms :(state, action:PayloadAction<IRoom[]>)=>{
+            state.Rooms = action.payload
+        },
+
+        setEmptyRooms :(state, action:PayloadAction<IRoom[]>)=>{
             state.Rooms = action.payload
         },
 
@@ -82,6 +86,10 @@ export const roomSlice = createSlice({
         builder.addCase(getRoomsByPage.fulfilled,(state, action)=>{
             state.Rooms = action.payload
         });
+
+        builder.addCase(emptyRooms.fulfilled,(state,action)=>{
+            state.Rooms = action.payload
+        })
 
         builder.addCase(sortRoomsPrice.fulfilled,(state, action:any)=>{
             state.Rooms = action.payload === 'Cheaper' ?
@@ -155,7 +163,7 @@ export const roomSlice = createSlice({
     }
 })
 
-export const {setRooms, setDetailRoom, addCreatedRoom, sortRoomsByPrice, sortRoomsByRating ,setRoomsByAllQuery} = roomSlice.actions
+export const {setRooms, setEmptyRooms, setDetailRoom, addCreatedRoom, sortRoomsByPrice, sortRoomsByRating, setRoomsByAllQuery} = roomSlice.actions
 export default roomSlice.reducer
 
 
@@ -176,6 +184,7 @@ export const getRoomsByPage = createAsyncThunk<IRoom[]>('rooms/getRoomsByPage', 
     }
 })
 
+export const emptyRooms =createAsyncThunk<IRoom[]>('rooms/emptyRooms', async ()=>[])
 
 export const getRoomsByPlace = createAsyncThunk<IRoom[],Partial<Query>>('rooms/getRoomsByPlace', async (value)=>{
 

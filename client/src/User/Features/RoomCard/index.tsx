@@ -1,7 +1,7 @@
 import styles from "./index.module.css";
 import SortBy from "../SortBy";
 import { useEffect, useState } from "react";
-import { getRoomsByPage } from "../../../Redux/slice/rooms";
+import { getRoomsByPage, emptyRooms } from "../../../Redux/slice/rooms";
 import { useAppDispatch } from "../../../Redux/Store/hooks";
 import { useAppSelector } from "../../../Redux/Store/hooks";
 import { RootState } from "../../../Redux/Store/store";
@@ -26,18 +26,18 @@ function paginated(pageNumber:number) {
 };
 //------------------------------------------------------------------------------------------
 
-
-
 useEffect(() => {
-    if (rooms.length < 1) {
-      dispatch(getRoomsByPage())}
-  },[rooms])
-   
-  useEffect(() => {
-    return () => {
-      dispatch(getRoomsByPage());
+   setTimeout(() => {
+    if(currentRooms.length<=0){
+      dispatch(getRoomsByPage())
     }
-}, [rooms]);
+   },1000);
+
+   return ()=>{
+    dispatch(emptyRooms())
+   }
+  },[])
+   
 
   return (
     <div className={styles.pageContainer}>
@@ -51,7 +51,10 @@ useEffect(() => {
       />
 
       <div className={styles.mainDiv}>
-        {currentRooms?.map((el) => {
+ 
+       { Object.keys(currentRooms).length ?
+
+       currentRooms?.map((el) => {
           return (
             <>
               <Card
@@ -65,7 +68,13 @@ useEffect(() => {
               />
             </>
           );
-        })}
+        }):
+          <div className={styles.spinner}>
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+        }
       </div>
     </div>
   );
