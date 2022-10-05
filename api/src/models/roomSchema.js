@@ -19,7 +19,7 @@ const roomSchema = mongoose.Schema({
     }],
     userAdminId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserAdmin'
+        ref: 'userAdmin'
     },
 
 }, {versionKey: false})

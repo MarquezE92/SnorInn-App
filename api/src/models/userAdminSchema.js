@@ -21,4 +21,4 @@ userAdminSchema.methods.validatePassword = function (password) {
     return bcrypt.compareSync(password, this.local.password);
 }
 
-module.exports = mongoose.model('UserAdmin', userAdminSchema);
+module.exports = mongoose.model('userAdmin', userAdminSchema);

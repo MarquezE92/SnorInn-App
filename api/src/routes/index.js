@@ -16,7 +16,9 @@ const { sortByRating } = require('../controllers/orderByRating')
 const { deleteRoom } = require('../controllers/deleteById');
 const { roomSchema } = require('../db');
 const { putRoom } = require('../controllers/putRoomById');
-const { addResrevation } = require('../controllers/postReservation')
+const { addResrevation } = require('../controllers/postReservation');
+const { getRoomsByUserAdmin } = require('../controllers/getRoomByAdminId');
+
 
 //CONDIFURAR LAS RUTAS
 
@@ -181,7 +183,18 @@ router.post('/reservation', async (req, res) => {
     } catch (error) {
         return res.status(404).send({ error: error.message})
     }
-})
+});
+
+router.get('/roomsByAdminId', async (req, res) => {
+    //const roomsByAdminId = req.params
+    
+    try {
+        const findRoomsByAdminId = await getRoomsByUserAdmin()
+        return res.status(200).send(findRoomsByAdminId)
+    } catch (error) {
+        return res.status(404).send({ error: error.message})
+    }
+});
 
 
 
