@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const { roomSchema, UserAdmin } = require('../db');
+const { UserAdmin } = require('../db');
 
-const getRoomsByUserAdmin = async () => {
-    const foundRoomByAminId = await roomSchema.find({}).populate('userAdmin', {_id: 1})
+const getRoomsByUserAdmin = async (id) => {
+    const foundRoomByAminId = await UserAdmin.findById(id).populate('rooms')
     return foundRoomByAminId
 };
 
