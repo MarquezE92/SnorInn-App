@@ -172,7 +172,7 @@ router.post('/dataPeyment', async (req, res) => {
             //cancel_url: 'http://localhost:3002/badResponse'
         });
         console.log(paymentData)
-        return res.status(200).send({message: 'Succesfull payment' })
+        return res.status(200).send(paymentData)
         
 
     } catch (error) {
@@ -191,11 +191,11 @@ router.post('/reservation', async (req, res) => {
     }
 });
 
-router.get('/roomsByAdminId', async (req, res) => {
-    //const roomsByAdminId = req.params
+router.get('/roomsByAdminId/:id', async (req, res) => {
+    const {id} = req.params
     
     try {
-        const findRoomsByAdminId = await getRoomsByUserAdmin()
+        const findRoomsByAdminId = await getRoomsByUserAdmin(id)
         return res.status(200).send(findRoomsByAdminId)
     } catch (error) {
         return res.status(404).send({ error: error.message})
