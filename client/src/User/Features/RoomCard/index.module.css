@@ -43,6 +43,10 @@
    
 /*---------------------------------------------------------*/
 
+.principalContainer {
+	height: 100vh;
+}
+
 .pageContainer {
 	margin-top: -1.2rem;
 	display: flex;

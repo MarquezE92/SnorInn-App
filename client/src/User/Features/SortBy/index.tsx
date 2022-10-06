@@ -22,7 +22,7 @@ const SortBy = ()=> {
 
     
 	return(
-        
+        <div className={styles.principalContainer}>
         <div className={styles.sortDiv}>
             <select onChange={sortByPrice} className={styles.select} defaultValue='Order by price'>
                 <option disabled value='Order by price' >Order by price</option>
@@ -40,6 +40,7 @@ const SortBy = ()=> {
             
             />
 		</div>
+        </div>
 		)
 	
 }
