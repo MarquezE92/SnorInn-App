@@ -39,7 +39,7 @@ const HomeSearchBar = () => {
         if(!select.place || !select.n_beds || !select.type)
         return alert("Select ALL 3 (place, number of beds and category) to search for a room.");
         dispatch(getRoomsByAllQuery(select))
-        setTimeout(()=>{navigate('/rooms', {replace:true})}, 2000);
+        setTimeout(()=>{navigate('/rooms', {replace:true})}, 1000);
     };
 
 
