@@ -5,19 +5,40 @@ import Login from "../LoginUser";
 
 const NavBar = () => {
   return (
-    <div className={styles.navbarDiv}>
-      <img src={require("../../Images/logoSnorInn.jpeg")} alt="SnorInn" id={styles.logoImg} />
+    <header className={styles.navbarDiv}>
+      <nav className={styles.mainDiv}>
+        <div className={styles.logoDiv}>
+          <img
+            src={require("../../Images/logoSnorInn.jpeg")}
+            alt="SnorInn"
+            id={styles.logoImg}
+          />
+        </div>
+        <div className={styles.groupDiv}>
+          <button className={styles.navbarButton}>
+            <NavLink to="/" className={styles.NavLink}>
+              Home{" "}
+            </NavLink>
+          </button>
 
-      <NavLink to="/" className={styles.NavLink}>
-        <button className={styles.navbarButton}>Home</button>
-      </NavLink>
+          <button className={styles.navbarButton}>
+            <NavLink to="/rooms" className={styles.NavLink}>
+              Rooms
+            </NavLink>{" "}
+          </button>
+          <button className={styles.navbarButton}>
+            <NavLink to="/signup" className={styles.NavLink}>
+              Register
+            </NavLink>{" "}
+          </button>
 
-      <NavLink to="/rooms" className={styles.NavLink}>
-        <button className={styles.navbarButton}>Rooms </button>
-      </NavLink>
-        <button className={styles.navbarButton}> <Login/></button>
-       
-    </div>
+          <button className={styles.navbarButton}>
+            {" "}
+            <Login />
+          </button>
+        </div>
+      </nav>
+    </header>
   );
 };
 

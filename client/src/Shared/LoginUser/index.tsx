@@ -44,8 +44,8 @@ interface Authentication {
       }
 
   return (
-    <div>
-      <a onClick={() => handleModal()}>Login</a>
+    <>
+      <span onClick={() => handleModal()}>Sign in</span>
       <Modal show={modal} onHide={() => handleModal()}>
         <div className={styles.mainDiv}>
           <h2 className={styles.title}>Login or Sign up</h2>
@@ -96,7 +96,7 @@ interface Authentication {
           </div>
         </div>
       </Modal>
-    </div>
+    </>
   );
 };
 

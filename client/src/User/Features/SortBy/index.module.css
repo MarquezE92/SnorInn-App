@@ -1,12 +1,15 @@
-
+.principalContainer {
+	display: flex;
+	justify-content: center;
+	padding: 30px 0px;
+}
 .sortDiv {
-	margin-top: 1rem;
+	margin: 0;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	height: 4.5rem;
-	padding: 4rem 0;
-
+	height: 5.5rem;
+	width: 70rem;
 	}
 
 .select {
@@ -21,9 +24,14 @@
 	color: #494a58;
 	border-radius: 1rem 1rem 0 0;
 	cursor: pointer;
+	font-size: 14px;
 }
 
 .select * {
 	font-size: 1rem;
 	font-weight: 700;
+}
+.select option {
+	font-size: 14px;
+	text-align: left;
 }
