@@ -23,6 +23,7 @@ const { roomSchema } = require('../db');
 const { putRoom } = require('../controllers/putRoomById');
 const { addResrevation } = require('../controllers/postReservation');
 const { getRoomsByUserAdmin } = require('../controllers/getRoomByAdminId');
+const { getFavoritesByUserClient } = require('../controllers/getFavoritesByUserClient')
 
 
 //CONDIFURAR LAS RUTAS
@@ -66,14 +67,13 @@ router.get('/rooms/:place', async (req, res) => { // esta va atener el filtro de
 
 router.get('/find', async (req, res) => {
     const name = req.query.name
-    const page = parseInt(req.query.page) || 1
     try {
-        const findOne = await getName(name, page)
+        const findOne = await getName(name)
         return res.send(findOne)
     } catch (error) {
         return res.status(404).send({ error: error.message })
     }
-})
+});
 
 
 router.post('/rooms', async (req, res) => {
@@ -163,7 +163,7 @@ router.post('/dataPeyment', async (req, res) => {
     try {
         const paymentData = await stripe.paymentIntents.create({
             amount,
-            currency: 'USD',
+            currency: 'ARS',
             //description: "HAbitacion en hotel Luxury",
             payment_method: id,
             receipt_email: email,
@@ -200,6 +200,19 @@ router.get('/roomsByAdminId/:id', async (req, res) => {
     } catch (error) {
         return res.status(404).send({ error: error.message})
     }
+});
+///////////////////////////////////// GET DashBorad userClient  ///////////////////////////////
+
+router.get('roomFavoritesByClientId/:id', async (req, res) =>  {
+    const {id} = req.params
+
+    try {
+        const findRommsByFavorites = await getFavoritesByUserClient(id)
+        return res.status(200).send(findRommsByFavorites)
+    } catch (error) {
+        return res.status(404).send({ error: error.message })
+    }
+    
 });
 
 ///////////////////////////////////// RUTAS CONFIRMACIÓN VIA MAIL  ///////////////////////////////
