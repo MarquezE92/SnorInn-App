@@ -154,14 +154,15 @@ router.put("/rooms/:id", async (req, res) => {
 // STRIPE KEY PRIVATE
 const stripe = new Stripe('sk_test_51LpGDXJjFvmrQ5VMHJn0DT1tfOuKTeIz4fwyW0qd5e1deE4HC3Xkt07y9defbZNttmdg8id3zVNox95Y26L1LKVT00pOXoh4ma')
 router.post('/dataPeyment', async (req, res) => {
-    const { id, amount } = req.body
+    const { id, amount, email } = req.body
     try {
         const paymentData = await stripe.paymentIntents.create({
             amount,
             currency: 'USD',
             //description: "HAbitacion en hotel Luxury",
             payment_method: id,
-            confirm: true,
+            receipt_email: email,
+            confirm: true
             //succsess_url: 'http://localhost:3002/responsePayment',
             //cancel_url: 'http://localhost:3002/badResponse'
         });
@@ -175,7 +176,7 @@ router.post('/dataPeyment', async (req, res) => {
 });
 
 router.post('/reservation', async (req, res) => {
-    const { userId, roomId, check_in, check_out } = req.body
+    const { userId, roomId, check_in, check_out, totalPrice } = req.body
     try {
         const postReservation = await addResrevation(req.body)
         return res.status(200).send(postReservation)

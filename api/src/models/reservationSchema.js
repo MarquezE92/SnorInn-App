@@ -11,7 +11,7 @@ const reservationSchema = mongoose.Schema({
     },
     check_in: Date,
     check_out: Date,
-    //price: Number
+    totalPrice: Number
 }, { versionKey: false });
 
 module.exports = mongoose.model('reservation', reservationSchema);
