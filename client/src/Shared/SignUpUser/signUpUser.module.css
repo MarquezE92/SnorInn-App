@@ -1,9 +1,10 @@
 .principalContainer {
-    height: 95vh;
+    height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 1rem 0;
     background: linear-gradient(90deg, rgba(78,143,124,1) 0%, rgba(173,221,208,1) 48%, rgba(190,222,222,1) 100%);
 }
 .mainDiv {
