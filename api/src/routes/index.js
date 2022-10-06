@@ -1,3 +1,8 @@
+const UserClient = require('../models/userClientSchema');
+const { v4: uuidv4 } = require('uuid');
+const {getToken, getTokenData} = require('../config/jwt.config');
+const {getTemplate, sendEmail} = require ('../config/mail.config');
+
 const { Router } = require('express');
 const router = Router();
 const axios = require('axios');
@@ -197,6 +202,101 @@ router.get('/roomsByAdminId', async (req, res) => {
     }
 });
 
+///////////////////////////////////// RUTAS CONFIRMACIÓN VIA MAIL  ///////////////////////////////
+
+router.post('/login', async(req, res)=>{
+    try{
+    //obtengo nombre e email del usuario
+        const {email} = req.body;
+    //verificar que el usuario exista
+        const user = await UserClient.findOne({email}) || null;
+        if(user === null) {
+            return res.status(401).send('You Need to be registered to log in')
+        };
+        if(user.status !=='Active') {
+            return res.status(401).send('Pending Account. Please Verify Your Email!');
+        };
+        res.json(user);
+
+    } catch(error){
+        console.log(error)
+        res.status(500).send('Login failed')
+    }
+
+})
+
+//ruta post Email
+router.post('/signup', async (req, res) => {
+    try {
+        //obtengo nombre e email del usuario
+        const {email, password} = req.body;
+        //verificar que el usuario aún no exista
+        let user = await UserClient.findOne({email}) || null;
+        if(user !== null) {
+            return res.send('You already have an account, cant register twice')
+        };
+        //Generar el código para verificar el email
+        const confirmationCode = uuidv4();
+        //crear nuevo usuario
+        user = new UserClient({email, password, confirmationCode});
+        //Generar un token
+        const token = getToken({email, password, confirmationCode});
+        //Obtener un template
+        const template = getTemplate(token);
+        //Enviar el email
+        await sendEmail(email, 'SnorInn confirmation mail', template);
+        //guardar el usuario
+        await user.save();
+
+        res.send('Account registered');
+    } catch (error) {
+        console.log(error);
+        return res.send('Oops, an error occurred')
+    }
+});
+
+//Ruta de confirmación de usuario
+router.get('/confirm/:token', async (req, res) => {
+    try {
+
+       // Obtener el token
+       const { token } = req.params;
+       
+       // Verificar la data
+       const data = await getTokenData(token);
+
+       if(data === null) {
+            return res.send('Error at getting data');
+       }
+
+       console.log(data);
+
+       const { email, confirmationCode } = data.data;
+
+       // Verificar existencia del usuario
+       const user = await UserClient.findOne({ email }) || null;
+
+       if(user === null) {
+            return res.send('This User does not exist');
+       }
+
+       // Verificar el código
+       if(confirmationCode !== user.confirmationCode) {
+            return res.redirect('/error.html');
+       }
+
+       // Actualizar usuario
+       user.status = 'Active';
+       await user.save();
+
+       // Redireccionar a la confirmación
+       return res.redirect('/confirm.html');
+        
+    } catch (error) {
+        console.log(error);
+        return res.send("User couldn't be confirmed");
+    }
+});
 
 
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
