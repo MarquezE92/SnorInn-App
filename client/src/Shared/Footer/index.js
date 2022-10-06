@@ -21,7 +21,7 @@ const Footer = () => {
         },
         {
             name: "Franco",
-            linkedin: "https://www.linkedin.com/in/estefan%C3%ADa-m%C3%A1rquez-137b45175/"
+            linkedin: "https://www.linkedin.com/in/franco-nahuel-moreno-770186236/"
         },
         {
             name: "Pablo",

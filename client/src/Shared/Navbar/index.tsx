@@ -28,7 +28,7 @@ const NavBar = () => {
           </button>
           <button className={styles.navbarButton}>
             <NavLink to="/signup" className={styles.NavLink}>
-              Register
+              Sign Up
             </NavLink>{" "}
           </button>
 
