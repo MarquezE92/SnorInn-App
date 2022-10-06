@@ -8,7 +8,7 @@ import AdminDashboard from "./Admin/Features/Dashboard";
 import Login from "./Shared/LoginUser";
 import SignUpUser from "./Shared/SignUpUser";
 import Stripe from "./Stripe";
-
+import Footer from './Shared/Footer'
 
 
 function App() {
@@ -26,6 +26,7 @@ function App() {
       <Route path= '/rooms/:id' element={<RoomDetail/>}/>
       <Route path="/stripe" element={<Stripe/>}/>
     </Routes>
+    <Footer/>
     </>
   );
 }
