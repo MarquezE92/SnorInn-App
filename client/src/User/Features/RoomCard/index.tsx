@@ -1,7 +1,7 @@
 import styles from "./index.module.css";
 import SortBy from "../SortBy";
 import { useEffect, useState } from "react";
-import { getRoomsByPage, emptyRooms } from "../../../Redux/slice/rooms";
+import { getRoomsByPage, setEmptyRooms } from "../../../Redux/slice/rooms";
 import { useAppDispatch } from "../../../Redux/Store/hooks";
 import { useAppSelector } from "../../../Redux/Store/hooks";
 import { RootState } from "../../../Redux/Store/store";
@@ -10,7 +10,8 @@ import Paginated from "../Paginated/Paginated";
 
 const RoomCard = () => {
   const dispatch = useAppDispatch();
-  const rooms = useAppSelector((state: RootState) => state.rooms.Rooms);
+  const rooms = useAppSelector((state: RootState) => state.rooms.RoomsQuery.length? state.rooms.RoomsQuery : state.rooms.Rooms);
+  const queryRooms = useAppSelector((state: RootState) => state.rooms.RoomsQuery);
 
 
 //-----------------------------ESTADOS LOCALES/FUNCIONES PARA EL PAGINADO----------------------
@@ -29,20 +30,17 @@ function paginated(pageNumber:number) {
 
 //------------------------------------------------------------------------------------------
 
-console.log(rooms.length)
 
 useEffect(() => {
-  
-    if(rooms.length < 1){
-      dispatch(getRoomsByPage())
-      console.log("hola estoy roto")
-    }
-   ;
+  if(queryRooms.length<1){
+    dispatch(getRoomsByPage())
+  }
+  return ()=>{
+    dispatch(setEmptyRooms())
+  }
+},[])
 
-   return ()=>{
-    dispatch(emptyRooms())
-   }
-  },[])
+
    
 
   return (

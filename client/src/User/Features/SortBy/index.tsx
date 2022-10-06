@@ -3,7 +3,7 @@ import styles from './index.module.css';
 import SearchBar from '../../../Shared/Navbar/searchBar';
 
 import {useAppDispatch} from '../../../Redux/Store/hooks'
-import { sortRoomsPrice, sortRoomsRating} from '../../../Redux/slice/rooms'
+import { sortRoomsByPrice, sortRoomsByRating} from '../../../Redux/slice/rooms'
 
 const SortBy = ()=> {
 
@@ -12,12 +12,12 @@ const SortBy = ()=> {
     
     function sortByPrice(e:ChangeEvent<HTMLSelectElement>){
         e.preventDefault()
-        dispatch(sortRoomsPrice(e.target.value))
+        dispatch(sortRoomsByPrice(e.target.value))
     }
     
     function sortByRating(e:ChangeEvent<HTMLSelectElement>){
         e.preventDefault()
-        dispatch(sortRoomsRating(e.target.value))
+        dispatch(sortRoomsByRating(e.target.value))
     }
 
     

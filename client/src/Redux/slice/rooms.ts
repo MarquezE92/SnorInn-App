@@ -19,12 +19,14 @@ export interface IRoom{
 
 interface IState{
     Rooms:IRoom[];
+    RoomsQuery:IRoom[];
     Room:IRoom,
 
 }
 
 const initialState:IState={
     Rooms:[],
+    RoomsQuery:[],
     Room:{
         _id: '',
         type: '',
@@ -49,20 +51,52 @@ export const roomSlice = createSlice({
             state.Rooms = action.payload
         },
 
-        setEmptyRooms :(state, action:PayloadAction<IRoom[]>)=>{
-            state.Rooms = action.payload
+        setEmptyRooms :(state)=>{
+            state.RoomsQuery = []
         },
 
-        sortRoomsByPrice :(state, action:PayloadAction<IRoom[]>)=>{
-            state.Rooms = action.payload 
+        sortRoomsByPrice :(state, action:PayloadAction<string>)=>{
+            state.Rooms = action.payload === 'Cheaper' ?
+            state.Rooms.sort((a:any , b:any )=> {
+                if (a.price === b.price) {
+                    return 0;
+                  }
+                  if (a.price > b.price) {
+                    return 1;
+                  }
+                  return -1;
+                }) :
+            state.Rooms.sort((a:any, b:any) => {
+                if (b.price === a.price) {
+                    return 0;
+                  }
+                  if (b.price < a.price) {
+                    return -1;
+                  }
+                  return 1;
+                }) 
         },
 
-        sortRoomsByRating :(state, action:PayloadAction<IRoom[]>)=>{
-            state.Rooms = action.payload
-        },
-
-        setRoomsByAllQuery :(state, action:PayloadAction<IRoom[]>)=>{
-            state.Rooms = action.payload
+        sortRoomsByRating :(state, action:PayloadAction<string>)=>{
+            state.Rooms = action.payload === 'More Popular' ?
+            state.Rooms.sort((a:any , b:any )=> {
+                if (a.rating === b.rating) {
+                    return 0;
+                  }
+                  if (a.rating < b.rating) {
+                    return 1;
+                  }
+                  return -1;
+                }) :
+            state.Rooms.sort((a:any, b:any) => {
+                if (b.rating === a.rating) {
+                    return 0;
+                  }
+                  if (b.rating > a.rating) {
+                    return -1;
+                  }
+                  return 1;
+                })
         },
 
         setDetailRoom :(state, action:PayloadAction<IRoom>)=>{
@@ -86,57 +120,9 @@ export const roomSlice = createSlice({
         builder.addCase(getRoomsByPage.fulfilled,(state, action)=>{
             state.Rooms = action.payload
         });
-
-        builder.addCase(emptyRooms.fulfilled,(state,action)=>{
-            state.Rooms = action.payload
-        })
-
-        builder.addCase(sortRoomsPrice.fulfilled,(state, action:any)=>{
-            state.Rooms = action.payload === 'Cheaper' ?
-            state.Rooms.sort((a:any , b:any )=> {
-                if (a.price === b.price) {
-                    return 0;
-                  }
-                  if (a.price > b.price) {
-                    return 1;
-                  }
-                  return -1;
-                }) :
-            state.Rooms.sort((a:any, b:any) => {
-                if (b.price === a.price) {
-                    return 0;
-                  }
-                  if (b.price < a.price) {
-                    return -1;
-                  }
-                  return 1;
-                })
-        });
-
-        builder.addCase(sortRoomsRating.fulfilled,(state, action:any)=>{
-            state.Rooms = action.payload === 'More Popular' ?
-            state.Rooms.sort((a:any , b:any )=> {
-                if (a.rating === b.rating) {
-                    return 0;
-                  }
-                  if (a.rating < b.rating) {
-                    return 1;
-                  }
-                  return -1;
-                }) :
-            state.Rooms.sort((a:any, b:any) => {
-                if (b.rating === a.rating) {
-                    return 0;
-                  }
-                  if (b.rating > a.rating) {
-                    return -1;
-                  }
-                  return 1;
-                })
-        });
         
         builder.addCase(getRoomsByAllQuery.fulfilled,(state, action)=>{
-            state.Rooms = action.payload
+            state.RoomsQuery = action.payload
         });
 
         builder.addCase(getRoomsByPlace.fulfilled,(state, action)=>{
@@ -163,7 +149,7 @@ export const roomSlice = createSlice({
     }
 })
 
-export const {setRooms, setEmptyRooms, setDetailRoom, addCreatedRoom, sortRoomsByPrice, sortRoomsByRating, setRoomsByAllQuery} = roomSlice.actions
+export const {setRooms, setEmptyRooms, setDetailRoom, addCreatedRoom, sortRoomsByPrice, sortRoomsByRating, /*setRoomsByAllQuery*/} = roomSlice.actions
 export default roomSlice.reducer
 
 
@@ -183,8 +169,6 @@ export const getRoomsByPage = createAsyncThunk<IRoom[]>('rooms/getRoomsByPage', 
         console.log(error)
     }
 })
-
-export const emptyRooms =createAsyncThunk<IRoom[]>('rooms/emptyRooms', async ()=>[])
 
 export const getRoomsByPlace = createAsyncThunk<IRoom[],Partial<Query>>('rooms/getRoomsByPlace', async (value)=>{
 
@@ -206,11 +190,6 @@ export const getRoomsByName = createAsyncThunk<IRoom[],any>('rooms/getRoomsByNam
     
 })
 
-export const sortRoomsPrice = createAsyncThunk<IRoom[],any>('rooms/sortRoomsByPrice', async (value)=> value)
-
-export const sortRoomsRating = createAsyncThunk<IRoom[],any>('rooms/sortRoomsRating', async (value)=> value)
-
-
 export const getRoomsByAllQuery = createAsyncThunk<IRoom[],Partial<Query>>('rooms/getRoomsByAllQuery', async (value)=>{
     
     //const url = `http://localhost:3002/rooms`
@@ -220,7 +199,6 @@ export const getRoomsByAllQuery = createAsyncThunk<IRoom[],Partial<Query>>('room
     }
     
 })
-
 
 export const getDetailRoom = createAsyncThunk<IRoom, any>('room/getDetailRoom', async (_id) => {
     
@@ -269,26 +247,4 @@ export const deleteRoom = createAsyncThunk<IRoom,any>('rooms/deleteRoom', async 
 
 
 
-    // export const getRoomsByN_beds = createAsyncThunk<IRoom[],Partial<Query>>('rooms/getRoomsByN_beds', async (value)=>{
-        
-    //     const url = `http://localhost:3002/rooms`
-    //     if(value.place){
-    //         const json = await axios.get(url+`?n_beds=${value.n_beds}`)
-            
-    //         console.log(json.data.docs)
-    //         return json.data.docs
-    //     }
-        
-    // })
-    
-    // export const getRoomsByType = createAsyncThunk<IRoom[],Partial<Query>>('rooms/getRoomsByType', async (value)=>{
-    
-    //     const url = `http://localhost:3002/rooms`
-    //     if(value.place){
-    //         const json = await axios.get(url+`?type=${value.type}`)
-                
-    //         console.log(json.data.docs)
-    //         return json.data.docs
-    //     }
-       
-    // })
+   
