@@ -3,13 +3,14 @@ import styles from "./signUpUser.module.css";
 import { useState } from "react";
 import { ChangeEvent } from "react";
 import { useAppDispatch } from "../../Redux/Store/hooks";
-import { signUpUser } from "../../Redux/slice/user";
+import { signUpUser } from "../../Redux/slice/authSlice";
 import Swal from "sweetalert2";
 
 const SignUpUser = () => {
   interface Login {
     email: string;
     password: string;
+    isAdmin: boolean;
   }
 
   const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ const SignUpUser = () => {
   const [input, setInput] = useState<Login>({
     email: "",
     password: "",
+    isAdmin: false,
   });
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,8 +44,7 @@ const SignUpUser = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch(signUpUser(input));
-    setInput({ email: "", password: "" });
-    Swal.fire("Good job!", "Your account was created succesfuly!", "success");
+    setInput({ email: "", password: "", isAdmin: false});
   };
 
   return (
