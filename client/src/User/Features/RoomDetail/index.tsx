@@ -2,23 +2,25 @@ import React from 'react';
 import styles from './index.module.css';
 import { useAppDispatch } from '../../../Redux/Store/hooks';
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import {useParams } from 'react-router-dom';
 import { getDetailRoom} from '../../../Redux/slice/rooms';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../Redux/Store/store';
 import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 
 const RoomDetail = ()=> {
 	const [modal, setModal] = useState(false);
 
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch()
 	const {id} = useParams(); 
 	const rooms = useSelector((state:RootState) => state.rooms.Room);
 
 
-	const handleAlert = () => {
-		alert("Room is already reserved")
+	const handlePay = () => {
+		navigate(`/rooms/reserve/${id}`, {replace:true})
 	}
 	const handleModal = () => {
 		setModal(!modal)
@@ -60,8 +62,8 @@ return (
 			<div className={styles.price}>
 			Only ${rooms.price}
 			</div>
-			<button className={styles.reserveBtn} onClick={() => handleAlert()}>
-			Already reserved
+			<button className={styles.reserveBtn} onClick={() => handlePay()}>
+			Reserve now
 			</button>
 		</div>
 	 </div>
