@@ -1,7 +1,7 @@
 import style from "./searchBar.module.css";
 import { useAppDispatch } from "../../Redux/Store/hooks";
 import { ChangeEvent, useState, useEffect } from "react";
-import { getRoomsByName } from "../../Redux/slice/rooms";
+import { getRoomsByName, getRoomsByPage, setEmptyRooms } from "../../Redux/slice/rooms";
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
@@ -11,17 +11,25 @@ const SearchBar = () => {
     setSearchValue(event.target.value);
   };
 
+  const handleSubmit=(e:any)=>{
+    e.preventDefault()
+    dispatch(getRoomsByName(searchValue))
+  }
 
-  useEffect(
-    () => {
-      if(searchValue.length > 0)
-      dispatch(getRoomsByName(searchValue))
-    }, [searchValue]
-  )
+  useEffect(()=>{
+    // if(searchValue==''){
+    //   dispatch(getRoomsByPage())
+    // }
+    // dispatch(getRoomsByName(searchValue))
+    return()=>{
+      dispatch(setEmptyRooms())
+    }
+  },[searchValue])
 
+ 
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           value={searchValue}

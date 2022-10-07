@@ -102,6 +102,11 @@ router.get('/room/:id', async (req, res) => {
 
 router.get('/allRooms', async (req, res) => {
     try {
+        const {name} = req.query
+        if(name){
+            const one = await roomSchema.find({name: {$regex: name, $options: 'i'}})
+            return res.status(200).send(one)
+        }
         const allRooms = await getAllRooms()
         res.status(200).send(allRooms)
     } catch (error) {
