@@ -45,7 +45,7 @@ const Login = () => {
       <span onClick={() => handleModal()}>Sign in</span>
       <Modal show={modal} onHide={() => handleModal()}>
         <div className={styles.mainDiv}>
-          <h2 className={styles.title}>Login or Sign up</h2>
+          <h2 className={styles.title}>Sign in or Sign up</h2>
           <form className={styles.form}>
             <label className={styles.subtitle} htmlFor="email">
               Email
