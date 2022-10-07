@@ -47,7 +47,7 @@ const CheckutForm = () => {
             <h3>{rooms.place}</h3>
             </section>
             <div className={styles.price}>Price per night: <br/>
-            ${rooms.price} usd</div>
+            ${rooms.price} ARS</div>
             </div>
             </div> 
             : <div>Loading...</div>}

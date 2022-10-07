@@ -63,7 +63,7 @@ return (
 			Only ${rooms.price}
 			</div>
 			<button className={styles.reserveBtn} onClick={() => handlePay()}>
-			Already reserved
+			Reserve now
 			</button>
 		</div>
 	 </div>

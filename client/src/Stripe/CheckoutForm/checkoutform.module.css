@@ -63,6 +63,7 @@
     height: 50px;
     border: 1px solid rgba(0, 0, 0, 0.476);
     color: rgba(0, 0, 0, 0.629);
+    border-radius: 10px;
 }
 
 .button:hover {
