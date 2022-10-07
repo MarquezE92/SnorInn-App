@@ -23,7 +23,8 @@ const { roomSchema } = require('../db');
 const { putRoom } = require('../controllers/putRoomById');
 const { addResrevation } = require('../controllers/postReservation');
 const { getRoomsByUserAdmin } = require('../controllers/getRoomByAdminId');
-const { getFavoritesByUserClient } = require('../controllers/getFavoritesByUserClient')
+const { addFavorites } = require('../controllers/postFavorites');
+const { getUserClient } = require('../controllers/getUserClient');
 
 
 //CONDIFURAR LAS RUTAS
@@ -202,18 +203,30 @@ router.get('/roomsByAdminId/:id', async (req, res) => {
     }
 });
 ///////////////////////////////////// GET DashBorad userClient  ///////////////////////////////
-
-router.get('roomFavoritesByClientId/:id', async (req, res) =>  {
-    const {id} = req.params
-
+router.get('/userClient/:id', async (req, res) => {
+    const {id} = req.params;
     try {
-        const findRommsByFavorites = await getFavoritesByUserClient(id)
-        return res.status(200).send(findRommsByFavorites)
+        const dataClient = await getUserClient(id)
+        return res.status(200).json(dataClient)
     } catch (error) {
-        return res.status(404).send({ error: error.message })
+        return res.status(404).send({ error: error.message})
     }
-    
+})
+
+
+///////////////////////////////////// POST DashBorad userClient  ///////////////////////////////
+
+router.post('/favorites', async (req, res) => {
+    const { roomFavorites, idClient } = req.body
+    try {
+        const postFavorites = await addFavorites(roomFavorites, idClient)
+        return res.status(200).send(postFavorites)
+
+    } catch (error) {
+        return res.status(404).send({ error: error.message})
+    }
 });
+
 
 ///////////////////////////////////// RUTAS CONFIRMACIÓN VIA MAIL  ///////////////////////////////
 
