@@ -19,7 +19,31 @@ const getTokenData = (token) => {
     return data;
 }
 
+const getTokenR = (email) => {
+    return jwt.sign({
+        data: email
+    }, 'SECRET', { expiresIn: '1h' });
+};
+
+const getTokenRData = (token) => {
+    let data = null;
+    jwt.verify(token, 'SECRET', (err, decoded) => {
+        if(err) {
+            console.log('Error at getting data from token');
+        } else {
+            data = decoded;
+        }
+    });
+
+    return data;
+};
+
+
+
 module.exports = {
     getToken,
-    getTokenData
+    getTokenData,
+    getTokenR,
+    getTokenRData,
+   
 }

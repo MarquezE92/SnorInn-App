@@ -1,7 +1,7 @@
 const UserClient = require('../models/userClientSchema');
 const { v4: uuidv4 } = require('uuid');
-const {getToken, getTokenData} = require('../config/jwt.config');
-const {getTemplate, sendEmail} = require ('../config/mail.config');
+const {getToken, getTokenR, getTokenRData, getTokenData} = require('../config/jwt.config');
+const {getTemplate, getTemplateR,  getTemplatePass, sendEmail, sendRecoverEmail} = require ('../config/mail.config');
 
 const { Router } = require('express');
 const router = Router();
@@ -230,10 +230,11 @@ router.post('/favorites', async (req, res) => {
 
 ///////////////////////////////////// RUTAS CONFIRMACIÓN VIA MAIL  ///////////////////////////////
 
+//login con verificación de cuenta activada por mail 
 router.post('/login', async(req, res)=>{
     try{
     //obtengo nombre e email del usuario
-        const {email} = req.body;
+        const {email, password} = req.body;
     //verificar que el usuario exista
         const user = await UserClient.findOne({email}) || null;
         if(user === null) {
@@ -242,7 +243,12 @@ router.post('/login', async(req, res)=>{
         if(user.status !=='Active') {
             return res.status(401).send('Pending Account. Please Verify Your Email!');
         };
+        user.isCorrectPassword(password, (err, result)=>{
+            if(!result) return res.status(401).send('Invalid password');
+        }) 
+        
         res.json(user);
+                
 
     } catch(error){
         console.log(error)
@@ -251,7 +257,7 @@ router.post('/login', async(req, res)=>{
 
 })
 
-//ruta post Email
+//ruta post Email (registro con mail)
 router.post('/signup', async (req, res) => {
     try {
         //obtengo nombre e email del usuario
@@ -263,6 +269,7 @@ router.post('/signup', async (req, res) => {
         };
         //Generar el código para verificar el email
         const confirmationCode = uuidv4();
+
         //crear nuevo usuario
         user = new UserClient({email, password, confirmationCode});
         //Generar un token
@@ -281,7 +288,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-//Ruta de confirmación de usuario
+//Ruta de confirmación de usuario 
 router.get('/confirm/:token', async (req, res) => {
     try {
 
@@ -316,7 +323,7 @@ router.get('/confirm/:token', async (req, res) => {
        await user.save();
 
        // Redireccionar a la confirmación
-       return res.redirect('/confirm.html');
+       return res.redirect('http://localhost:3000/confirmedaccount');
         
     } catch (error) {
         console.log(error);
@@ -324,7 +331,86 @@ router.get('/confirm/:token', async (req, res) => {
     }
 });
 
+///////////////////////////////////// RUTAS DE RECUPERO DE CONTRASEÑA VIA MAIL  ////////////////////////
 
+//endpoint para 'Me olvidé la contraseña'
+router.post('/forgotPassword', async (req, res)=> {
+
+    try {//obtengo dirección de mail a donde enviar el mensaje de recupero
+        const {email} = req.body;
+    
+        // Verificar existencia del usuario
+           const user = await UserClient.findOne({ email }) || null;
+    
+           if(user === null) {
+                return res.status(404).send('This User does not exist');
+           }
+        //Tomar el anterior password para usarlo como Secreto
+            const SECRET = user.password;
+
+        // Generar un token, válido por una hora, para tokenizar la info del usuario
+            const token = getTokenR(email);
+
+        //Obtener un template
+            const template = getTemplateR(token);
+
+        //envío mail
+            await sendRecoverEmail(email, 'SnorInn recover password', template);
+
+        res.send('Password recovery mail sent')
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Delivery of recovering password failed')
+    }
+})
+
+//ruta cambio de contraseña
+router.get('/reset/:token', async (req, res) => {
+    try {
+
+       // Obtener el token
+       const { token} = req.params;
+       
+       // Verificar la data
+       const data = await getTokenRData(token);
+
+       if(data === null) {
+            return res.send('Error at getting data');
+       }
+
+       console.log(data);
+
+       const email = data.data;
+
+       console.log(email)
+
+       // Verificar existencia del usuario
+       const user = await UserClient.findOne({ email }) || null;
+
+       if(user === null) {
+            return res.send('This User does not exist');
+       }
+
+       //Generar nueva password
+        const newPass = uuidv4();
+
+       // Actualizar usuario
+       user.password = newPass;
+       await user.save();
+
+       //Obtener un template
+        const template = getTemplatePass(newPass);
+
+       // Envío de mail con los datos de la nueva password
+       await sendNewPasswordEmail(email, 'SnorInn new password', template);
+
+       return res.redirect('http://localhost:3000');
+        
+    } catch (error) {
+        console.log(error);
+        return res.send("We couldn't reset your password");
+    }
+});
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
 
 module.exports = router;
