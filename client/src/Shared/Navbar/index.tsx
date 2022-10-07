@@ -29,6 +29,11 @@ const NavBar = () => {
           />
         </div>
         <div className={styles.groupDiv}>
+        <button className={styles.navbarButtonAdmin}>
+            <NavLink to="/signup/admin" className={styles.NavLink}>
+              Work with us
+            </NavLink>{" "}
+          </button>
           <button className={styles.navbarButton}>
             <NavLink to="/" className={styles.NavLink}>
               Home{" "}

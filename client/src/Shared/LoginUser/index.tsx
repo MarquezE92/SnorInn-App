@@ -6,7 +6,6 @@ import { ChangeEvent, FormEvent } from "react";
 import { signInUser } from "../../Redux/slice/user";
 import { useAppDispatch } from "../../Redux/Store/hooks";
 
-
 const Login = () => {
   
 
@@ -19,13 +18,11 @@ const Login = () => {
     password: "",
   });
 
-
-
   const handleModal = () => {
     setModal(!modal);
   };
 
-  const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput({
       ...input,
       [e.target.name]: e.target.value
@@ -42,7 +39,7 @@ const Login = () => {
       <span onClick={() => handleModal()}>Sign in</span>
       <Modal show={modal} onHide={() => handleModal()}>
         <div className={styles.mainDiv}>
-          <h2 className={styles.title}>Login or Sign up</h2>
+          <h2 className={styles.title}>Sign in or Sign up</h2>
           <form className={styles.form}>
             <label className={styles.subtitle} htmlFor="email">
               Email
@@ -73,19 +70,19 @@ const Login = () => {
               <NavLink to="/admin" onClick={handleSubmit}>Continue with email</NavLink>
             </div>
             <div>
-            Did you forget your password?
-            <Link to="/restorepassword" onClick={() => handleModal()}>
-              Click here
-            </Link>
-          </div>
+              Did you forget your password?
+              <Link to="/restorepassword" onClick={() => handleModal()}>
+                Click here
+              </Link>
+            </div>
           </form>
           <h2 className={styles.title}>or use one of these options</h2>
           <div className={styles.imageContainer}>
             <button className={styles.cardImg}>
-              <img src={require("./images/facebook.png")} alt="description"/>
+              <img src={require("./images/facebook.png")} alt="description" />
             </button>
             <button className={styles.cardImg}>
-              <img src={require("./images/gmail.png")} alt="description"/>
+              <img src={require("./images/gmail.png")} alt="description" />
             </button>
           </div>
           <div>

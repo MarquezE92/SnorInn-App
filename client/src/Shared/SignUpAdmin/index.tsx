@@ -1,22 +1,28 @@
 import React, { FormEvent } from "react";
-import styles from "./signUpUser.module.css";
+import styles from "./signUpAdmin.module.css";
 import { useState } from "react";
 import { ChangeEvent } from "react";
 import { useAppDispatch } from "../../Redux/Store/hooks";
-import { signUpUser } from "../../Redux/slice/user";
+import { signUpUser } from "../../Redux/slice/authSlice";
 import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { BsFillArrowDownCircleFill } from "react-icons/bs";
 
-const SignUpUser = () => {
-  interface Login {
+
+const SignUpAdmin = () => {
+  interface SignUp {
     email: string;
     password: string;
+    isAdmin: boolean;
   }
 
   const dispatch = useAppDispatch();
+  const MySwal = withReactContent(Swal);
 
-  const [input, setInput] = useState<Login>({
+  const [input, setInput] = useState<SignUp>({
     email: "",
     password: "",
+    isAdmin: true,
   });
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,14 +48,14 @@ const SignUpUser = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch(signUpUser(input));
-    setInput({ email: "", password: "" });
+    setInput({ email: "", password: "", isAdmin: true });
     Swal.fire("Good job!", "Your account was created succesfuly!", "success");
   };
 
   return (
     <div className={styles.principalContainer}>
       <div className={styles.mainDiv}>
-        <h2 className={styles.title}>Welcome to SnorInn</h2>
+        <h2 className={styles.title}>Do you have a room to rent? work with us <BsFillArrowDownCircleFill/></h2>
         <form className={styles.form} onSubmit={handleSubmit}>
           <label className={styles.subtitle} htmlFor="email">
             Email
@@ -85,4 +91,4 @@ const SignUpUser = () => {
   );
 };
 
-export default SignUpUser;
+export default SignUpAdmin;
