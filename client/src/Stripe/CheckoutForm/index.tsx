@@ -22,7 +22,7 @@ const CheckutForm = () => {
       const { id } = paymentMethod;
       const { data } = await axios.post("http://localhost:3002/dataPeyment", {
         id,
-        amount: rooms.price,
+        amount: Number(rooms.price + "00"),
       });
       console.log(data);
       alert("successful payment");
