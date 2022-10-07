@@ -67,7 +67,7 @@ let transporter = nodemailer.createTransport({
             <h2>To reset your password, click the link below</h2>
             
             <a
-                href="http://localhost:3002/reset/${ token }"
+                href="http://localhost:3002/reset/${token}"
                 target="_blank"
             >Reset</a>
             <h2>And we will send you a mail with a new password</h2>
@@ -105,10 +105,26 @@ let transporter = nodemailer.createTransport({
 
             <h2>For security reasons, we recommend that you change it once you log in</h2>
             
-            <h3>Password: ${ newPass }</h3>
+            <h3>Password: ${newPass}</h3>
         </div>
       `;
-  }
+  };
+
+    const sendNewPasswordEmail = async (email, subject, html) => {
+    try {
+        
+        await transporter.sendMail({
+            from: `SnorInn <${ mail.user }>`, // sender address
+            to: email, // list of receivers
+            subject, // Subject line
+            text: "SnorInn recovering password service", // plain text body
+            html, // html body
+        });
+
+    } catch (error) {
+        console.log('Something is wrong with the email', error);
+    }
+  };
 
 
 
@@ -117,5 +133,6 @@ let transporter = nodemailer.createTransport({
     getTemplate,
     sendRecoverEmail,
     getTemplateR,
-
+    getTemplatePass,
+    sendNewPasswordEmail
   }

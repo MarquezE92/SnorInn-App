@@ -1,7 +1,7 @@
 const UserClient = require('../models/userClientSchema');
 const { v4: uuidv4 } = require('uuid');
 const {getToken, getTokenR, getTokenRData, getTokenData} = require('../config/jwt.config');
-const {getTemplate, getTemplateR,  getTemplatePass, sendEmail, sendRecoverEmail} = require ('../config/mail.config');
+const {getTemplate, getTemplateR,  getTemplatePass, sendEmail, sendRecoverEmail, sendNewPasswordEmail} = require ('../config/mail.config');
 
 const { Router } = require('express');
 const router = Router();
@@ -262,7 +262,7 @@ router.post('/login', async(req, res)=>{
 
 })
 
-//ruta post Email (registro con mail)
+//ruta registro con mail
 router.post('/signup', async (req, res) => {
     try {
         //obtengo nombre e email del usuario
@@ -270,7 +270,7 @@ router.post('/signup', async (req, res) => {
         //verificar que el usuario aún no exista
         let user = await UserClient.findOne({email}) || null;
         if(user !== null) {
-            return res.send('You already have an account, cant register twice')
+            return res.status(401).send('You already have an account, cant register twice')
         };
         //Generar el código para verificar el email
         const confirmationCode = uuidv4();
@@ -289,7 +289,7 @@ router.post('/signup', async (req, res) => {
         res.send(user);
     } catch (error) {
         console.log(error);
-        return res.send('Oops, an error occurred')
+        return res.status(500).send('Oops, an error occurred')
     }
 });
 
@@ -304,7 +304,7 @@ router.get('/confirm/:token', async (req, res) => {
        const data = await getTokenData(token);
 
        if(data === null) {
-            return res.send('Error at getting data');
+            return res.status(500).send('Error at getting data');
        }
 
        console.log(data);
@@ -315,12 +315,12 @@ router.get('/confirm/:token', async (req, res) => {
        const user = await UserClient.findOne({ email }) || null;
 
        if(user === null) {
-            return res.send('This User does not exist');
+            return res.status(404).send('This User does not exist');
        }
 
        // Verificar el código
        if(confirmationCode !== user.confirmationCode) {
-            return res.redirect('/error.html');
+            return res.status(500).send('Confirmation Code error');
        }
 
        // Actualizar usuario
@@ -350,9 +350,7 @@ router.post('/forgotPassword', async (req, res)=> {
            if(user === null) {
                 return res.status(404).send('This User does not exist');
            }
-        //Tomar el anterior password para usarlo como Secreto
-            const SECRET = user.password;
-
+        
         // Generar un token, válido por una hora, para tokenizar la info del usuario
             const token = getTokenR(email);
 
@@ -409,7 +407,7 @@ router.get('/reset/:token', async (req, res) => {
        // Envío de mail con los datos de la nueva password
        await sendNewPasswordEmail(email, 'SnorInn new password', template);
 
-       return res.redirect('http://localhost:3000');
+        res.send('Mail with new password sent')
         
     } catch (error) {
         console.log(error);
