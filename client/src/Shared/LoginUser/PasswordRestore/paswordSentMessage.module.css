@@ -1,13 +1,15 @@
 .mainDiv {
-    height: 100%;
+    height: 30vw;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .divContainer {
-    height: 300px;
+    border: 0.2px solid rgba(0, 0, 0, 0.498);
+    height: 10vw;
     width: 70%;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
