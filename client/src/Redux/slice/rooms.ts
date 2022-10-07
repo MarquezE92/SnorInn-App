@@ -102,6 +102,9 @@ export const roomSlice = createSlice({
         setDetailRoom :(state, action:PayloadAction<IRoom>)=>{
             state.Room = action.payload
         },
+        setNameRooms :(state, action:PayloadAction<string>)=>{
+            state.Rooms = state.Rooms.filter(el=>el.name.includes(action.payload))
+        },
 
         addCreatedRoom:(state, action:PayloadAction<IRoom>)=>{
             state.Rooms.push(action.payload)
@@ -130,7 +133,7 @@ export const roomSlice = createSlice({
         });
 
         builder.addCase(getRoomsByName.fulfilled,(state, action)=>{
-            state.Rooms = action.payload
+            state.RoomsQuery = action.payload
         });
 
         builder.addCase(getDetailRoom.fulfilled,(state, action)=>{
@@ -149,7 +152,7 @@ export const roomSlice = createSlice({
     }
 })
 
-export const {setRooms, setEmptyRooms, setDetailRoom, addCreatedRoom, sortRoomsByPrice, sortRoomsByRating, /*setRoomsByAllQuery*/} = roomSlice.actions
+export const {setRooms, setEmptyRooms, setDetailRoom, addCreatedRoom, sortRoomsByPrice, sortRoomsByRating, setNameRooms /*setRoomsByAllQuery*/} = roomSlice.actions
 export default roomSlice.reducer
 
 
@@ -183,10 +186,9 @@ export const getRoomsByPlace = createAsyncThunk<IRoom[],Partial<Query>>('rooms/g
 
 export const getRoomsByName = createAsyncThunk<IRoom[],any>('rooms/getRoomsByName', async (value)=>{
     
-    const url = `http://localhost:3002/rooms`
-        const json = await axios.get(url+`?name=${value}`)
-        return json.data.docs
-
+    const url = `http://localhost:3002/allrooms`
+        const json = await axios.get(url+`${value? `?name=${value}`:''}`)
+        return json.data
     
 })
 
