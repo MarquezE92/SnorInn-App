@@ -24,7 +24,7 @@ function App() {
       <Route path= '/create' element={<RoomForm/>}/>
       <Route path= '/rooms' element={<RoomCard/>}/>
       <Route path= '/rooms/:id' element={<RoomDetail/>}/>
-      <Route path="/stripe" element={<Stripe/>}/>
+      <Route path= '/rooms/reserve/:id' element={<Stripe/>}/>
     </Routes>
     <Footer/>
     </>
