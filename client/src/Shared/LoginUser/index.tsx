@@ -3,19 +3,17 @@ import { Modal } from "react-bootstrap";
 import { NavLink, Link } from "react-router-dom";
 import styles from "./login.module.css";
 import { ChangeEvent, FormEvent } from "react";
-import { signInUser } from "../../Redux/slice/authSlice";
+import { signInUser } from "../../Redux/slice/user";
 import { useAppDispatch } from "../../Redux/Store/hooks";
 
 const Login = () => {
-  interface Authentication {
-    email: string;
-    password: string;
-  }
+  
+
 
   const dispatch = useAppDispatch();
 
   const [modal, setModal] = useState(false);
-  const [input, setInput] = useState<Authentication>({
+  const [input, setInput] = useState({
     email: "",
     password: "",
   });
@@ -27,18 +25,14 @@ const Login = () => {
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
-    });
-  };
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    dispatch(
-      signInUser({
-        email: [input.email],
-        password: [input.password],
-      })
-    );
-  };
+      [e.target.name]: e.target.value
+    }
+    )
+  }
+ const handleSubmit = (e:FormEvent) => {
+      e.preventDefault()
+      dispatch(signInUser(input))
+  }
 
   return (
     <>
@@ -73,7 +67,7 @@ const Login = () => {
               className={styles.buttonModal}
               onClick={() => () => handleModal()}
             >
-              <NavLink to="/admin">Continue with email</NavLink>
+              <NavLink to="/admin" onClick={handleSubmit}>Continue with email</NavLink>
             </div>
             <div>
               Did you forget your password?
