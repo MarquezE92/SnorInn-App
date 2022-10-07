@@ -266,7 +266,7 @@ router.post('/login', async(req, res)=>{
 router.post('/signup', async (req, res) => {
     try {
         //obtengo nombre e email del usuario
-        const {email, password} = req.body;
+        const {email, password, isAdmin} = req.body;
         //verificar que el usuario aún no exista
         let user = await UserClient.findOne({email}) || null;
         if(user !== null) {
@@ -276,7 +276,7 @@ router.post('/signup', async (req, res) => {
         const confirmationCode = uuidv4();
 
         //crear nuevo usuario
-        user = new UserClient({email, password, confirmationCode});
+        user = new UserClient({email, password, isAdmin, confirmationCode});
         //Generar un token
         const token = getToken({email, password, confirmationCode});
         //Obtener un template
