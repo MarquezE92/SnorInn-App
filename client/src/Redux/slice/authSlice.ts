@@ -5,6 +5,7 @@ interface Users {
     email: string,
     password: string,
 }
+
 interface IUsers {
     users: Users[],
 }
@@ -17,8 +18,10 @@ export const signUpUser:any = createAsyncThunk('local-singup', async (body)=>{
     console.log(body)
     const res = await axios.post('http://localhost:3002/signup', body
     )
+    console.log(res)
     return res.data
 })
+
 export const signInUser:any = createAsyncThunk('local-singup', async (body)=>{
     console.log(body)
     const res = await axios.post('http://localhost:3002/login', body
@@ -33,10 +36,11 @@ const authSlice = createSlice({
         reducers: {
             addUser:(state, action:PayloadAction<Users>)=>{
                 state.users.push(action.payload)
+                
             },
         },
-        extraReducers: {
-           
+        extraReducers:{
+            
         }
 })
 

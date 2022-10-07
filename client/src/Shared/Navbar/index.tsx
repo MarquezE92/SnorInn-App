@@ -2,8 +2,22 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import Login from "../LoginUser";
+import {useAppSelector, useAppDispatch} from '../../Redux/Store/hooks'
+import {logout}from '../../Redux/slice/user'
+
 
 const NavBar = () => {
+
+
+  const user = useAppSelector(state=>state.auth.userInfo)
+  const dispatch = useAppDispatch()
+
+
+  const handleLogout =()=>{
+      dispatch(logout())
+  }
+
+
   return (
     <header className={styles.navbarDiv}>
       <nav className={styles.mainDiv}>
@@ -26,16 +40,28 @@ const NavBar = () => {
               Rooms
             </NavLink>{" "}
           </button>
-          <button className={styles.navbarButton}>
+          {
+            user.email ==''?
+            (<button className={styles.navbarButton}>
             <NavLink to="/signup" className={styles.NavLink}>
               Sign Up
             </NavLink>{" "}
           </button>
+          
+          
+          ):
+          <button onClick={handleLogout}>
+            profile
+          </button>
+          }
 
+         {user.email ==''?
           <button className={styles.navbarButton}>
             {" "}
             <Login />
           </button>
+          :<></>
+        }
         </div>
       </nav>
     </header>

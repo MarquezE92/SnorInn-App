@@ -286,7 +286,7 @@ router.post('/signup', async (req, res) => {
         //guardar el usuario
         await user.save();
 
-        res.send('Account registered');
+        res.send(user);
     } catch (error) {
         console.log(error);
         return res.send('Oops, an error occurred')

@@ -3,7 +3,7 @@ import styles from "./signUpUser.module.css";
 import { useState } from "react";
 import { ChangeEvent } from "react";
 import { useAppDispatch } from "../../Redux/Store/hooks";
-import { signUpUser } from "../../Redux/slice/authSlice";
+import { signUpUser } from "../../Redux/slice/user";
 
 const SignUpUser = () => {
   interface Login {
