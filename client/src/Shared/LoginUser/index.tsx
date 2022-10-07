@@ -6,13 +6,11 @@ import { ChangeEvent, FormEvent } from "react";
 import { signInUser } from "../../Redux/slice/authSlice";
 import { useAppDispatch } from "../../Redux/Store/hooks";
 
-
 const Login = () => {
-  
-interface Authentication {
-  email: string;
-  password: string;
-}
+  interface Authentication {
+    email: string;
+    password: string;
+  }
 
   const dispatch = useAppDispatch();
 
@@ -22,26 +20,25 @@ interface Authentication {
     password: "",
   });
 
-
-
   const handleModal = () => {
     setModal(!modal);
   };
 
-  const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput({
       ...input,
-      [e.target.name]: e.target.value
-    }
-    )
-  }
- const handleSubmit = (e:FormEvent) => {
-    e.preventDefault()
-        dispatch(signInUser({
-          email : [input.email],
-          password: [input.password]
-        }))
-      }
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    dispatch(
+      signInUser({
+        email: [input.email],
+        password: [input.password],
+      })
+    );
+  };
 
   return (
     <>
@@ -79,19 +76,19 @@ interface Authentication {
               <NavLink to="/admin">Continue with email</NavLink>
             </div>
             <div>
-            Did you forget your password?
-            <Link to="/restorepassword" onClick={() => handleModal()}>
-              Click here
-            </Link>
-          </div>
+              Did you forget your password?
+              <Link to="/restorepassword" onClick={() => handleModal()}>
+                Click here
+              </Link>
+            </div>
           </form>
           <h2 className={styles.title}>or use one of these options</h2>
           <div className={styles.imageContainer}>
             <button className={styles.cardImg}>
-              <img src={require("./images/facebook.png")} alt="description"/>
+              <img src={require("./images/facebook.png")} alt="description" />
             </button>
             <button className={styles.cardImg}>
-              <img src={require("./images/gmail.png")} alt="description"/>
+              <img src={require("./images/gmail.png")} alt="description" />
             </button>
           </div>
           <div>
