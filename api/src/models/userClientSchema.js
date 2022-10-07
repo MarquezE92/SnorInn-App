@@ -4,6 +4,7 @@ const saltRound = 10;
 
 
 const userClientSchema = mongoose.Schema({
+
   //  local:{
         isAdmin: {
             type: Boolean,
@@ -35,13 +36,26 @@ const userClientSchema = mongoose.Schema({
         password: String,
         id: String,
         token: String
+
     },
-    google: {
-        email: String,
-        password: String,
-        id: String,
-        token: String*/
-   // }
+    //--------------------------Para guardar el código que identifique la confirmación del registro
+    confirmationCode: {
+        type: String,
+        unique: true
+    },
+    // },
+    /* facebook:{
+         email: String,
+         password: String,
+         id: String,
+         token: String
+     },
+     google: {
+         email: String,
+         password: String,
+         id: String,
+         token: String*/
+    // }
     // username: String,
     // password: String,
     // firstname: String,
@@ -50,10 +64,14 @@ const userClientSchema = mongoose.Schema({
     // email: String,
     // address: String,
     // rating: Number,
-    // reservationId: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Reservation'
-    // }]
+    reservationId: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Reservation'
+    }],
+    roomFavorites: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'room'
+    }]
 
 }, { versionKey: false });
 

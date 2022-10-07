@@ -9,6 +9,9 @@ import Login from "./Shared/LoginUser";
 import SignUpUser from "./Shared/SignUpUser";
 import Stripe from "./Stripe";
 import Footer from './Shared/Footer'
+import Redirect from "./User/Views/Redirect/Redirect";
+import PaswordRestore from "./Shared/LoginUser/PasswordRestore/PaswordRestore";
+
 
 
 function App() {
@@ -18,13 +21,14 @@ function App() {
     <NavBar/>
     <Routes>
       <Route path="/" element={<Home/>}/>
-      <Route path="/login" element={<Login/>}/>
+      <Route path="/restorepassword" element={<PaswordRestore/>}/>
       <Route path="/signup" element={<SignUpUser/>}/>
       <Route path="/admin" element={<AdminDashboard/>}/>
       <Route path= '/create' element={<RoomForm/>}/>
       <Route path= '/rooms' element={<RoomCard/>}/>
       <Route path= '/rooms/:id' element={<RoomDetail/>}/>
-      <Route path="/stripe" element={<Stripe/>}/>
+      <Route path= '/rooms/reserve/:id' element={<Stripe/>}/>
+      <Route path= '/confirmedaccount' element={<Redirect/>}/>
     </Routes>
     <Footer/>
     </>

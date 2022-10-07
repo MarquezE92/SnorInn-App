@@ -78,6 +78,12 @@ interface Authentication {
             >
               <NavLink to="/admin">Continue with email</NavLink>
             </div>
+            <div>
+            Did you forget your password?
+            <Link to="/restorepassword" onClick={() => handleModal()}>
+              Click here
+            </Link>
+          </div>
           </form>
           <h2 className={styles.title}>or use one of these options</h2>
           <div className={styles.imageContainer}>
