@@ -41,7 +41,7 @@ const userClientSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Reservation'
     }],
-    favorites: [{
+    roomFavorites: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'room'
     }]
