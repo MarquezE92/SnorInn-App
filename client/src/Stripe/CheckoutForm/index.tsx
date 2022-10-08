@@ -5,6 +5,7 @@ import { RootState } from "../../Redux/Store/store";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const CheckutForm = () => {
   const stripe: any = useStripe();
@@ -24,10 +25,9 @@ const CheckutForm = () => {
         id,
         amount: Number(rooms.price + "00"),
       });
-      console.log(data);
-      alert("successful payment");
+      Swal.fire("Great!", "Your payment was processed correctly", "success");
       navigate("/rooms", { replace: true });
-    }
+    } else {Swal.fire("Great!", "Something is wrong with yout card", "error");}
   };
 
   return (

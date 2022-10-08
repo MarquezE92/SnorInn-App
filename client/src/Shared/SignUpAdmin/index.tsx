@@ -7,6 +7,8 @@ import { signUpUser } from "../../Redux/slice/authSlice";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { BsFillArrowDownCircleFill } from "react-icons/bs";
+import { error } from "console";
+
 
 
 const SignUpAdmin = () => {
@@ -24,6 +26,10 @@ const SignUpAdmin = () => {
     password: "",
     isAdmin: true,
   });
+  
+
+
+
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput({
@@ -45,11 +51,11 @@ const SignUpAdmin = () => {
 
   // [e.target.name]: e.target.value
 
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(signUpUser(input));
-    setInput({ email: "", password: "", isAdmin: true });
-    Swal.fire("Good job!", "Your account was created succesfuly!", "success");
+      dispatch(signUpUser(input));
+      setInput({ email: "", password: "", isAdmin: true });
   };
 
   return (

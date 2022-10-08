@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 interface Users {
     email: string,
@@ -15,15 +16,20 @@ const initialState:IUsers = {
 }
 
 export const signUpUser:any = createAsyncThunk('local-singup', async (body)=>{
-    console.log(body)
-    const res = await axios.post('http://localhost:3002/signup', body
-    )
-    console.log(res)
-    return res.data
+    try {
+        const res = await axios.post('http://localhost:3002/signup', body
+        )
+        Swal.fire("Good job!", "Your account was created succesfuly!", "success");
+        return res.data
+    } catch (error:any) {
+        console.log(error)
+        return Swal.fire("Ups!", error.response.data._message?(error.response.data._message):(error.response.data), "error")   
+    }
+   
 })
 
 export const signInUser:any = createAsyncThunk('local-singup', async (body)=>{
-    console.log(body)
+
     const res = await axios.post('http://localhost:3002/login', body
     )
     return res.data

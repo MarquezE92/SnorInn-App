@@ -301,7 +301,7 @@ router.post('/signup', async (req, res) => {
         res.send(user);
     } catch (error) {
         console.log(error);
-        return res.status(500).send('Oops, an error occurred')
+        return res.status(500).send(error);
     }
 });
 
