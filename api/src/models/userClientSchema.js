@@ -64,6 +64,12 @@ const userClientSchema = mongoose.Schema({
     // email: String,
     // address: String,
     // rating: Number,
+//----------------------------- Array de habitaciones creadas por el Admin, se agrega temporalmente
+    rooms: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'room'
+    }],
+//----------------------------------------------------------
     reservationId: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Reservation'
