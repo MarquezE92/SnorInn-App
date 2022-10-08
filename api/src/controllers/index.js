@@ -3,8 +3,11 @@ const mongoose = require('mongoose')
 // const router = express.Router()
 // const { adminSchema, reviewsSchema, roomSchema, userSchema, reservationSchema } = require('../db')
 const { roomSchema } = require('../db')
+const { UserClient } = require ('../db')
 
-const addRooms = async ({type,name, description, place, n_beds, price, services, availability = true, photos = ['ñ'], rating}) => {
+const addRooms = async ({type,name, description, place, n_beds, price, services, availability = true, photos = ['ñ'], rating}, idAdmin) => {
+    //traemos el admin que está creando la room
+    const admin = await UserClient.findById(idAdmin)
     const add = new roomSchema({
         type,
         name,
@@ -15,9 +18,13 @@ const addRooms = async ({type,name, description, place, n_beds, price, services,
         availability,
         rating,
         services: services,
-        photos: photos
+        photos: photos,
+        userAdminId: idAdmin
     })
-    const addNewSchema = await add.save()
+    const addNewSchema = await add.save();
+    //Agregamos en el Admin, la room creada a su array de rooms
+    admin.rooms = admin.rooms.concat(addNewSchema._id);
+    await admin.save();
     return addNewSchema;
 
 }

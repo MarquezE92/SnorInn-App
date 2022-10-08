@@ -77,15 +77,17 @@ router.get('/find', async (req, res) => {
 });
 
 
-router.post('/rooms', async (req, res) => {
+router.post('/rooms/:idAdmin', async (req, res) => {
+// recibo el _id del admin por params
+    const {idAdmin} = req.params
     const { type, name, description, place, n_beds, price, availability, rating, photos, services } = req.body
     // console.log(photos)
     try {
-        const postRoom = await addRooms(req.body)
+        const postRoom = await addRooms(req.body, idAdmin)
         return res.send(postRoom)
 
     } catch (error) {
-        return res.status(404).send({ error: ' We are sorry, we couldnt insert data in Data Base' })
+        return res.status(404).send({ error: error.message })
     }
 })
 
@@ -206,6 +208,7 @@ router.post('/reservation', async (req, res) => {
     }
 });
 
+//Ruta de get de Habitaciones para el Dashboard del Admin
 router.get('/roomsByAdminId/:id', async (req, res) => {
     const {id} = req.params
     
