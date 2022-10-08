@@ -13,6 +13,7 @@ import PaswordRestore from "./Shared/LoginUser/PasswordRestore/PaswordRestore";
 import SignUpAdmin from "./Shared/SignUpAdmin";
 import { PrivateRoutes } from "./routes/privateRoutes";
 import { AuthRoutes } from "./routes/authRoutes";
+import PaswordSentMessage from "./Shared/LoginUser/PasswordRestore/PaswordSentMessage";
 
 function App() {
   return (
@@ -22,8 +23,10 @@ function App() {
         
         <Route path="/" element={<Home />} />
         
+
         <Route path="/signup" element={<SignUpUser />} />
         <Route path="/signup/admin" element={<SignUpAdmin />} />
+        <Route path="/paswordsent" element={<PaswordSentMessage />} />
         <Route path="/restorepassword" element={<PaswordRestore />} />
         <Route path="/confirmedaccount" element={<Redirect />} />
 

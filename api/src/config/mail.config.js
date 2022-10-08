@@ -126,7 +126,41 @@ let transporter = nodemailer.createTransport({
     }
   };
 
+   const getTemplatePayment = (url) => {
+      return `
+        <head>
+            <link rel="stylesheet" href="./style.css">
+        </head>
+        
+        <div id="email___content">
+            <h1>Excellent choice!! <h1>
 
+            <h2>Thanks for choosing SnorInn to take care of your snoring.</h2>
+            
+            <h2>To see your receipt, click the link below</h2>
+            <a
+                href=${url}
+                target="_blank"
+            >Receipt</a>
+        </div>
+      `;
+  };
+
+  const sendEmailReceipt = async (email, subject, html) => {
+    try {
+        
+        await transporter.sendMail({
+            from: `SnorInn <${ mail.user }>`, // sender address
+            to: email, // list of receivers
+            subject, // Subject line
+            text: "SnorInn reservation receipt", // plain text body
+            html, // html body
+        });
+
+    } catch (error) {
+        console.log('Something is wrong with the email', error);
+    }
+  };
 
   module.exports = {
     sendEmail,
@@ -134,5 +168,7 @@ let transporter = nodemailer.createTransport({
     sendRecoverEmail,
     getTemplateR,
     getTemplatePass,
-    sendNewPasswordEmail
+    sendNewPasswordEmail,
+    getTemplatePayment,
+    sendEmailReceipt
   }
