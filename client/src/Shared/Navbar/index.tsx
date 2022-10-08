@@ -8,14 +8,10 @@ import {logout}from '../../Redux/slice/user'
 
 const NavBar = () => {
 
-
-  const user = useAppSelector(state=>state.auth.userInfo)
+  const user = useAppSelector(state=>state.auth)
   const dispatch = useAppDispatch()
+ 
 
-
-  const handleLogout =()=>{
-      dispatch(logout())
-  }
 
 
   return (
@@ -45,28 +41,31 @@ const NavBar = () => {
               Rooms
             </NavLink>{" "}
           </button>
+          
           {
-            user.email ==''?
-            (<button className={styles.navbarButton}>
+            user.userInfo == null?
+            
+         (<button className={styles.navbarButton}>
             <NavLink to="/signup" className={styles.NavLink}>
               Sign Up
             </NavLink>{" "}
-          </button>
-          
-          
-          ):
-          <button onClick={handleLogout}>
+          </button>):
+          <button onClick={()=>dispatch(logout())}>
             profile
-          </button>
+          </button> 
           }
 
-         {user.email ==''?
-          <button className={styles.navbarButton}>
+          {
+            user.userInfo==null?
+            
+          (<button className={styles.navbarButton}>
             {" "}
             <Login />
-          </button>
-          :<></>
-        }
+          </button>):
+          <></>
+         
+          }
+        
         </div>
       </nav>
     </header>
