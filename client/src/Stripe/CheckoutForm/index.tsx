@@ -3,6 +3,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import styles from "./checkoutform.module.css";
 import { RootState } from "../../Redux/Store/store";
 import { useSelector } from "react-redux";
+import {useAppSelector} from '../../Redux/Store/hooks';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,6 +12,8 @@ const CheckutForm = () => {
   const stripe: any = useStripe();
   const elements: any = useElements();
   const rooms = useSelector((state: RootState) => state.rooms.Room);
+  const user = useAppSelector(state=>state.auth.userInfo);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
@@ -21,9 +24,11 @@ const CheckutForm = () => {
     });
     if (!error) {
       const { id } = paymentMethod;
+      const { email } = user;
       const { data } = await axios.post("http://localhost:3002/dataPeyment", {
         id,
         amount: Number(rooms.price + "00"),
+        email,
       });
       Swal.fire("Great!", "Your payment was processed correctly", "success");
       navigate("/rooms", { replace: true });
