@@ -1,7 +1,7 @@
 const UserClient = require('../models/userClientSchema');
 const { v4: uuidv4 } = require('uuid');
 const {getToken, getTokenR, getTokenRData, getTokenData} = require('../config/jwt.config');
-const {getTemplate, getTemplateR,  getTemplatePass, sendEmail, sendRecoverEmail, sendNewPasswordEmail} = require ('../config/mail.config');
+const {getTemplate, getTemplateR,  getTemplatePass, getTemplatePayment, sendEmail, sendRecoverEmail, sendNewPasswordEmail, sendEmailReceipt} = require ('../config/mail.config');
 
 const { Router } = require('express');
 const router = Router();
@@ -177,7 +177,16 @@ router.post('/dataPeyment', async (req, res) => {
             //succsess_url: 'http://localhost:3002/responsePayment',
             //cancel_url: 'http://localhost:3002/badResponse'
         });
-        console.log(paymentData)
+
+        //obtengo el link de la factura
+        const url = paymentData.charges.data[0].receipt_url;
+
+        //plantilla del cuerpo del email
+        const template = getTemplatePayment(url);
+
+        //envío de mail
+        await sendEmailReceipt(email, 'SnorInn reservation receipt', template);
+        
         return res.status(200).send(paymentData)
         
 
@@ -241,7 +250,7 @@ router.post('/login', async(req, res)=>{
     //obtengo nombre e email del usuario
         const {email, password} = req.body;
     //verificar que el usuario exista
-        const user = await UserClient.findOne({email}) || null;
+        const user = await UserClient.findOne({email}).populate("roomFavorites") || null;
         if(user === null) {
             return res.status(401).send('You Need to be registered to log in')
         };
