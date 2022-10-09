@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent} from "react";
+import React from "react";
 import HomeCarousel from "./Carousel";
 import style from './Home.module.css';
 import HomeSearchBar from "./HomeSearchBar";

@@ -1,10 +1,23 @@
-
 .mainDiv {
     height: 90vh;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     background-image: url('../../../Images/brianna-tucker-bU5BjwyQbOM-unsplash.jpg');
+}
+
+.compContainer {
+    display: flex;
+    width: 70%;
+    height: 100%;
+}
+
+.cardContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .card {
@@ -17,7 +30,6 @@
     border-radius: 12px;
     box-shadow: inset 5px 5px 10px #a9a9aa77,
                  inset -5px -5px 10px #ffffff7e;
-    left: 20%;
    }
    
    .card .img {

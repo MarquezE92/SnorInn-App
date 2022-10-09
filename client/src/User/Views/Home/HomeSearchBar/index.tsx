@@ -6,13 +6,15 @@ import {getRoomsByAllQuery} from '../../../../Redux/slice/rooms';
 import {Query} from '../../../../Redux/slice/rooms'
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { places } from './constants';
-
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const HomeSearchBar = () => {
 
     const dispatch = useAppDispatch();
 
     const navigate = useNavigate();
+    const MySwal = withReactContent(Swal)
 
     const [select, setSelect] = useState<Query>({
         place:'',
@@ -37,12 +39,17 @@ const HomeSearchBar = () => {
     const handleSubmit = (e: FormEvent)=>{
         e.preventDefault();
         if(!select.place || !select.n_beds || !select.type)
-        return alert("Select ALL 3 (place, number of beds and category) to search for a room.");
+        return MySwal.fire({
+            title: <strong>Ups!</strong>,
+            html: <i>Select ALL 3 place, number of beds and category to search for a room.</i>,
+            icon: 'error'
+          })
         dispatch(getRoomsByAllQuery(select))
         setTimeout(()=>{navigate('/rooms', {replace:true})}, 1000);
     };
 
-
+   
+    
 
   return (
     <div className={style.card}>

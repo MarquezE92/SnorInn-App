@@ -262,10 +262,9 @@ router.post('/login', async(req, res)=>{
         };
         user.isCorrectPassword(password, (err, result)=>{
             if(!result) return res.status(401).send('Invalid password');
-        }) 
-        
-        res.json(user);
-                
+            else {res.json(user);
+            }
+        })    
 
     } catch(error){
         console.log(error)
