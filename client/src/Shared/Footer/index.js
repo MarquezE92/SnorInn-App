@@ -43,7 +43,7 @@ const Footer = () => {
       <div className={styles.footerInfo}>
         <div className={styles.info}>
           <div className={styles.infoItem}>
-            <Link>About us</Link>
+            <Link to="/about">About us</Link>
           </div>
           <div className={styles.infoItem}>
             <Link>Faq</Link>

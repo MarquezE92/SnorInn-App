@@ -11,6 +11,7 @@ import Footer from "./Shared/Footer";
 import Redirect from "./User/Views/Redirect/Redirect";
 import PaswordRestore from "./Shared/LoginUser/PasswordRestore/PaswordRestore";
 import SignUpAdmin from "./Shared/SignUpAdmin";
+import AboutUs from "./Shared/AboutUs/AboutUs";
 import { PrivateRoutes } from "./routes/privateRoutes";
 import { AuthRoutes , AuthRoutesUser} from "./routes/authRoutes";
 import PaswordSentMessage from "./Shared/LoginUser/PasswordRestore/PaswordSentMessage";
@@ -34,6 +35,8 @@ function App() {
         
         <Route path="/rooms" element={<RoomCard />} />
         <Route path="/rooms/:id" element={<RoomDetail />} />
+
+        <Route path="/about" element={<AboutUs />} />
         
         
         <Route element={<AuthRoutes/>}>
