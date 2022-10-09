@@ -253,7 +253,7 @@ router.post('/login', async(req, res)=>{
     //obtengo nombre e email del usuario
         const {email, password} = req.body;
     //verificar que el usuario exista
-        const user = await UserClient.findOne({email}).populate("roomFavorites") || null;
+        const user = await UserClient.findOne({email}).populate(["roomFavorites", "reservationId"]) || null;
         if(user === null) {
             return res.status(401).send('You Need to be registered to log in')
         };
@@ -262,7 +262,10 @@ router.post('/login', async(req, res)=>{
         };
         user.isCorrectPassword(password, (err, result)=>{
             if(!result) return res.status(401).send('Invalid password');
-            else {res.json(user);
+
+            else {
+                console.log(user);
+                res.json(user);
             }
         })    
 
