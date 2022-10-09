@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const userReviewSchema = mongoose.Schema({
     adminId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserAdmin'
+        ref: 'userAdmin'
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -11,7 +11,7 @@ const userReviewSchema = mongoose.Schema({
     },
     reservationId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Reservation'
+        ref: 'reservation'
     },
     roomId: {
         type: mongoose.Schema.Types.ObjectId,
