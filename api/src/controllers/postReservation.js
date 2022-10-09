@@ -3,6 +3,7 @@ const { Reservation, UserClient, roomSchema } = require('../db');
 
 const addResrevation = async ({ userId, roomId, check_in, check_out, totalPrice}) => {
     const findRoom = await roomSchema.findById(roomId)
+    if (!findRoom.availability) {throw new Error('The room is not available')}
     const user = await UserClient.findById(userId)
     const add = new Reservation({
         userId,
