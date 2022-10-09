@@ -6,3 +6,9 @@ export const AuthRoutes = ()=>{
     return user && user.isAdmin ? 
     <Outlet/> : (alert('NO ESTAS AUTORIZADO'), <Navigate replace to={'/'}/>)
 }
+
+export const AuthRoutesUser = () => {
+    const user = useAppSelector((state)=>state.auth.userInfo)
+    return user && user.isAdmin === false ? 
+    <Outlet/> : (alert('NO ESTAS AUTORIZADO'), <Navigate replace to={'/'}/>)
+}

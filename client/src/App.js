@@ -12,8 +12,9 @@ import Redirect from "./User/Views/Redirect/Redirect";
 import PaswordRestore from "./Shared/LoginUser/PasswordRestore/PaswordRestore";
 import SignUpAdmin from "./Shared/SignUpAdmin";
 import { PrivateRoutes } from "./routes/privateRoutes";
-import { AuthRoutes } from "./routes/authRoutes";
+import { AuthRoutes , AuthRoutesUser} from "./routes/authRoutes";
 import PaswordSentMessage from "./Shared/LoginUser/PasswordRestore/PaswordSentMessage";
+import User from "./User/Views/User";
 
 function App() {
   return (
@@ -36,8 +37,11 @@ function App() {
         
         
         <Route element={<AuthRoutes/>}>
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/dashboard" element={<AdminDashboard />} />
           <Route path="/create" element={<RoomForm />} />
+        </Route>
+        <Route element={<AuthRoutesUser/>}>
+          <Route path="/user" element={<User />} />
         </Route>
 
         <Route element={<PrivateRoutes/>}>

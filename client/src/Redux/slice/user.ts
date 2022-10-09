@@ -1,6 +1,8 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import axios, { AxiosResponse } from 'axios'
 import { IRoom } from './rooms';
+import Swal from "sweetalert2";
+
 
 
 export interface IUser{
@@ -22,10 +24,21 @@ export interface IUserInfo{
 }
 
 const initialState={
-    userInfo: user ? user : null,
+    userInfo: user ? user : {
+        confimationCode: '',
+        email: '',
+        isAdmin: null,
+        password: '',
+        reservationId: [],
+        roomFavorite: [],
+        status: '',
+        _id: '',
+    },
     state:'initial',
     Msg:''
 }
+
+
 
 
 const UserSlice = createSlice({
@@ -33,8 +46,8 @@ const UserSlice = createSlice({
     initialState,
     reducers:{ 
         logout:(state)=>{
-            state.userInfo = null
-           localStorage.removeItem('user')
+            localStorage.removeItem('user')
+            state.userInfo = initialState;
         }
     },
     extraReducers:(builder)=>{
@@ -89,8 +102,9 @@ export const signInUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/logi
         const json:AxiosResponse = await axios.post('http://localhost:3002/login',value)
         localStorage.setItem('user', JSON.stringify(json.data))
         return json.data
-      } catch (error) {
+      } catch (error:any) {
         console.log(error)
+        Swal.fire("Ups!", (error.response.data), "error");
         return rejectWithValue(error)
       }
     }
