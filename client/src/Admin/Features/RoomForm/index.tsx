@@ -9,6 +9,8 @@ import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
+import { useAppSelector } from "../../../Redux/Store/hooks";
+import { RootState } from "../../../Redux/Store/store";
 
 const RoomForm = () => {
   const servicesInfo = services;
@@ -18,6 +20,8 @@ const RoomForm = () => {
   const ratingInfo = rating;
 
   const dispatch = useAppDispatch();
+
+  const idAdmin = useAppSelector((state: RootState) => state.auth.userInfo._id);
 
   const [openModal, setOpenModal] = useState(false);
   const [input, setInput] = useState<Partial<IRoom>>({
@@ -95,7 +99,7 @@ const RoomForm = () => {
       e.stopPropagation();
       setValidated(true);
     } else {
-      dispatch(createRoom(input));
+      dispatch(createRoom({...input, idAdmin}));
       setInput({
         type: "",
         place: "",
