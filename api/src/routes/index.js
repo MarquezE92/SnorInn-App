@@ -253,7 +253,7 @@ router.post('/login', async(req, res)=>{
     //obtengo nombre e email del usuario
         const {email, password} = req.body;
     //verificar que el usuario exista
-        const user = await UserClient.findOne({email}) || null;
+        const user = await UserClient.findOne({email}).populate("roomFavorites") || null;
         if(user === null) {
             return res.status(401).send('You Need to be registered to log in')
         };
