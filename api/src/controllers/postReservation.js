@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const { Reservation, UserClient } = require('../db');
+const { Reservation, UserClient, roomSchema } = require('../db');
 
-const addResrevation = async ({ userId, roomId, check_in, check_out, totalPrice }) => {
+const addResrevation = async ({ userId, roomId, check_in, check_out, totalPrice}) => {
+    const findRoom = await roomSchema.findById(roomId)
     const user = await UserClient.findById(userId)
     const add = new Reservation({
         userId,
@@ -11,6 +12,9 @@ const addResrevation = async ({ userId, roomId, check_in, check_out, totalPrice 
         totalPrice
     })
     const addNewSchema = await add.save()
+    findRoom.availability = false
+    findRoom.reservationId = addNewSchema._id
+    await findRoom.save()
     user.reservationId = user.reservationId.concat(addNewSchema._id)
     await user.save()
     return addNewSchema
