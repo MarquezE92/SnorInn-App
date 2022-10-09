@@ -72,7 +72,7 @@ const userClientSchema = mongoose.Schema({
 //----------------------------------------------------------
     reservationId: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Reservation'
+        ref: 'reservation'
     }],
     roomFavorites: [{
         type: mongoose.Schema.Types.ObjectId,
