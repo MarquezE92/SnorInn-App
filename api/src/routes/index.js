@@ -1,7 +1,7 @@
 const UserClient = require('../models/userClientSchema');
 const { v4: uuidv4 } = require('uuid');
 const {getToken, getTokenR, getTokenRData, getTokenData} = require('../config/jwt.config');
-const {getTemplate, getTemplateR,  getTemplatePass, sendEmail, sendRecoverEmail, sendNewPasswordEmail} = require ('../config/mail.config');
+const {getTemplate, getTemplateR,  getTemplatePass, getTemplatePayment, sendEmail, sendRecoverEmail, sendNewPasswordEmail, sendEmailReceipt} = require ('../config/mail.config');
 
 const { Router } = require('express');
 const router = Router();
@@ -77,15 +77,17 @@ router.get('/find', async (req, res) => {
 });
 
 
-router.post('/rooms', async (req, res) => {
+router.post('/rooms/:idAdmin', async (req, res) => {
+// recibo el _id del admin por params
+    const {idAdmin} = req.params
     const { type, name, description, place, n_beds, price, availability, rating, photos, services } = req.body
     // console.log(photos)
     try {
-        const postRoom = await addRooms(req.body)
+        const postRoom = await addRooms(req.body, idAdmin)
         return res.send(postRoom)
 
     } catch (error) {
-        return res.status(404).send({ error: ' We are sorry, we couldnt insert data in Data Base' })
+        return res.status(404).send({ error: error.message })
     }
 })
 
@@ -177,7 +179,16 @@ router.post('/dataPeyment', async (req, res) => {
             //succsess_url: 'http://localhost:3002/responsePayment',
             //cancel_url: 'http://localhost:3002/badResponse'
         });
-        console.log(paymentData)
+
+        //obtengo el link de la factura
+        const url = paymentData.charges.data[0].receipt_url;
+
+        //plantilla del cuerpo del email
+        const template = getTemplatePayment(url);
+
+        //envío de mail
+        await sendEmailReceipt(email, 'SnorInn reservation receipt', template);
+        
         return res.status(200).send(paymentData)
         
 
@@ -197,6 +208,7 @@ router.post('/reservation', async (req, res) => {
     }
 });
 
+//Ruta de get de Habitaciones para el Dashboard del Admin
 router.get('/roomsByAdminId/:id', async (req, res) => {
     const {id} = req.params
     
