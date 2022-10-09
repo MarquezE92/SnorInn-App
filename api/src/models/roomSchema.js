@@ -21,6 +21,11 @@ const roomSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userAdmin'
     },
+    reservationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'reservation'
+    },
+
 
 }, {versionKey: false})
 
