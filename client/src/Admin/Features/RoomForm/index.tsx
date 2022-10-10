@@ -30,6 +30,7 @@ const RoomForm = () => {
     n_beds: 0,
     price: 0,
     services: [],
+    idAdmin: idAdmin,
     place: "",
     photos: [],
     description: "",
@@ -99,7 +100,7 @@ const RoomForm = () => {
       e.stopPropagation();
       setValidated(true);
     } else {
-      dispatch(createRoom({...input, idAdmin}));
+      dispatch(createRoom(input));
       setInput({
         type: "",
         place: "",

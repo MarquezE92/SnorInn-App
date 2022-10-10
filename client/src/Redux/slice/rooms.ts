@@ -4,6 +4,7 @@ import axios from 'axios'
 
 export interface IRoom{
     _id: string;
+    idAdmin:string;
     type:string;
     place: string;
     n_beds: number;
@@ -29,6 +30,7 @@ const initialState:IState={
     RoomsQuery:[],
     Room:{
         _id: '',
+        idAdmin:'',
         type: '',
         place: '',
         n_beds: 0,
@@ -214,7 +216,8 @@ export const getDetailRoom = createAsyncThunk<IRoom, any>('room/getDetailRoom', 
 
 export const createRoom = createAsyncThunk<IRoom,Partial<IRoom>>('rooms/createRoom', async (value)=>{
     try{
-        const json = await axios.post('http://localhost:3002/rooms',value)
+        const json = await axios.post(`http://localhost:3002/rooms/${value.idAdmin}`,value)
+        console.log(value)
         return json.data
     }catch(error){
         console.log(error)
