@@ -24,16 +24,7 @@ export interface IUserInfo{
 }
 
 const initialState={
-    userInfo: user ? user : {
-        confimationCode: '',
-        email: '',
-        isAdmin: null,
-        password: '',
-        reservationId: [],
-        roomFavorite: [],
-        status: '',
-        _id: '',
-    },
+    userInfo: user ? user : null,
     state:'initial',
     Msg:''
 }
@@ -70,15 +61,13 @@ const UserSlice = createSlice({
         })
         builder.addCase(addFavorite.fulfilled, (state, action)=>{
             state.state = 'fullfiled'
-            console.log(action)
-            //state.userInfo.roomFavorite.push(action.payload)
+            console.log(state.userInfo)
         })
 
         builder.addCase(signInUser.pending,(state)=>{
             state.state = 'loading'
         })
         builder.addCase(signInUser.fulfilled,(state, action)=>{
-            console.log(action)
             state.state = 'fullfiled'
             state.userInfo = action.payload
 
@@ -119,9 +108,9 @@ export const signInUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/logi
     }
 )
 
-export const forgetPassword = createAsyncThunk('User/forgetPassword', async()=>{
+export const forgetPassword = createAsyncThunk<string, any>('User/forgetPassword', async(value)=>{
     try{
-        const json:AxiosResponse = await axios.post('http://localhost:3002/forgotPassword')
+        const json:AxiosResponse = await axios.post('http://localhost:3002/forgotPassword', value)
         return json.data
     }catch(error){
         console.log(error)
@@ -129,11 +118,9 @@ export const forgetPassword = createAsyncThunk('User/forgetPassword', async()=>{
 })
 
 
-export const addFavorite = createAsyncThunk<IRoom,any>('User/addFavorite', async (value)=>{
+export const addFavorite = createAsyncThunk<IRoom,Object>('User/addFavorite', async (value)=>{
     try{
-        console.log(value)
         const json = await axios.post('http://localhost:3002/favorites',value)
-        console.log(json.data)
         return json.data
     }catch(error){
         console.log(error)

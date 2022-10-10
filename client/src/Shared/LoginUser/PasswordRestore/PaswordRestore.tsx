@@ -1,17 +1,19 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import styles from "./passwordrestore.module.css";
 import { useAppDispatch } from "../../../Redux/Store/hooks";
+import {forgetPassword} from '../../../Redux/slice/user'
 
 const PaswordRestore = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState({email:""});
   const dispatch = useAppDispatch();
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+    setEmail({email:e.target.value});
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    dispatch(forgetPassword(email))
   };
 
   return (
@@ -27,10 +29,10 @@ const PaswordRestore = () => {
             className={styles.input}
             placeholder="Your email..."
             type="email"
-            value={email}
+            value={email.email}
             onChange={handleEmail}
           />
-          <button className={styles.button}>Send</button>
+          <button className={styles.button} onClick={handleSubmit}>Send</button>
         </div>
       </form>
     </div>
