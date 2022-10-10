@@ -1,14 +1,33 @@
+.mainDiv {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background:rgba(67, 163, 125, 0.212)
+}
+
 .user {
-	height: 30vw;
+	display: flex;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	justify-content: center;
+	height: 95vh;
+	width: 70%;
+	border: 1px solid rgba(0, 0, 0, 0.565);
+	background-color: whitesmoke;
 }
 
 .userContainer {
-	position: fixed;
-	top: 6rem;
-	left: 2rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	padding-left: 50px;
+}
+
+.cardContainer{
+	border: 1px solid rgba(0, 0, 0, 0.484);
+	padding: 40px;
+	border-radius: 30px;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .img {
 	height: 7rem;
@@ -20,8 +39,37 @@
 }
 
 .userInfo {
+	width: 100%;
 	height: 30vw;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.button {
+	font-size: 20px;
+}
+.button:hover {
+	color: #ADDDD0;
+}
+
+.roomCard{
+	border: 1px solid rgba(0, 0, 0, 0.471);
+	padding: 30px;
+	border-radius: 30px;
+	cursor: pointer;
+}
+.roomCard:hover {
+	transform: scale(1.15);
+	background:#ADDDD0;
+}
+.roomCardContainer {
+	text-decoration: none;
+	color: black;
+	width: 100%;
+	height: 100%;
+}
+.roomCardContainer:hover {
+	
+	color: white;
 }
