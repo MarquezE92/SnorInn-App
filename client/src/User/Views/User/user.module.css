@@ -1,0 +1,27 @@
+.user {
+	height: 30vw;
+}
+
+.userContainer {
+	position: fixed;
+	top: 6rem;
+	left: 2rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.img {
+	height: 7rem;
+	width: 7rem;
+}
+
+.noRender {
+	display: none;
+}
+
+.userInfo {
+	height: 30vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
