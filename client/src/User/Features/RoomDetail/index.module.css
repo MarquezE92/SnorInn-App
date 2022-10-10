@@ -47,6 +47,7 @@
 	text-align: center;
 }
 .place {
+	display: inline-block;
 	font-size: 3rem;
 	text-align: center;
 }
@@ -87,4 +88,28 @@
 
 #modalId{
 	margin-top: 40%;
+ }
+
+ .placeAndFav {
+ 	display: flex;
+ 	flex-direction: row;
+
+ }
+
+ .fav {
+ 	color: #309177;
+ 	position: relative;
+ 	top: -5rem;
+ 	right: -1rem;
+ }
+
+ .favIcon {
+ 	height: 2.5rem;
+ 	width: 2.5rem;
+ 	
+ }
+
+ .favIcon:hover {
+ 	
+ 	color: black;
  }
