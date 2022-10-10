@@ -68,7 +68,11 @@ return (
 	 </div>
 	 <div>
 	 	<h1>Rating: {rooms.rating}☆</h1>
-		<button onClick={addFav}>{'<3'}</button>
+		{
+			user.isAdmin ? 
+			<></>:
+			<button onClick={addFav}>{'<3'}</button>
+		}
 	 	<div className={styles.reserveContainer}>
 			<div className={styles.price}>
 			Only ${rooms.price}

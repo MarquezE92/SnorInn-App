@@ -5,7 +5,11 @@ import SearchBar from '../../../Shared/Navbar/searchBar';
 import {useAppDispatch} from '../../../Redux/Store/hooks'
 import { sortRoomsByPrice, sortRoomsByRating} from '../../../Redux/slice/rooms'
 
-const SortBy = ()=> {
+type props ={
+    jump:()=>void
+}
+
+const SortBy = ({jump}:props)=> {
 
     const dispatch = useAppDispatch()
     
@@ -13,11 +17,13 @@ const SortBy = ()=> {
     function sortByPrice(e:ChangeEvent<HTMLSelectElement>){
         e.preventDefault()
         dispatch(sortRoomsByPrice(e.target.value))
+        jump()
     }
     
     function sortByRating(e:ChangeEvent<HTMLSelectElement>){
         e.preventDefault()
         dispatch(sortRoomsByRating(e.target.value))
+        jump()
     }
 
     
