@@ -54,7 +54,7 @@ const Footer = () => {
         </div>
         <div className={styles.imgContainer}>
           <div className={styles.imgDiv}>
-            <a href="https://github.com/MarquezE92/SnorInn-App">
+            <a href="https://github.com/MarquezE92/SnorInn-App" target="_blank">
               <img src={require("./images/signo-de-github.png")} alt="" />
             </a>
           </div>
@@ -69,7 +69,7 @@ const Footer = () => {
         {" "}
         {linkedin
           ? gente.map((el) => (
-              <a href={el.linkedin}>
+              <a href={el.linkedin} target="_blank">
                 <div className={styles.infoUs}>{el.name}</div>
               </a>
             ))
