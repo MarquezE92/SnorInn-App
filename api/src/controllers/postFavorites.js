@@ -2,7 +2,7 @@ const mongoose = require ('mongoose');
 const { roomSchema, UserClient } = require('../db');
 
 const addFavorites = async (idRoom , idClient) => {
-    //const getRoom = await roomSchema.findById(idRoom)
+    const getRoom = await roomSchema.findById(idRoom)
     let getClient = await UserClient.findById(idClient)
     console.log(getClient)
     let filerFavorites = getClient.roomFavorites.filter( x => {
@@ -11,6 +11,7 @@ const addFavorites = async (idRoom , idClient) => {
     if (!filerFavorites.length) {
         getClient.roomFavorites = getClient.roomFavorites.concat(idRoom)      
         await getClient.save()
+        return getRoom
     }
 };
 
