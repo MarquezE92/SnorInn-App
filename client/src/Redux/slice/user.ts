@@ -65,6 +65,15 @@ const UserSlice = createSlice({
             console.log(action)
         })
 
+        builder.addCase(addFavorite.pending, (state)=>{
+            state.state = 'loading'
+        })
+        builder.addCase(addFavorite.fulfilled, (state, action)=>{
+            state.state = 'fullfiled'
+            console.log(action)
+            //state.userInfo.roomFavorite.push(action.payload)
+        })
+
         builder.addCase(signInUser.pending,(state)=>{
             state.state = 'loading'
         })
@@ -110,10 +119,21 @@ export const signInUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/logi
     }
 )
 
-
-export const addFavorite = createAsyncThunk<IRoom,string>('User/addFavorite', async (id)=>{
+export const forgetPassword = createAsyncThunk('User/forgetPassword', async()=>{
     try{
-        const json = await axios.get('http://localhost:3002')
+        const json:AxiosResponse = await axios.post('http://localhost:3002/forgotPassword')
+        return json.data
+    }catch(error){
+        console.log(error)
+    }
+})
+
+
+export const addFavorite = createAsyncThunk<IRoom,any>('User/addFavorite', async (value)=>{
+    try{
+        console.log(value)
+        const json = await axios.post('http://localhost:3002/favorites',value)
+        console.log(json.data)
         return json.data
     }catch(error){
         console.log(error)
