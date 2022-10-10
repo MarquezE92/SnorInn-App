@@ -1,0 +1,103 @@
+.mainContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.mainDiv {
+    width: 30rem;
+    padding: 30px 20px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #ADDDD0;
+}
+
+.formDiv {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+.inputDiv {
+    display: flex;
+    padding-bottom: 3rem;
+    justify-content: space-between;
+   
+}
+.divInputPhotos {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 3rem;
+}
+.inputPhotos {
+    width: 100%;
+}
+.inputDescription {
+    height: 20rem;
+    margin-bottom: 2rem;
+    text-align: left;
+    vertical-align: top;
+}
+.title {
+    font-size: 1.5rem;
+    height: 2rem;
+    margin-bottom: 1rem;
+    font-weight: bolder;
+}
+
+.createButton {
+    background-color:#ADDDD0;
+    height: 5rem;
+    width: 10rem;
+    border-radius: 3rem;
+    align-self: center;
+    margin-top: 2rem;
+    border-style: none;
+    cursor: pointer;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+.servicesList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 0;
+}
+.servicesList li {
+    font-size: 10px;
+    display: flex;
+    width: 10rem;
+    justify-content: space-between;
+    margin: 0;
+    padding-bottom: 0.5rem;
+    padding-right: 1rem;
+}
+.deleteButton {
+    width: 1.3rem;
+    height: 1.3rem;
+    background-color: #ADDDD0;
+    cursor: pointer;
+}
+.descriptionButton {
+    margin-bottom: 1rem;
+    
+}
+
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.formControl {
+    height: 20rem;
+    margin-bottom: 2rem;
+}
+

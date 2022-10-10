@@ -1,0 +1,41 @@
+
+
+.name {
+    text-align: center;
+}
+.imgDiv{
+    width: 200px;
+    height: 200px;
+}
+.imgDiv img {
+    width: 100%;
+    height: 100%;
+}
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 60px;
+    margin-left: 40px;
+    background: white;
+    border-radius: 20px;
+}
+.editButton {
+    margin-top: 1em;
+    color: #fff;
+    text-decoration: none;
+    background: linear-gradient(90deg, #7c8180 0%, #000000 100%);
+    padding: .5em 2em;
+    border-radius: 0.7em;
+}
+
+.editButton:hover {
+    transform: scale(1.15);
+}
+
+.delete {
+    display: flex;
+    position: absolute;
+    width: 200px;
+    height: 20px;
+    justify-content: end;
+}
