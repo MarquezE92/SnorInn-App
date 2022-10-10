@@ -11,7 +11,7 @@ const NavBar = () => {
 
   const user = useAppSelector((state) => state.auth.userInfo);
   const dispatch = useAppDispatch();
-  console.log(user);
+  
 
   const admin = user.isAdmin;
 

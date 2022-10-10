@@ -40,6 +40,9 @@ useEffect(() => {
   }
 },[])
 
+const jump=()=>{
+  setCurrentPage(1)
+}
 
    
 
@@ -47,6 +50,7 @@ useEffect(() => {
     <div className={styles.pageContainer}>
       
       <SortBy 
+      jump={jump}
       />
     
       <Paginated

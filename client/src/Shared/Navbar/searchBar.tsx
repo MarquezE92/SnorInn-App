@@ -27,8 +27,9 @@ const SearchBar = () => {
     // dispatch(getRoomsByName(searchValue))
     return () => {
       dispatch(setEmptyRooms());
+      setSearchValue('')
     };
-  }, [searchValue]);
+  }, []);
 
   return (
     <>
