@@ -8,7 +8,8 @@ import {addFavorite} from '../../../Redux/slice/user'
 import { useSelector } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap'; 
+import { BsFillHeartFill } from "react-icons/bs";
 
 const RoomDetail = ()=> {
 	const [modal, setModal] = useState(false);
@@ -20,8 +21,8 @@ const RoomDetail = ()=> {
 	const user = useAppSelector((state)=>state.auth.userInfo)
 
 	const [fav, setFav]= useState({
-		id:id,
-		user:user._id
+		roomFavorites:id,
+		idClient:user._id
 	})
 
 
@@ -54,7 +55,14 @@ return (
 	</div>
 	<div className={styles.infoContainer}>
 	 <div className={styles.principalInfo}>
+	 <div className={styles.placeAndFav}>
 		<h1 className={styles.place}>{rooms.name}</h1>
+		{
+			user.isAdmin ? 
+			<></>:
+			<button onClick={addFav} className={styles.fav}><BsFillHeartFill className={styles.favIcon}/></button>
+		}
+		</div>
 		<h3>{rooms.place}</h3>
 	 </div>
 	 <h2>{rooms.type}</h2>
@@ -68,11 +76,7 @@ return (
 	 </div>
 	 <div>
 	 	<h1>Rating: {rooms.rating}☆</h1>
-		{
-			user.isAdmin ? 
-			<></>:
-			<button onClick={addFav}>{'<3'}</button>
-		}
+		
 	 	<div className={styles.reserveContainer}>
 			<div className={styles.price}>
 			Only ${rooms.price}
