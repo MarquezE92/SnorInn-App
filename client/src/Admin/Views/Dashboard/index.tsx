@@ -10,6 +10,8 @@ import CardAdmin from "./Card";
 const AdminDashboard = () => {
   const [data, setData] = useState<any>({});
 
+
+  const adminInfo = useAppSelector((state: RootState) => state.auth.userInfo)
   const admin = useAppSelector((state: RootState) => state.auth.userInfo._id);
   const rooms = async () => {
     const info = await axios.get(
@@ -20,7 +22,6 @@ const AdminDashboard = () => {
   };
 
   const roomAdmin = data?.rooms;
-
   useEffect(() => {
     rooms();
   }, []);
@@ -36,7 +37,7 @@ const AdminDashboard = () => {
               className={styles.img}
             />
             <div className={styles.info}>
-              <span>John Doe</span>
+              <span>{adminInfo.email}</span>
               <p>Admin :D</p>
             </div>
             <Link to="/create">Create a room</Link>
