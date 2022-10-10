@@ -9,11 +9,11 @@ import { AiOutlineLogout } from "react-icons/ai";
 
 const NavBar = () => {
 
-  const user: any = useAppSelector((state) => state.auth);
+  const user = useAppSelector((state) => state.auth.userInfo);
   const dispatch = useAppDispatch();
   console.log(user);
 
-  const admin = user.userInfo.isAdmin;
+  const admin = user.isAdmin;
 
 
   const handleLogout = () => {

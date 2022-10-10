@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './index.module.css';
-import { useAppDispatch } from '../../../Redux/Store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../Redux/Store/hooks';
 import { useState, useEffect } from "react";
 import {useParams } from 'react-router-dom';
 import { getDetailRoom} from '../../../Redux/slice/rooms';
+import {addFavorite} from '../../../Redux/slice/user'
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../Redux/Store/store';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
@@ -16,7 +16,13 @@ const RoomDetail = ()=> {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch()
 	const {id} = useParams(); 
-	const rooms = useSelector((state:RootState) => state.rooms.Room);
+	const rooms = useAppSelector((state) => state.rooms.Room);
+	const user = useAppSelector((state)=>state.auth.userInfo)
+
+	const [fav, setFav]= useState({
+		id:id,
+		user:user._id
+	})
 
 
 	const handlePay = () => {
@@ -30,7 +36,11 @@ useEffect(() => {
     dispatch(getDetailRoom(id));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-
+const addFav = ()=>{
+	user._id != ''?
+	dispatch(addFavorite(fav)):
+	alert('Tienes que iniciar sesion para añadir favoritos')
+}
   
 
 return (
@@ -58,6 +68,7 @@ return (
 	 </div>
 	 <div>
 	 	<h1>Rating: {rooms.rating}☆</h1>
+		<button onClick={addFav}>{'<3'}</button>
 	 	<div className={styles.reserveContainer}>
 			<div className={styles.price}>
 			Only ${rooms.price}
