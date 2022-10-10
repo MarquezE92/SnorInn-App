@@ -1,0 +1,55 @@
+
+
+.name {
+    text-align: center;
+}
+.imgDiv{
+    width: 200px;
+    height: 200px;
+}
+.imgDiv img {
+    width: 100%;
+    height: 100%;
+}
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 60px;
+    margin-left: 40px;
+    background: white;
+    border-radius: 20px;
+}
+.editButton {
+    display: flex;
+    margin-top: 1em;
+    height: 30px;
+    color: #fff;
+    text-decoration: none;
+    background: linear-gradient(90deg, #7c8180 0%, #000000 100%);
+    border-radius: 0.7em;
+}
+
+.editButton:hover {
+    transform: scale(1.15);
+}
+.editButton a {
+    height: 100%;
+    width: 100%;
+    color: inherit;
+    text-decoration: none;
+    line-height: 30px;
+}
+.editButton a:hover {
+    color: inherit;
+}
+.delete {
+    display: flex;
+    position: absolute;
+    width: 200px;
+    height: 20px;
+    justify-content: end;
+    align-items: center;
+}
+.delete button:hover {
+    transform: scale(1.3);
+}

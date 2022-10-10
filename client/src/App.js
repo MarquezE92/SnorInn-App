@@ -17,6 +17,7 @@ import { PrivateRoutes } from "./routes/privateRoutes";
 import { AuthRoutes , AuthRoutesUser} from "./routes/authRoutes";
 import PaswordSentMessage from "./Shared/LoginUser/PasswordRestore/PaswordSentMessage";
 import User from "./User/Views/User";
+import Edit from "./Admin/Views/Dashboard/Edit";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route element={<AuthRoutes/>}>
           <Route path="/dashboard" element={<AdminDashboard />} />
           <Route path="/create" element={<RoomForm />} />
+          <Route path="/put/:id" element={<Edit />} />
         </Route>
         <Route element={<AuthRoutesUser/>}>
           <Route path="/user" element={<User />} />

@@ -9,8 +9,9 @@
 
 .compContainer {
     display: flex;
-    width: 70%;
     height: 100%;
+    width: 100%;
+    justify-content: space-evenly;
 }
 
 .cardContainer {
@@ -66,6 +67,21 @@
    }
    
    .card a:hover {
-        padding: 20px 60px;
+        transform: scale(1.15);
         color: white;
    }
+
+   .cardsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100%;
+   }
+
+
+   .loading {
+    color: white;
+    font-size: 60px;
+    margin-left: 100px;
+}

@@ -4,7 +4,7 @@ import styles from "./Navbar.module.css";
 import Login from "../LoginUser";
 import { useAppSelector, useAppDispatch } from "../../Redux/Store/hooks";
 import { logout } from "../../Redux/slice/user";
-import { AiOutlineLogout } from "react-icons/ai";
+import { BsDoorOpenFill } from "react-icons/bs";
 
 
 const NavBar = () => {
@@ -76,7 +76,7 @@ const NavBar = () => {
                     onClick={() => handleLogout()}
                     className={styles.logoutBotton}
                   >
-                    <a className={styles.NavLink}><AiOutlineLogout /></a>
+                    <a className={styles.NavLink}><BsDoorOpenFill /></a>
                   </button>
               </>
             )}
