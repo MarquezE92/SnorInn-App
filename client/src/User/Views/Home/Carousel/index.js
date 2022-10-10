@@ -13,7 +13,7 @@ const HomeCarousel = () => {
   }, []);
   return (
     <>
-    <Carousel style={{width: 1120, height:500, paddingTop:40}}>
+    <Carousel style={{width: 1000, height:500, paddingTop:40}}>
       {rooms?.map((el) => {
         return (
           <Carousel.Item>
@@ -21,7 +21,7 @@ const HomeCarousel = () => {
               {" "}
               <img className="d-block w-100" src={el.photos} alt="First $()"style={{width: 1120, height:500}}/>
             </div>
-            <Carousel.Caption>
+            <Carousel.Caption style={{paddingBottom:40}}>
               <h3>{el.name}</h3>
               <p>{el.place}</p>
             </Carousel.Caption>

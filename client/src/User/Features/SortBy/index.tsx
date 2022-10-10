@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import styles from './index.module.css';
-import SearchBar from '../../../Shared/Navbar/searchBar';
+import SearchBar from '../SearchForm/searchBar';
 
 import {useAppDispatch} from '../../../Redux/Store/hooks'
 import { sortRoomsByPrice, sortRoomsByRating} from '../../../Redux/slice/rooms'
@@ -42,8 +42,7 @@ const SortBy = ({jump}:props)=> {
                 <option value="Less Popular">Less Popular</option>
             </select>
             <SearchBar
-           
-            
+            jump = {jump}
             />
 		</div>
         </div>
