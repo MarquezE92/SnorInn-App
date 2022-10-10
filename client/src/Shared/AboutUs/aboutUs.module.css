@@ -1,7 +1,7 @@
 .aboutContainer {
 	height: 30vw;
 	width: 100%;
-	margin-top: 1.5rem;
+	margin-top: 2.5rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -9,7 +9,7 @@
 }
 .header {
 	background: linear-gradient(90deg, rgba(78,143,124,1) 0%, rgba(173,221,208,1) 48%, rgba(190,222,222,1) 100%);
-	width: 40rem;
+	width: 45rem;
 	height: 6rem;
 	padding: 1.5rem;
 	border-radius: .5rem;
@@ -41,4 +41,11 @@
 	color: #ADDDD0;
 	height: 2rem;
 	margin-right: 0.3rem;
+}
+
+.text {
+	margin-top: 2.5rem;
+	width: 45rem;
+	font-weight: bolder;
+	color: #707070;
 }
