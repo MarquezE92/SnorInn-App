@@ -99,13 +99,13 @@
 	border: 1px solid rgba(0, 0, 0, 0.512);
 	border-radius: 10px;
 }
-.logoutBotton a {
-color: inherit;
+
+.logoutBotton {
+	color: #ADDDD0;
+	background-color: transparent;
+	border: none;
+	width: 3rem;
 }
 .logoutBotton:hover {
-	background: black;
-	color: white;
-}
-.logoutBotton a:hover {
 	color: inherit;
 }
