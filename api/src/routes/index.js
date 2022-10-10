@@ -421,7 +421,7 @@ router.get('/reset/:token', async (req, res) => {
        // Envío de mail con los datos de la nueva password
        await sendNewPasswordEmail(email, 'SnorInn new password', template);
 
-        res.send('Mail with new password sent')
+        return res.redirect('http://localhost:3000/paswordsent');
         
     } catch (error) {
         console.log(error);
