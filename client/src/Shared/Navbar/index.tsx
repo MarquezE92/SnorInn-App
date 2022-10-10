@@ -72,12 +72,9 @@ const NavBar = () => {
                 }
                   
                 </button>
-                  <button
-                    onClick={() => handleLogout()}
-                    className={styles.logoutBotton}
-                  >
-                    <a className={styles.NavLink}><BsDoorOpenFill /></a>
-                  </button>
+                  
+                <BsDoorOpenFill onClick={() => handleLogout()} className={styles.logoutBotton}/>
+                  
               </>
             )}
 
