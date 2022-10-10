@@ -55,8 +55,8 @@
 .navbarButtonAdmin {
 	display: flex;
 	align-items: center;
-	background: #ADDDD0;
-	color: white;
+	background: white;
+	color: rgba(0, 0, 0, 0.498);
 	font-size: 2rem;
 	font: arial;
 	width: 100px;
@@ -67,7 +67,7 @@
 }
 
 .navbarButtonAdmin:hover {
-	background: black;
+	background: #ADDDD0;
 	color: white;
 }
 .navbarButtonAdmin a, span {
@@ -92,17 +92,18 @@
 	display: flex;
 }
 .logoutBotton {
-	background: black;
+	background: rgba(0, 0, 0, 0.604);
 	width: 30px;
-	height: 40%;
+	height: 30px;
 	color:  white;
-	border-radius: 15px;
+	border: 1px solid rgba(0, 0, 0, 0.512);
+	border-radius: 10px;
 }
 .logoutBotton a {
 color: inherit;
 }
 .logoutBotton:hover {
-	background: red;
+	background: black;
 	color: white;
 }
 .logoutBotton a:hover {

@@ -13,6 +13,7 @@ import { useAppSelector } from "../../../../Redux/Store/hooks";
 import { RootState } from "../../../../Redux/Store/store";
 import { useParams } from "react-router-dom";
 import { getDetailRoom } from "../../../../Redux/slice/rooms";
+import { useNavigate } from "react-router-dom";
 
 const Edit = () => {
   const servicesInfo = services;
@@ -23,14 +24,14 @@ const Edit = () => {
   const {id} = useParams(); 
   const rooms = useAppSelector((state) => state.rooms.Room);
 
-console.log(id)
-console.log(rooms)
-  const dispatch = useAppDispatch();
 
-  const idAdmin = useAppSelector((state: RootState) => state.auth.userInfo._id);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  
 
   const [openModal, setOpenModal] = useState(false);
   const [input, setInput] = useState<Partial<IRoom>>({
+    _id: id,
     type: "",
     name: "",
     n_beds: 0,
@@ -118,6 +119,7 @@ console.log(rooms)
         rating: 0,
       });
       Swal.fire("Good job!", "Your room was edited!", "success");
+      setTimeout(()=> navigate('/dashboard', {replace:false}), 2200) 
     }
   };
 

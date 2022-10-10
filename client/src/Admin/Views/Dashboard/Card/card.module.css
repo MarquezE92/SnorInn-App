@@ -48,4 +48,8 @@
     width: 200px;
     height: 20px;
     justify-content: end;
+    align-items: center;
+}
+.delete button:hover {
+    transform: scale(1.3);
 }
