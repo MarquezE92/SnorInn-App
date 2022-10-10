@@ -30,9 +30,9 @@ const CheckutForm = () => {
         amount: Number(rooms.price + "00"),
         email,
       });
-      Swal.fire("Great!", "Your payment was processed correctly", "success");
+      Swal.fire("Great!", "Your payment was processed correctly. You'll receive your receipt via mail.", "success");
       navigate("/rooms", { replace: true });
-    } else {Swal.fire("Great!", "Something is wrong with yout card", "error");}
+    } else {Swal.fire("Oh No!", "Something is wrong with yout card", "error");}
   };
 
   return (
