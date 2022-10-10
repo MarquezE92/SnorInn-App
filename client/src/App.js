@@ -12,6 +12,7 @@ import Redirect from "./User/Views/Redirect/Redirect";
 import PaswordRestore from "./Shared/LoginUser/PasswordRestore/PaswordRestore";
 import SignUpAdmin from "./Shared/SignUpAdmin";
 import AboutUs from "./Shared/AboutUs/AboutUs";
+import NotFound from "./Shared/NotFound/NotFound";
 import { PrivateRoutes } from "./routes/privateRoutes";
 import { AuthRoutes , AuthRoutesUser} from "./routes/authRoutes";
 import PaswordSentMessage from "./Shared/LoginUser/PasswordRestore/PaswordSentMessage";
@@ -51,6 +52,7 @@ function App() {
           <Route path="/rooms/reserve/:id" element={<Stripe />} />
         </Route>
 
+        <Route path="*" element={<NotFound />} />
         
       </Routes>
       <Footer />
