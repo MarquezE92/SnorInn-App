@@ -24,7 +24,16 @@ export interface IUserInfo{
 }
 
 const initialState={
-    userInfo: user ? user : null,
+    userInfo: user ? user : {
+        confimationCode: '',
+        email: '',
+        isAdmin: null,
+        password: '',
+        reservationId: [],
+        roomFavorite: [],
+        status: '',
+        _id: '',
+    },
     state:'initial',
     Msg:''
 }
