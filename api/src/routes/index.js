@@ -1,9 +1,9 @@
 const UserClient = require('../models/userClientSchema');
 const UserAdmin = require('../models/userAdminSchema');
 const { v4: uuidv4 } = require('uuid');
-const {getToken, getTokenR, getTokenAdmin, getTokenRData, getTokenData} = require('../config/jwt.config');
-const {getTemplate, getTemplateR,  getTemplatePass, getTemplatePayment, getTemplateAdmin,
-    sendEmail, sendRecoverEmail, sendNewPasswordEmail, sendEmailReceipt, sendEmailAdmin} = require ('../config/mail.config');
+const {getToken, getTokenR, getTokenRData, getTokenData} = require('../config/jwt.config');
+const {getTemplate, getTemplateR,  getTemplatePass, getTemplatePayment, getTemplateAdmin, getTemplateRadmin,
+    sendEmail, sendRecoverEmail, sendNewPasswordEmail, sendEmailReceipt} = require ('../config/mail.config');
 
 const { Router } = require('express');
 const router = Router();
@@ -400,11 +400,11 @@ router.post('/signupadmin', async (req, res) => {
         //crear nuevo usuario
         user = new UserAdmin({email, password, confirmationCode});
         //Generar un token
-        const token = getTokenAdmin({email, password, confirmationCode});
+        const token = getToken({email, password, confirmationCode});
         //Obtener un template
         const template = getTemplateAdmin(token);
         //Enviar el email
-        await sendEmailAdmin(email, 'SnorInn confirmation mail', template);
+        await sendEmail(email, 'SnorInn confirmation mail', template);
         //guardar el usuario
         await user.save();
 
@@ -539,6 +539,82 @@ router.get('/reset/:token', async (req, res) => {
 
 ///////////////////////////////////// RUTAS DE RECUPERO DE CONTRASEÑA VIA MAIL ADMIN //////////////////////////
 
+//endpoint para 'Me olvidé la contraseña'
+router.post('/forgotPasswordadmin', async (req, res)=> {
+
+    try {//obtengo dirección de mail a donde enviar el mensaje de recupero
+        const {email} = req.body;
+    
+        // Verificar existencia del usuario
+           const user = await UserAdmin.findOne({ email }) || null;
+    
+           if(user === null) {
+                return res.status(404).send('This User does not exist');
+           }
+        
+        // Generar un token, válido por una hora, para tokenizar la info del usuario
+            const token = getTokenR(email);
+
+        //Obtener un template
+            const template = getTemplateRadmin(token);
+
+        //envío mail
+            await sendRecoverEmail(email, 'SnorInn recover password', template);
+
+        res.send('Password recovery mail sent')
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Delivery of recovering password failed')
+    }
+})
+
+//ruta cambio de contraseña
+router.get('/reseta/:token', async (req, res) => {
+    try {
+
+       // Obtener el token
+       const { token} = req.params;
+       
+       // Verificar la data
+       const data = await getTokenRData(token);
+
+       if(data === null) {
+            return res.send('Error at getting data');
+       }
+
+       console.log(data);
+
+       const email = data.data;
+
+       console.log(email)
+
+       // Verificar existencia del usuario
+       const user = await UserAdmin.findOne({ email }) || null;
+
+       if(user === null) {
+            return res.send('This User does not exist');
+       }
+
+       //Generar nueva password
+        const newPass = uuidv4();
+
+       // Actualizar usuario
+       user.password = newPass;
+       await user.save();
+
+       //Obtener un template
+        const template = getTemplatePass(newPass);
+
+       // Envío de mail con los datos de la nueva password
+       await sendNewPasswordEmail(email, 'SnorInn new password', template);
+
+        return res.redirect('http://localhost:3000/paswordsent');
+        
+    } catch (error) {
+        console.log(error);
+        return res.send("We couldn't reset your password");
+    }
+});
 
 
 
