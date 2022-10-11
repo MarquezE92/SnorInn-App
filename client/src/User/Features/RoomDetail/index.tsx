@@ -10,6 +10,7 @@ import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap'; 
 import { BsFillHeartFill } from "react-icons/bs";
+import Swal from "sweetalert2";
 
 const RoomDetail = ()=> {
 	const [modal, setModal] = useState(false);
