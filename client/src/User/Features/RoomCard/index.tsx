@@ -61,9 +61,9 @@ const jump=()=>{
 
       <div className={styles.mainDiv}>
  
-       { Object.keys(rooms).length ?
+       { Object.keys(currentRooms).length ?
 
-       rooms?.map((el) => {
+       currentRooms?.map((el) => {
           return (
             <>
               <Card

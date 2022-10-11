@@ -10,7 +10,7 @@ interface Iroom {
   description: string;
   n_beds: number;
   name: string;
-  photos: string[];
+  photos: string;
   place: string;
   price: number;
   reservationId: string;
@@ -33,7 +33,7 @@ const User = () => {
   const user = useAppSelector((state: RootState) => state.auth.userInfo);
   console.log(user);
   const [render, setRender] = useState("");
-  const navigate = useNavigate();
+
 
   return (
     <div className={styles.mainDiv}>
@@ -82,17 +82,17 @@ const User = () => {
           >
             {user.roomFavorites?.length
               ? user.roomFavorites.map((room: Iroom) => (
-                <NavLink to={`/rooms/${room._id}`} className={styles.roomCardContainer}>
-                  <div className={styles.roomCard}>
-                    
-                      <h2>{room.name}</h2>
+                
+                  <button className={styles.roomCard}>
+                    <NavLink to={`/rooms/${room._id}`}>
+                      <h3>{room.name}</h3>
                       <div>{room.price}$ per night</div>
                       <div>{room.n_beds} bed</div>
-                   
-                  </div>
-                  </NavLink>
+                      <img src={room.photos}/>
+                    </NavLink>
+                  </button>
                 ))
-              : "You have no favorite room yet"}
+              : <h2>You have no favorite room yet</h2>}
           </div>
         </div>
       </div>

@@ -142,9 +142,11 @@ export const signInUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/logi
 export const forgetPassword = createAsyncThunk<string, any>('User/forgetPassword', async(value)=>{
     try{
         const json:AxiosResponse = await axios.post('http://localhost:3002/forgotPassword', value)
+        Swal.fire("Yes!", 'An email to reset your password will be sent', "success");
         return json.data
-    }catch(error){
-        console.log(error)
+    }catch(error:any){
+        Swal.fire("Ups!", (error.response.data), "error");
+       
     }
 })
 
