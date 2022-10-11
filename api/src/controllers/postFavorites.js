@@ -6,8 +6,9 @@ const addFavorites = async (idRoom , idClient) => {
     let getClient = await UserClient.findById(idClient)
     console.log(getClient)
     let filerFavorites = getClient.roomFavorites.filter( x => {
-        return x === idClient
+        return x.toString() === idRoom
     }) 
+    console.log(filerFavorites)
     if (!filerFavorites.length) {
         getClient.roomFavorites = getClient.roomFavorites.concat(idRoom)      
         await getClient.save()
