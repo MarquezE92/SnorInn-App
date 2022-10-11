@@ -45,11 +45,6 @@ const getTokenRData = (token) => {
 
 ///////////////////////////////////  ADMIN ////////////////////////////////////////////////
 
-const getTokenAdmin = (payload) => {
-    return jwt.sign({
-        data: payload
-    }, SECRET, { expiresIn: '2h' });
-};
 
 
 module.exports = {
@@ -57,5 +52,5 @@ module.exports = {
     getTokenData,
     getTokenR,
     getTokenRData,
-    getTokenAdmin   
+       
 }

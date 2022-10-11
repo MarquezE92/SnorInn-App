@@ -174,7 +174,7 @@ const getTemplateAdmin = (token) => {
         </head>
         
         <div id="email___content">
-            <h1>Thanks for join Snor Inn!<h1>
+            <h1>Thanks for joining Snor Inn!<h1>
 
             <h2>To confirm your account, press the link below</h2>
             
@@ -186,21 +186,30 @@ const getTemplateAdmin = (token) => {
       `;
   };
 
-  const sendEmailAdmin = async (email, subject, html) => {
-    try {
+  const getTemplateRadmin = (token) => {
+      return `
+        <head>
+            <link rel="stylesheet" href="./style.css">
+        </head>
         
-        await transporter.sendMail({
-            from: `SnorInn <${ mail.user }>`, // sender address
-            to: email, // list of receivers
-            subject, // Subject line
-            text: "Welcome to SnorInn", // plain text body
-            html, // html body
-        });
+        <div id="email___content">
+            <h1>You asked for a password reset<h1>
+            
+            <h2>To reset your password, click the link below</h2>
+            
+            <a
+                href="http://localhost:3002/reseta/${token}"
+                target="_blank"
+            >Reset</a>
+            <h2>And we will send you a mail with a new password</h2>
 
-    } catch (error) {
-        console.log('Something is wrong with the email', error);
-    }
-  };
+            <br>
+            <h2>If you no longer want to reset your password, ignore this email</h2>
+        </div>
+      `;
+  }
+
+
 
 
 
@@ -214,5 +223,5 @@ const getTemplateAdmin = (token) => {
     getTemplatePayment,
     sendEmailReceipt,
     getTemplateAdmin,
-    sendEmailAdmin
+    getTemplateRadmin,
   }
