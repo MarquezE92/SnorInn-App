@@ -30,8 +30,7 @@ interface Ireserve {
   _id: string;
 }
 const User = () => {
-  const user = useAppSelector((state: RootState) => state.auth.userInfo);
-  console.log(user);
+  const user = JSON.parse(localStorage.getItem('user')!);
   const [render, setRender] = useState("");
 
 

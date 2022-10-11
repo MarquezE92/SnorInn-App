@@ -18,11 +18,12 @@ const RoomDetail = ()=> {
 	const dispatch = useAppDispatch()
 	const {id} = useParams(); 
 	const rooms = useAppSelector((state) => state.rooms.Room);
-	const user = useAppSelector((state)=>state.auth.userInfo)
+	const userLocal = JSON.parse(localStorage.getItem('user')!)
+	const user = useAppSelector(state=>state.auth.userInfo)
 
 	const [fav, setFav]= useState({
 		roomFavorites:id,
-		idClient:user._id
+		idClient: user._id
 	})
 
 
@@ -38,9 +39,15 @@ useEffect(() => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 const addFav = ()=>{
-	user._id != ''?
-	dispatch(addFavorite(fav)):
-	alert('Tienes que iniciar sesion para añadir favoritos')
+	if(user._id !== ''){
+		if(userLocal.roomFavorites.find((el:any)=>el._id === fav.roomFavorites)){
+			alert('YOU ALREADY HAVE THIS ROOM IN YOUR FAVORITES')
+		}else{
+			dispatch(addFavorite(fav))
+		}
+	}else{
+		alert('YOU NEED TO BE LOGED TO ADD TO FAVORITES')
+	}
 }
   
 
