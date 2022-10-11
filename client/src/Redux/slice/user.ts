@@ -154,7 +154,9 @@ export const forgetPassword = createAsyncThunk<string, any>('User/forgetPassword
 export const addFavorite = createAsyncThunk<IRoom,Object>('User/addFavorite', async (value)=>{
     try{
         const json = await axios.post('http://localhost:3002/favorites',value)
+        Swal.fire("Great!", "You added this room to your favorites!", "success");
         return json.data
+
     }catch(error){
         console.log(error)
     }
