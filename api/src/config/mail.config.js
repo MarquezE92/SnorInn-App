@@ -20,6 +20,9 @@ let transporter = nodemailer.createTransport({
     },
   });
 
+
+//-----------------------------------  ENVÍOS DE MAIL PARA USERS  ----------------------------------
+
   const sendEmail = async (email, subject, html) => {
     try {
         
@@ -162,6 +165,45 @@ let transporter = nodemailer.createTransport({
     }
   };
 
+  //-----------------------------------  ENVÍOS DE MAIL PARA ADMINS  ----------------------------------
+
+const getTemplateAdmin = (token) => {
+      return `
+        <head>
+            <link rel="stylesheet" href="./style.css">
+        </head>
+        
+        <div id="email___content">
+            <h1>Thanks for join Snor Inn!<h1>
+
+            <h2>To confirm your account, press the link below</h2>
+            
+            <a
+                href="http://localhost:3002/confirma/${ token }"
+                target="_blank"
+            >Confirm Account</a>
+        </div>
+      `;
+  };
+
+  const sendEmailAdmin = async (email, subject, html) => {
+    try {
+        
+        await transporter.sendMail({
+            from: `SnorInn <${ mail.user }>`, // sender address
+            to: email, // list of receivers
+            subject, // Subject line
+            text: "Welcome to SnorInn", // plain text body
+            html, // html body
+        });
+
+    } catch (error) {
+        console.log('Something is wrong with the email', error);
+    }
+  };
+
+
+
   module.exports = {
     sendEmail,
     getTemplate,
@@ -170,5 +212,7 @@ let transporter = nodemailer.createTransport({
     getTemplatePass,
     sendNewPasswordEmail,
     getTemplatePayment,
-    sendEmailReceipt
+    sendEmailReceipt,
+    getTemplateAdmin,
+    sendEmailAdmin
   }

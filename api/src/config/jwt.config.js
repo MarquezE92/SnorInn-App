@@ -1,14 +1,19 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const {
+  SECRET
+} = process.env;
+
 
 const getToken = (payload) => {
     return jwt.sign({
         data: payload
-    }, 'SECRET', { expiresIn: '2h' });
+    }, SECRET, { expiresIn: '2h' });
 }
 
 const getTokenData = (token) => {
     let data = null;
-    jwt.verify(token, 'SECRET', (err, decoded) => {
+    jwt.verify(token, SECRET, (err, decoded) => {
         if(err) {
             console.log('Error at getting data from token');
         } else {
@@ -22,12 +27,12 @@ const getTokenData = (token) => {
 const getTokenR = (email) => {
     return jwt.sign({
         data: email
-    }, 'SECRET', { expiresIn: '1h' });
+    }, SECRET, { expiresIn: '1h' });
 };
 
 const getTokenRData = (token) => {
     let data = null;
-    jwt.verify(token, 'SECRET', (err, decoded) => {
+    jwt.verify(token, SECRET, (err, decoded) => {
         if(err) {
             console.log('Error at getting data from token');
         } else {
@@ -38,6 +43,13 @@ const getTokenRData = (token) => {
     return data;
 };
 
+///////////////////////////////////  ADMIN ////////////////////////////////////////////////
+
+const getTokenAdmin = (payload) => {
+    return jwt.sign({
+        data: payload
+    }, SECRET, { expiresIn: '2h' });
+};
 
 
 module.exports = {
@@ -45,5 +57,5 @@ module.exports = {
     getTokenData,
     getTokenR,
     getTokenRData,
-   
+    getTokenAdmin   
 }
