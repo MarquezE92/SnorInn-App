@@ -5,20 +5,20 @@ import Login from "../LoginUser";
 import { useAppSelector, useAppDispatch } from "../../Redux/Store/hooks";
 import { logout } from "../../Redux/slice/user";
 import { BsDoorOpenFill } from "react-icons/bs";
-
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
 
   const user = useAppSelector((state) => state.auth.userInfo);
   const dispatch = useAppDispatch();
-  
+  const navigate = useNavigate();
 
   const admin = user.isAdmin;
 
 
   const handleLogout = () => {
+    navigate('/')
     dispatch(logout())
-    window.location.reload()
   }
 
   return (
@@ -72,9 +72,10 @@ const NavBar = () => {
                 }
                   
                 </button>
-                  
-                <BsDoorOpenFill onClick={() => handleLogout()} className={styles.logoutBotton}/>
-                  
+                <form onSubmit={() => handleLogout()}>
+                  <button type='submit'><BsDoorOpenFill  className={styles.logoutBotton}/></button> 
+                </form>
+               
               </>
             )}
 

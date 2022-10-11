@@ -5,6 +5,7 @@ import styles from "./login.module.css";
 import { ChangeEvent, FormEvent } from "react";
 import { signInUser } from "../../Redux/slice/user";
 import { useAppDispatch } from "../../Redux/Store/hooks";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   
@@ -17,6 +18,9 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
+
 
   const handleModal = () => {
     setModal(!modal);
@@ -31,7 +35,7 @@ const Login = () => {
   }
  const handleSubmit = (e:FormEvent) => {
       e.preventDefault()
-      dispatch(signInUser(input))
+        dispatch(signInUser(input))
   }
 
   return (

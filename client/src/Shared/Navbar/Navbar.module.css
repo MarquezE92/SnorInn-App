@@ -92,20 +92,15 @@
 	display: flex;
 }
 .logoutBotton {
-	background: rgba(0, 0, 0, 0.604);
-	width: 30px;
 	height: 30px;
 	color:  white;
-	border: 1px solid rgba(0, 0, 0, 0.512);
-	border-radius: 10px;
-}
-
-.logoutBotton {
+	cursor: pointer;
 	color: #ADDDD0;
 	background-color: transparent;
-	border: none;
 	width: 3rem;
 }
+
+
 .logoutBotton:hover {
 	color: inherit;
 }
