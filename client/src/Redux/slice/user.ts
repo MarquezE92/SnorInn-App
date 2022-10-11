@@ -80,10 +80,10 @@ const UserSlice = createSlice({
            console.log(user.roomFavorites)
         })
 
-        builder.addCase(reservation.pending, (state)=>{
+        builder.addCase(payment.pending, (state)=>{
             state.state = 'loading'
         })
-        builder.addCase(reservation.fulfilled, (state, action)=>{
+        builder.addCase(payment.fulfilled, (state, action)=>{
             state.state = 'fullfiled'
             const user = JSON.parse(localStorage.getItem('user')!)
 
@@ -162,9 +162,9 @@ export const addFavorite = createAsyncThunk<IRoom,Object>('User/addFavorite', as
     }
 })
 
-export const reservation = createAsyncThunk<IRoom,Object>('User/reservation', async (value)=>{
+export const payment = createAsyncThunk<IRoom,Object>('User/datapeyment', async (value)=>{
     try{
-        const json = await axios.post('http://localhost:3002/reservation',value)
+        const json = await axios.post('http://localhost:3002/dataPeyment',value)
         return json.data
     }catch(error){
         console.log(error)

@@ -23,15 +23,20 @@ const CheckutForm = () => {
       card: elements.getElement(CardElement),
     });
     if (!error) {
-      const { id } = paymentMethod;
-      const { email } = user;
-      const { data } = await axios.post("http://localhost:3002/dataPeyment", {
-        id,
-        amount: Number(rooms.price + "00"),
-        email,
-      });
-      Swal.fire("Great!", "Your payment was processed correctly. You'll receive your receipt via mail.", "success");
-      navigate("/rooms", { replace: true });
+      try{
+        const { id } = paymentMethod;
+        const { email } = user;
+        const { data } = await axios.post("http://localhost:3002/dataPeyment", {
+          id,
+          amount: Number(rooms.price + "00"),
+          email,
+        });
+        console.log(data)
+        Swal.fire("Great!", "Your payment was processed correctly. You'll receive your receipt via mail.", "success");
+        navigate("/rooms", { replace: true });
+      }catch(error:any){
+        Swal.fire("Oh No!", error.response.data.message, "error")
+      }
     } else {Swal.fire("Oh No!", "Something is wrong with yout card", "error");}
   };
 
