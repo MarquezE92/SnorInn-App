@@ -30,7 +30,7 @@ const initialState={
         isAdmin: null,
         password: '',
         reservationId: [],
-        roomFavorite: [],
+        roomFavorites: [],
         status: '',
         _id: '',
     },
@@ -70,7 +70,29 @@ const UserSlice = createSlice({
         })
         builder.addCase(addFavorite.fulfilled, (state, action)=>{
             state.state = 'fullfiled'
-            console.log(state.userInfo)
+            const user = JSON.parse(localStorage.getItem('user')!)
+
+            if(user){
+                user.roomFavorites = [...user.roomFavorites, action.payload]
+                localStorage.setItem('user', JSON.stringify(user))
+            }
+            
+           console.log(user.roomFavorites)
+        })
+
+        builder.addCase(reservation.pending, (state)=>{
+            state.state = 'loading'
+        })
+        builder.addCase(reservation.fulfilled, (state, action)=>{
+            state.state = 'fullfiled'
+            const user = JSON.parse(localStorage.getItem('user')!)
+
+            if(user){
+                user.reservationId = [...user.reservationId, action.payload]
+                localStorage.setItem('user', JSON.stringify(user))
+            }
+            
+           console.log(user.reservationId)
         })
 
         builder.addCase(signInUser.pending,(state)=>{
@@ -130,6 +152,15 @@ export const forgetPassword = createAsyncThunk<string, any>('User/forgetPassword
 export const addFavorite = createAsyncThunk<IRoom,Object>('User/addFavorite', async (value)=>{
     try{
         const json = await axios.post('http://localhost:3002/favorites',value)
+        return json.data
+    }catch(error){
+        console.log(error)
+    }
+})
+
+export const reservation = createAsyncThunk<IRoom,Object>('User/reservation', async (value)=>{
+    try{
+        const json = await axios.post('http://localhost:3002/reservation',value)
         return json.data
     }catch(error){
         console.log(error)
