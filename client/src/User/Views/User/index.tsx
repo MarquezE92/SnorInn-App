@@ -85,7 +85,7 @@ const User = () => {
                   <button className={styles.roomCard}>
                     <NavLink to={`/rooms/${room._id}`}>
                       <h3>{room.name}</h3>
-                      <div>{room.price}$ per night</div>
+                      <div>${room.price} per night</div>
                       <div>{room.n_beds} bed</div>
                       <img src={room.photos}/>
                     </NavLink>
