@@ -1,7 +1,9 @@
 const UserClient = require('../models/userClientSchema');
+const UserAdmin = require('../models/userAdminSchema');
 const { v4: uuidv4 } = require('uuid');
-const {getToken, getTokenR, getTokenRData, getTokenData} = require('../config/jwt.config');
-const {getTemplate, getTemplateR,  getTemplatePass, getTemplatePayment, sendEmail, sendRecoverEmail, sendNewPasswordEmail, sendEmailReceipt} = require ('../config/mail.config');
+const {getToken, getTokenR, getTokenAdmin, getTokenRData, getTokenData} = require('../config/jwt.config');
+const {getTemplate, getTemplateR,  getTemplatePass, getTemplatePayment, getTemplateAdmin,
+    sendEmail, sendRecoverEmail, sendNewPasswordEmail, sendEmailReceipt, sendEmailAdmin} = require ('../config/mail.config');
 
 const { Router } = require('express');
 const router = Router();
@@ -245,7 +247,7 @@ router.post('/favorites', async (req, res) => {
 });
 
 
-///////////////////////////////////// RUTAS CONFIRMACIÓN VIA MAIL  ///////////////////////////////
+///////////////////////////////////// RUTAS LOGIN AND REGISTER USER  ///////////////////////////////
 
 //login con verificación de cuenta activada por mail 
 router.post('/login', async(req, res)=>{
@@ -280,7 +282,7 @@ router.post('/login', async(req, res)=>{
 router.post('/signup', async (req, res) => {
     try {
         //obtengo nombre e email del usuario
-        const {email, password, isAdmin} = req.body;
+        const {email, password} = req.body;
         //verificar que el usuario aún no exista
         let user = await UserClient.findOne({email}) || null;
         if(user !== null) {
@@ -290,7 +292,7 @@ router.post('/signup', async (req, res) => {
         const confirmationCode = uuidv4();
 
         //crear nuevo usuario
-        user = new UserClient({email, password, isAdmin, confirmationCode});
+        user = new UserClient({email, password, confirmationCode});
         //Generar un token
         const token = getToken({email, password, confirmationCode});
         //Obtener un template
@@ -350,7 +352,113 @@ router.get('/confirm/:token', async (req, res) => {
     }
 });
 
-///////////////////////////////////// RUTAS DE RECUPERO DE CONTRASEÑA VIA MAIL  ////////////////////////
+///////////////////////////////////// RUTAS LOGIN AND REGISTER ADMIN  ////////////////////////////////
+
+// ruta login con verificación de cuenta activada por mail 
+router.post('/loginadmin', async(req, res)=>{
+    try{
+    //obtengo nombre e email del usuario
+        const {email, password} = req.body;
+    //verificar que el usuario exista
+        const user = await UserAdmin.findOne({email}).populate("rooms") || null;
+        if(user === null) {
+            return res.status(401).send('You Need to be registered to log in')
+        };
+        if(user.status !=='Active') {
+            return res.status(401).send('Pending Account. Please Verify Your Email!');
+        };
+    //autenticación contraseña
+//        user.isCorrectPassword(password, (err, result)=>{
+//            if(!result) return res.status(401).send('Invalid password');
+
+//            else {
+//                console.log(user);
+                res.json(user);
+//            }
+//        })    
+
+    } catch(error){
+        console.log(error)
+        res.status(500).send('Login failed')
+    }
+
+})
+
+//ruta registro con mail
+router.post('/signupadmin', async (req, res) => {
+    try {
+        //obtengo nombre e email del usuario
+        const {email, password} = req.body;
+        //verificar que el usuario aún no exista
+        let user = await UserAdmin.findOne({email}) || null;
+        if(user !== null) {
+            return res.status(401).send('You already have an account, cant register twice')
+        };
+        //Generar el código para verificar el email
+        const confirmationCode = uuidv4();
+
+        //crear nuevo usuario
+        user = new UserAdmin({email, password, confirmationCode});
+        //Generar un token
+        const token = getTokenAdmin({email, password, confirmationCode});
+        //Obtener un template
+        const template = getTemplateAdmin(token);
+        //Enviar el email
+        await sendEmailAdmin(email, 'SnorInn confirmation mail', template);
+        //guardar el usuario
+        await user.save();
+
+        res.send(user);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
+    }
+});
+
+//Ruta de confirmación de usuario Admin 
+router.get('/confirma/:token', async (req, res) => {
+    try {
+
+       // Obtener el token
+       const { token } = req.params;
+       
+       // Verificar la data
+       const data = await getTokenData(token);
+
+       if(data === null) {
+            return res.status(500).send('Error at getting data');
+       }
+
+       console.log(data);
+
+       const { email, confirmationCode } = data.data;
+
+       // Verificar existencia del usuario
+       const user = await UserAdmin.findOne({ email }) || null;
+
+       if(user === null) {
+            return res.status(404).send('This User does not exist');
+       }
+
+       // Verificar el código
+       if(confirmationCode !== user.confirmationCode) {
+            return res.status(500).send('Confirmation Code error');
+       }
+
+       // Actualizar usuario
+       user.status = 'Active';
+       await user.save();
+
+       // Redireccionar a la confirmación
+       return res.redirect('http://localhost:3000/confirmedaccount');
+        
+    } catch (error) {
+        console.log(error);
+        return res.send("User couldn't be confirmed");
+    }
+});
+
+///////////////////////////////////// RUTAS DE RECUPERO DE CONTRASEÑA VIA MAIL USER ////////////////////////
 
 //endpoint para 'Me olvidé la contraseña'
 router.post('/forgotPassword', async (req, res)=> {
@@ -428,6 +536,13 @@ router.get('/reset/:token', async (req, res) => {
         return res.send("We couldn't reset your password");
     }
 });
+
+///////////////////////////////////// RUTAS DE RECUPERO DE CONTRASEÑA VIA MAIL ADMIN //////////////////////////
+
+
+
+
+
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
 
 module.exports = router;
