@@ -3,6 +3,7 @@ import Carousel from "react-bootstrap/Carousel";
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../../../Redux/Store/hooks";
 import { getRoomsByPage } from "../../../../Redux/slice/rooms";
+import styles from "./carousel.module.css";
 
 const HomeCarousel = () => {
   const dispatch = useAppDispatch();
@@ -14,7 +15,8 @@ const HomeCarousel = () => {
   return (
     <>
     <Carousel style={{width: 1000, height:500, paddingTop:40}}>
-      {rooms?.map((el) => {
+      {rooms?.length?
+        rooms?.map((el) => {
         return (
           <Carousel.Item>
             <div className='imgContainer'>
@@ -27,10 +29,17 @@ const HomeCarousel = () => {
             </Carousel.Caption>
           </Carousel.Item>
         );
-      })}
+      }):
+      <div className={styles.spinner}>
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+    }
     </Carousel>
     </>
   );
 };
 
 export default HomeCarousel;
+
