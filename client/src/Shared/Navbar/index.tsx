@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
 
-  const user = useAppSelector((state) => state.auth.userInfo);
+  const user = useAppSelector((state) => state.users.userInfo);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

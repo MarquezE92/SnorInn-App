@@ -6,7 +6,7 @@ import users from '../slice/user'
 export const store = configureStore({
     reducer:{
        rooms,   
-       auth: users
+       users
     }
 })
 

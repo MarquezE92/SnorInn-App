@@ -19,7 +19,7 @@ const Card = ({photos, name, rating, n_beds, services, price, _id}:Props)=> {
 return (
 	<Link to={`/rooms/${_id}`} className={styles.viewLink}>
 	<div className={styles.RoomCardContainer}>
-	 <img src={photos[0]} alt="habitación" className={styles.Img}/>
+	 <img src={photos} alt="habitación" className={styles.Img}/>
 	 <div className={styles.secondColumnDiv}>
 	  <div className={styles.upperSection}>
 	   <div id={styles.place}>{name}</div>

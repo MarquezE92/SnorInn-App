@@ -12,7 +12,7 @@ const CheckutForm = () => {
   const stripe: any = useStripe();
   const elements: any = useElements();
   const rooms = useSelector((state: RootState) => state.rooms.Room);
-  const user = useAppSelector(state=>state.auth.userInfo);
+  const user = useAppSelector(state=>state.users.userInfo);
 
   const navigate = useNavigate();
 
