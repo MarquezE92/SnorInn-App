@@ -345,7 +345,7 @@ router.get('/confirm/:token', async (req, res) => {
        await user.save();
 
        // Redireccionar a la confirmación
-       return res.redirect('http://localhost:3000/confirmedaccount');
+       return res.redirect('https://snor-inn.onrender.com/confirmedaccount');
         
     } catch (error) {
         console.log(error);
@@ -451,7 +451,7 @@ router.get('/confirma/:token', async (req, res) => {
        await user.save();
 
        // Redireccionar a la confirmación
-       return res.redirect('http://localhost:3000/confirmedaccount');
+       return res.redirect('https://snor-inn.onrender.com/confirmedaccount');
         
     } catch (error) {
         console.log(error);
@@ -530,7 +530,7 @@ router.get('/reset/:token', async (req, res) => {
        // Envío de mail con los datos de la nueva password
        await sendNewPasswordEmail(email, 'SnorInn new password', template);
 
-        return res.redirect('http://localhost:3000/paswordsent');
+        return res.redirect('https://snor-inn.onrender.com/paswordsent');
         
     } catch (error) {
         console.log(error);
@@ -609,7 +609,7 @@ router.get('/reseta/:token', async (req, res) => {
        // Envío de mail con los datos de la nueva password
        await sendNewPasswordEmail(email, 'SnorInn new password', template);
 
-        return res.redirect('http://localhost:3000/paswordsent');
+        return res.redirect('https://snor-inn.onrender.com/paswordsent');
         
     } catch (error) {
         console.log(error);
