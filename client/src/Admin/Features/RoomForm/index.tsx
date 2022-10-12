@@ -21,7 +21,7 @@ const RoomForm = () => {
 
   const dispatch = useAppDispatch();
 
-  const idAdmin = useAppSelector((state: RootState) => state.users.userInfo._id);
+  const idAdmin = useAppSelector((state: RootState) => state.admin.AdminInfo._id);
 
   const [openModal, setOpenModal] = useState(false);
   const [input, setInput] = useState<Partial<IRoom>>({

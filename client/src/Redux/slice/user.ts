@@ -46,7 +46,7 @@ const UserSlice = createSlice({
     initialState,
     reducers:{ 
         logout:(state)=>{
-            localStorage.removeItem('user')
+            localStorage.clear()
             state.userInfo = initialState;
         }
     },

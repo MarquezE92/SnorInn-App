@@ -12,7 +12,7 @@ const AdminDashboard = () => {
 
 
   const adminInfo = useAppSelector((state: RootState) => state.users.userInfo)
-  const admin = useAppSelector((state: RootState) => state.users.userInfo._id);
+  const admin = useAppSelector((state: RootState) => state.admin.AdminInfo._id);
   const rooms = async () => {
     const info = await axios.get(
       `http://localhost:3002/roomsByAdminId/${admin}`

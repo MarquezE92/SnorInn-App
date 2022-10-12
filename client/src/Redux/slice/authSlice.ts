@@ -16,10 +16,13 @@ const Admin = JSON.parse(localStorage.getItem('admin')!)
 
 export interface IAdminInfo{
     email:string;
+    password:string;
+    status:string;
+    confirmationCode:String;
+    rooms:IRoom[];
+    ban:Boolean;
     _id:string;
-    isAdmin:Boolean;
-    reserva:Object[];
-    favorite:Object[]
+
 }
 
 const initialState={
@@ -44,14 +47,13 @@ const AdminSlice = createSlice({
     initialState,
     reducers:{ 
         logout:(state)=>{
-            localStorage.removeItem('admin')
+            localStorage.clear()
             state.AdminInfo = initialState;
         }
     },
     extraReducers:(builder)=>{
         builder.addCase(signUpAdmin.pending,(state)=>{
             state.state = 'loading'
-            console.log(state.state)
         })
         builder.addCase(signUpAdmin.fulfilled,(state, action)=>{
             state.state = 'fullfiled'
@@ -60,7 +62,6 @@ const AdminSlice = createSlice({
         })
         builder.addCase(signUpAdmin.rejected,(state,action)=>{
             state.state = 'rejected'
-            console.log(action)
         })
         
 
@@ -85,8 +86,10 @@ export const {logout} = AdminSlice.actions
 export const signUpAdmin = createAsyncThunk<IAdminInfo, Partial<IUser>>('Admin/register', async (value, {rejectWithValue}) => {
     try {
         const json:AxiosResponse = await axios.post('http://localhost:3002/signupadmin',value)
+        console.log(value)
         Swal.fire("Good job!", "Your account was created succesfuly!", "success");
         localStorage.setItem('admin', JSON.stringify(json.data))
+        console.log(json.data)
         return json.data
     } catch (error:any) {
         console.log(error)

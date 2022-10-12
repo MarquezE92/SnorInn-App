@@ -3,7 +3,7 @@ import styles from "./signUpAdmin.module.css";
 import { useState } from "react";
 import { ChangeEvent } from "react";
 import { useAppDispatch } from "../../Redux/Store/hooks";
-import { signUpUser } from "../../Redux/slice/user";
+import { signUpAdmin } from "../../Redux/slice/authSlice";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { BsFillArrowDownCircleFill } from "react-icons/bs";
@@ -15,7 +15,6 @@ const SignUpAdmin = () => {
   interface SignUp {
     email: string;
     password: string;
-    isAdmin: boolean;
   }
 
   const dispatch = useAppDispatch();
@@ -24,7 +23,6 @@ const SignUpAdmin = () => {
   const [input, setInput] = useState<SignUp>({
     email: "",
     password: "",
-    isAdmin: true,
   });
   
 
@@ -54,8 +52,8 @@ const SignUpAdmin = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-      dispatch(signUpUser(input));
-      setInput({ email: "", password: "", isAdmin: true });
+      dispatch(signUpAdmin(input));
+      setInput({ email: "", password: ""});
   };
 
   return (
