@@ -126,7 +126,7 @@ const Edit = () => {
   const handleDelete = (e: string) => {
     setInput({
       ...input,
-      services: input.services && input.services.filter((el) => el !== e),
+      services: input.services && input.services.filter((el:string) => el !== e),
     });
   };
 
@@ -275,7 +275,7 @@ const Edit = () => {
           <ul className={styles.servicesList}>
             {" "}
             {input.services &&
-              input.services.map((el) => (
+              input.services.map((el:string) => (
                 <li key={el}>
                   {el}
                   <button

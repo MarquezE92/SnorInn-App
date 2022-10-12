@@ -70,7 +70,7 @@ const jump=()=>{
                 _id={el._id}
                 photos={el.photos.url}
                 name={el.name}
-                services={el.services.map((el) => el)}
+                services={el.services.map((el:string) => el)}
                 rating={el.rating}
                 n_beds={el.n_beds}
                 price={el.price}
