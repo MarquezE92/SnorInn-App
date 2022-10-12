@@ -26,7 +26,7 @@ const CheckutForm = () => {
       try{
         const { id } = paymentMethod;
         const { email } = user;
-        const { data } = await axios.post("http://localhost:3002/dataPeyment", {
+        const { data } = await axios.post("https://snor-inn-api.onrender.com/dataPeyment", {
           id,
           amount: Number(rooms.price + "00"),
           email,

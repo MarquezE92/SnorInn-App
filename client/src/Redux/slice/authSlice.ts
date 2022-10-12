@@ -85,7 +85,7 @@ export const {logout} = AdminSlice.actions
 //sin registro en base de datos
 export const signUpAdmin = createAsyncThunk<IAdminInfo, Partial<IUser>>('Admin/register', async (value, {rejectWithValue}) => {
     try {
-        const json:AxiosResponse = await axios.post('http://localhost:3002/signupadmin',value)
+        const json:AxiosResponse = await axios.post('https://snor-inn-api.onrender.com/signupadmin',value)
         console.log(value)
         Swal.fire("Good job!", "Your account was created succesfuly!", "success");
         localStorage.setItem('admin', JSON.stringify(json.data))
@@ -102,7 +102,7 @@ export const signUpAdmin = createAsyncThunk<IAdminInfo, Partial<IUser>>('Admin/r
 //registro en base de datos
 export const signInAdmin = createAsyncThunk<IAdminInfo, Partial<IUser>>('Admin/login', async (value, {rejectWithValue}) => {
     try {
-        const json:AxiosResponse = await axios.post('http://localhost:3002/loginadmin',value)
+        const json:AxiosResponse = await axios.post('https://snor-inn-api.onrender.com/loginadmin',value)
         localStorage.setItem('admin', JSON.stringify(json.data))
         return json.data
     } catch (error:any) {
@@ -115,7 +115,7 @@ export const signInAdmin = createAsyncThunk<IAdminInfo, Partial<IUser>>('Admin/l
 
 export const forgetPassword = createAsyncThunk<string, any>('Admin/forgetPassword', async(value)=>{
     try{
-        const json:AxiosResponse = await axios.post('http://localhost:3002/forgotPasswordadmin', value)
+        const json:AxiosResponse = await axios.post('https://snor-inn-api.onrender.com/forgotPasswordadmin', value)
         Swal.fire("Yes!", 'An email to reset your password will be sent', "success");
         return json.data
     }catch(error:any){
