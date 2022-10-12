@@ -6,6 +6,13 @@
     padding: 40px 50px;
 
 }
+
+.adminButton{
+    align-self: flex-end;
+    padding: 10px;
+    color: rgba(0, 0, 0, 0.494);
+}
+
 .form {
     width: 100%;
     height: 100%;
