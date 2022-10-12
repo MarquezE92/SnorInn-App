@@ -38,6 +38,7 @@ const Login = () => {
  const handleSubmitUser = (e:FormEvent) => {
       e.preventDefault()
         dispatch(signInUser(input))
+        console.log('holi')
         setTimeout(()=>{navigate('/user')},1000) 
   }
   const handleSubmitAdmin = (e:FormEvent) => {

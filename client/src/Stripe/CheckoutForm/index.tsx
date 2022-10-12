@@ -47,7 +47,7 @@ const CheckutForm = () => {
         {rooms ? (
           <div className={styles.roomContainer}>
             <div className={styles.imageDiv}>
-              <img src={rooms.photos} alt=''/>
+              <img src={rooms.photos.url} alt=''/>
             </div>
             <div className={styles.infoContainer}>
               <section>
