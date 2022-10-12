@@ -13,7 +13,8 @@ const NavBar = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const admin = user.isAdmin;
+  //const admin = user.isAdmin;
+  const admin = useAppSelector((state)=>state.admin.AdminInfo)
 
 
   const handleLogout = () => {
@@ -33,7 +34,7 @@ const NavBar = () => {
             />
           </div>
           <div className={styles.groupDiv}>
-            {admin === null? (
+            {user._id === '' && admin._id === ''? (
               <button className={styles.navbarButtonAdmin}>
                 <NavLink to="/signup/admin" className={styles.NavLink}>
                   Work with us
@@ -55,7 +56,7 @@ const NavBar = () => {
               </NavLink>{" "}
             </button>
 
-            {admin === null? (
+            {user._id === '' && admin._id === ''? (
               <button className={styles.navbarButton}>
                 <NavLink to="/signup" className={styles.NavLink}>
                   Sign Up
@@ -64,7 +65,7 @@ const NavBar = () => {
             ) : (
               <>
                 <button className={styles.navbarButtonAdmin}>
-                  {admin === true? <NavLink to="/dashboard" className={styles.NavLink}>
+                  {admin._id !== ''? <NavLink to="/dashboard" className={styles.NavLink}>
                     Profile
                   </NavLink> : <NavLink to="/user" className={styles.NavLink}>
                     Profile
@@ -79,7 +80,7 @@ const NavBar = () => {
               </>
             )}
 
-            {admin === null? (
+            {user._id === '' && admin._id === ''? (
               <button className={styles.navbarButton}>
                 {" "}
                 <Login />
