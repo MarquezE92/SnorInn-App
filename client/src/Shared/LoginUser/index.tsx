@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./login.module.css";
 import { ChangeEvent, FormEvent } from "react";
 import { signInUser } from "../../Redux/slice/user";
@@ -38,10 +38,12 @@ const Login = () => {
  const handleSubmitUser = (e:FormEvent) => {
       e.preventDefault()
         dispatch(signInUser(input))
+        setTimeout(()=>{navigate('/user')},1000) 
   }
   const handleSubmitAdmin = (e:FormEvent) => {
     e.preventDefault()
       dispatch(signInAdmin(input))
+      setTimeout(()=>{navigate('/dashboard')},1000) 
 }
 
   const handleState = () => {
@@ -83,7 +85,7 @@ const Login = () => {
               className={styles.buttonModal}
               onClick={() => () => handleModal()}
             >
-              <NavLink to="/user" onClick={handleSubmitUser}>Continue with email</NavLink>
+              <button onClick={handleSubmitUser}>Continue with email</button>
             </div>
             <div>
               Did you forget your password?
@@ -136,7 +138,7 @@ const Login = () => {
               className={styles.buttonModal}
               onClick={() => () => handleModal()}
             >
-              <NavLink to="/dashboard" onClick={handleSubmitAdmin}>Continue with email</NavLink>
+              <button onClick={handleSubmitAdmin}>Continue with email</button>
             </div>
             <div>
               Did you forget your password?
