@@ -10,7 +10,7 @@ interface Iroom {
   description: string;
   n_beds: number;
   name: string;
-  photos: string;
+  photos: any;
   place: string;
   price: number;
   reservationId: string;
@@ -87,7 +87,7 @@ const User = () => {
                       <h3>{room.name}</h3>
                       <div>${room.price} per night</div>
                       <div>{room.n_beds} bed</div>
-                      <img src={room.photos}/>
+                      <img src={room.photos.url}/>
                     </NavLink>
                   </button>
                 ))
