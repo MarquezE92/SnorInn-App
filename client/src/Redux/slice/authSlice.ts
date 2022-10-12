@@ -1,56 +1,125 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from 'axios';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import axios, { AxiosResponse } from 'axios'
+import { IRoom } from './rooms';
 import Swal from "sweetalert2";
 
-interface Users {
-    email: string,
-    password: string,
+
+
+export interface IUser{
+    email:string;
+    password:string;
 }
 
-interface IUsers {
-    users: Users[],
+const Admin = JSON.parse(localStorage.getItem('admin')!)
+
+
+
+export interface IAdminInfo{
+    email:string;
+    password:string;
+    status:string;
+    confirmationCode:String;
+    rooms:IRoom[];
+    ban:Boolean;
+    _id:string;
+
 }
 
-const initialState:IUsers = {
-    users: []
+const initialState={
+    AdminInfo: Admin ? Admin : {
+        email: '',
+        password: '',
+        status: '',
+        confimationCode: '',
+        rooms:[],
+        ban:false,
+        _id: '',
+    },
+    state:'initial',
+    Msg:''
 }
 
-export const signUpUser:any = createAsyncThunk('local-singup', async (body)=>{
+
+
+
+const AdminSlice = createSlice({
+    name:'Admin',
+    initialState,
+    reducers:{ 
+        logout:(state)=>{
+            localStorage.clear()
+            state.AdminInfo = initialState;
+        }
+    },
+    extraReducers:(builder)=>{
+        builder.addCase(signUpAdmin.pending,(state)=>{
+            state.state = 'loading'
+        })
+        builder.addCase(signUpAdmin.fulfilled,(state, action)=>{
+            state.state = 'fullfiled'
+            state.AdminInfo = action.payload
+            // console.log(action)
+        })
+        builder.addCase(signUpAdmin.rejected,(state,action)=>{
+            state.state = 'rejected'
+        })
+        
+
+        builder.addCase(signInAdmin.pending,(state)=>{
+            state.state = 'loading'
+        })
+        builder.addCase(signInAdmin.fulfilled,(state, action)=>{
+            state.state = 'fullfiled'
+            state.AdminInfo = action.payload
+            
+        })
+        builder.addCase(signInAdmin.rejected,(state)=>{
+            state.state = 'rejected'
+        })
+    }
+})
+
+export default AdminSlice.reducer
+export const {logout} = AdminSlice.actions
+
+//sin registro en base de datos
+export const signUpAdmin = createAsyncThunk<IAdminInfo, Partial<IUser>>('Admin/register', async (value, {rejectWithValue}) => {
     try {
-        const res = await axios.post('http://localhost:3002/signup', body
-        )
+        const json:AxiosResponse = await axios.post('http://localhost:3002/signupadmin',value)
+        console.log(value)
         Swal.fire("Good job!", "Your account was created succesfuly!", "success");
-        return res.data
+        localStorage.setItem('admin', JSON.stringify(json.data))
+        console.log(json.data)
+        return json.data
     } catch (error:any) {
         console.log(error)
-        return Swal.fire("Ups!", error.response.data._message?(error.response.data._message):(error.response.data), "error")   
+        Swal.fire("Ups!", (error.response.data), "error");
+        return rejectWithValue(error)
     }
-   
+}
+)
+
+//registro en base de datos
+export const signInAdmin = createAsyncThunk<IAdminInfo, Partial<IUser>>('Admin/login', async (value, {rejectWithValue}) => {
+    try {
+        const json:AxiosResponse = await axios.post('http://localhost:3002/loginadmin',value)
+        localStorage.setItem('admin', JSON.stringify(json.data))
+        return json.data
+    } catch (error:any) {
+        console.log(error)
+        Swal.fire("Ups!", (error.response.data), "error");
+        return rejectWithValue(error)
+      }
+    }
+)
+
+export const forgetPassword = createAsyncThunk<string, any>('Admin/forgetPassword', async(value)=>{
+    try{
+        const json:AxiosResponse = await axios.post('http://localhost:3002/forgotPasswordadmin', value)
+        Swal.fire("Yes!", 'An email to reset your password will be sent', "success");
+        return json.data
+    }catch(error:any){
+        Swal.fire("Ups!", (error.response.data), "error");
+       
+    }
 })
-
-export const signInUser:any = createAsyncThunk('local-singup', async (body)=>{
-
-    const res = await axios.post('http://localhost:3002/login', body
-    )
-    return res.data
-})
-
-
-const authSlice = createSlice({
-        name: 'user',
-        initialState,
-        reducers: {
-            addUser:(state, action:PayloadAction<Users>)=>{
-                state.users.push(action.payload)
-                
-            },
-        },
-        extraReducers:{
-            
-        }
-})
-
-
-export const {addUser} = authSlice.actions;
-
-export default authSlice.reducer

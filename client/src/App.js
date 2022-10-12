@@ -13,8 +13,8 @@ import PaswordRestore from "./Shared/LoginUser/PasswordRestore/PaswordRestore";
 import SignUpAdmin from "./Shared/SignUpAdmin";
 import AboutUs from "./Shared/AboutUs/AboutUs";
 import NotFound from "./Shared/NotFound/NotFound";
-import { PrivateRoutes } from "./routes/privateRoutes";
-import { AuthRoutes , AuthRoutesUser} from "./routes/authRoutes";
+import { PrivateRoutes, PublicRoutes } from "./routes/privateRoutes";
+import { AuthRoutes } from "./routes/authRoutes";
 import PaswordSentMessage from "./Shared/LoginUser/PasswordRestore/PaswordSentMessage";
 import User from "./User/Views/User";
 import Edit from "./Admin/Views/Dashboard/Edit";
@@ -28,8 +28,6 @@ function App() {
         <Route path="/" element={<Home />} />
         
 
-        <Route path="/signup" element={<SignUpUser />} />
-        <Route path="/signup/admin" element={<SignUpAdmin />} />
         <Route path="/paswordsent" element={<PaswordSentMessage />} />
         <Route path="/restorepassword" element={<PaswordRestore />} />
         <Route path="/confirmedaccount" element={<Redirect />} />
@@ -46,11 +44,14 @@ function App() {
           <Route path="/create" element={<RoomForm />} />
           <Route path="/put/:id" element={<Edit />} />
         </Route>
-        <Route element={<AuthRoutesUser/>}>
-          <Route path="/user" element={<User />} />
+        
+        <Route element={<PublicRoutes/>}>
+        <Route path="/signup" element={<SignUpUser />} />
+        <Route path="/signup/admin" element={<SignUpAdmin />} />
         </Route>
 
         <Route element={<PrivateRoutes/>}>
+          <Route path="/user" element={<User />} />
           <Route path="/rooms/reserve/:id" element={<Stripe />} />
         </Route>
 

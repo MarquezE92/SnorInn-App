@@ -20,7 +20,7 @@ const RoomDetail = ()=> {
 	const {id} = useParams(); 
 	const rooms = useAppSelector((state) => state.rooms.Room);
 	const userLocal = JSON.parse(localStorage.getItem('user')!)
-	const user = useAppSelector(state=>state.auth.userInfo)
+	const user = useAppSelector(state=>state.users.userInfo)
 
 	const [fav, setFav]= useState({
 		roomFavorites:id,
