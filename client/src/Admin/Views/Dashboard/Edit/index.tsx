@@ -23,7 +23,7 @@ const Edit = () => {
   const ratingInfo = rating;
   const {id} = useParams(); 
   const rooms = useAppSelector((state) => state.rooms.Room);
-
+  const idAdmin = useAppSelector((state: RootState) => state.admin.AdminInfo._id);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const Edit = () => {
     price: rooms.price,
     services: [],
     place: "",
-    photos: [],
+    photos: '',
     description: "",
     rating: 0,
   });
@@ -94,7 +94,7 @@ const Edit = () => {
       reader.onloadend = () =>
         setInput({
           ...input,
-          photos: [reader.result],
+          photos: reader.result,
         });
 
     reader.readAsDataURL(file);
@@ -114,7 +114,7 @@ const Edit = () => {
         price: 0,
         services: [],
         name: "",
-        photos: [],
+        photos: '',
         description: "",
         rating: 0,
       });
@@ -135,6 +135,30 @@ const Edit = () => {
     dispatch(getDetailRoom(id));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+
+  useEffect(()=> {
+    if (input.services?.length <= 4) {
+      setInput({
+        ...input,
+        type: 'Basic'
+      })
+    }
+    else if (input.services?.length > 4 && input.services?.length <= 7) {
+      setInput({
+        ...input,
+        type: 'Standard'
+      })
+    }
+    else if (input.services?.length > 7 && input.services?.length <= 10) {
+      setInput({
+        ...input,
+        type: 'Premium'
+      })
+    }
+  },[input.services])
+
+
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.mainDiv}>
@@ -145,23 +169,6 @@ const Edit = () => {
           noValidate
           validated={validated}
         >
-          <FloatingLabel label="Type" className="mb-3">
-            <Form.Select
-              onChange={handleSelect}
-              name="type"
-              required
-              defaultValue={""}
-            >
-              <option disabled value={""}>
-                {rooms.type}
-              </option>
-              {typesInfo.map((el) => (
-                <option value={el} key={el}>
-                  {el}
-                </option>
-              ))}
-            </Form.Select>
-          </FloatingLabel>
 
           <FloatingLabel label="Place" className="mb-3">
             <Form.Select
