@@ -8,7 +8,7 @@ const roomSchema = mongoose.Schema({
     place: String,
     n_beds: Number, // cambie por un array
     price: Number, // aca paso de number a string
-    availability: Boolean,
+    //availability: Boolean,
     // location: [{type: String}],
     services: [{type: String}],
     photos: {
@@ -30,11 +30,12 @@ const roomSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userAdmin'
     },
-    reservationId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'reservation'
-    },
-
+    reservationId: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'reservation'
+        }],
+//para constatar en qué fechas no se puede reservar
+    unavailableDates: [Date],
 
 }, {versionKey: false})
 
