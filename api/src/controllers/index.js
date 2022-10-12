@@ -2,12 +2,11 @@ const mongoose = require('mongoose')
 // const express = require('express')
 // const router = express.Router()
 // const { adminSchema, reviewsSchema, roomSchema, userSchema, reservationSchema } = require('../db')
-const { roomSchema } = require('../db')
-const { UserClient } = require ('../db')
+const { roomSchema, UserClient, UserAdmin } = require('../db')
 
-const addRooms = async ({type,name, description, place, n_beds, price, services, availability = true, photos = ['ñ'], rating}, idAdmin) => {
+const addRooms = async ({ type, name, description, place, n_beds, price, services, availability = true, photos = ['ñ'], rating }, idAdmin) => {
     //traemos el admin que está creando la room
-    const admin = await UserClient.findById(idAdmin)
+    const admin = await UserAdmin.findById(idAdmin)
     const add = new roomSchema({
         type,
         name,
@@ -30,7 +29,7 @@ const addRooms = async ({type,name, description, place, n_beds, price, services,
 }
 
 const getRooms = async (page) => {
-    const response = await roomSchema.paginate({},{limit:6, page: page})
+    const response = await roomSchema.paginate({}, { limit: 6, page: page })
     return response
 }
 

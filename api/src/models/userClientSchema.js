@@ -6,10 +6,10 @@ const saltRound = 10;
 const userClientSchema = mongoose.Schema({
 
   //  local:{
-        isAdmin: {
-            type: Boolean,
-            default: false
-        },
+        //isAdmin: {
+            //type: Boolean,
+           // default: false
+        //},
         email: {
             type: String,
             required: true,
@@ -65,10 +65,10 @@ const userClientSchema = mongoose.Schema({
     // address: String,
     // rating: Number,
 //----------------------------- Array de habitaciones creadas por el Admin, se agrega temporalmente
-    rooms: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'room'
-    }],
+    // rooms: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'room'
+    // }],
 //----------------------------------------------------------
     reservationId: [{
         type: mongoose.Schema.Types.ObjectId,
