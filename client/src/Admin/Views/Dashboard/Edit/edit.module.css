@@ -6,7 +6,7 @@
     justify-content: center;
 }
 .mainDiv {
-    width: 30rem;
+    width: 40rem;
     padding: 30px 20px;
     margin-top: 30px;
     display: flex;
@@ -83,7 +83,8 @@
 .deleteButton {
     width: 1.3rem;
     height: 1.3rem;
-    background-color: #ADDDD0;
+    background-color: rgba(0, 0, 0, 0.532);
+    color: white;
     cursor: pointer;
 }
 .descriptionButton {
