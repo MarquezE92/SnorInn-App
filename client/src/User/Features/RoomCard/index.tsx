@@ -68,7 +68,7 @@ const jump=()=>{
             <>
               <Card
                 _id={el._id}
-                photos={el.photos}
+                photos={el.photos.url}
                 name={el.name}
                 services={el.services.map((el) => el)}
                 rating={el.rating}

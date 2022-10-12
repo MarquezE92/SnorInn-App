@@ -32,7 +32,7 @@ const RoomForm = () => {
     services: [],
     idAdmin: idAdmin,
     place: "",
-    photos: [],
+    photos: '',
     description: "",
     rating: 0,
   });
@@ -88,7 +88,7 @@ const RoomForm = () => {
       reader.onloadend = () =>
         setInput({
           ...input,
-          photos: [reader.result],
+          photos: reader.result,
         });
 
     reader.readAsDataURL(file);
@@ -108,7 +108,7 @@ const RoomForm = () => {
         price: 0,
         services: [],
         name: "",
-        photos: [],
+        photos: '',
         description: "",
         rating: 0,
       });

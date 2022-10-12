@@ -89,6 +89,7 @@ router.post('/rooms/:idAdmin', async (req, res) => {
         return res.send(postRoom)
 
     } catch (error) {
+        console.log(error)
         return res.status(404).send({ error: error.message })
     }
 })

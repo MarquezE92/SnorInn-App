@@ -48,7 +48,7 @@ const AdminDashboard = () => {
           {roomAdmin ? (
             <>
               {roomAdmin.map((el: any) => {
-                return <CardAdmin _id={el._id} name={el.name} photos={el.photos[0]} />;
+                return <CardAdmin _id={el._id} name={el.name} photos={el.photos.url} />;
               })}
             </>
           ) : (
