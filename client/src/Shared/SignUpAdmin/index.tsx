@@ -3,7 +3,7 @@ import styles from "./signUpAdmin.module.css";
 import { useState } from "react";
 import { ChangeEvent } from "react";
 import { useAppDispatch } from "../../Redux/Store/hooks";
-import { signUpUser } from "../../Redux/slice/authSlice";
+import { signUpUser } from "../../Redux/slice/user";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { BsFillArrowDownCircleFill } from "react-icons/bs";
