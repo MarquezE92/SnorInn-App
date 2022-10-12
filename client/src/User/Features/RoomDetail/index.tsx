@@ -58,7 +58,7 @@ return (
 
 	
 	<div className={styles.photosDiv}>
-		<img src={rooms.photos} alt="A beautiful room... maybe?" />
+		<img src={rooms.photos.url} alt="A beautiful room... maybe?" />
 		<Button onClick={() => handleModal()} variant="dark">Description</Button>
 	</div>
 	<div className={styles.infoContainer}>

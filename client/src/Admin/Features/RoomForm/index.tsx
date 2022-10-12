@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent } from "react";
+import React, { ChangeEvent, FormEvent, useEffect } from "react";
 import { useState } from "react";
 import styles from "./index.module.css";
 import { useAppDispatch } from "../../../Redux/Store/hooks";
@@ -14,7 +14,6 @@ import { RootState } from "../../../Redux/Store/store";
 
 const RoomForm = () => {
   const servicesInfo = services;
-  const typesInfo = types;
   const bedsInfo = beds;
   const placesInfo = places;
   const ratingInfo = rating;
@@ -32,7 +31,7 @@ const RoomForm = () => {
     services: [],
     idAdmin: idAdmin,
     place: "",
-    photos: [],
+    photos: '',
     description: "",
     rating: 0,
   });
@@ -88,7 +87,7 @@ const RoomForm = () => {
       reader.onloadend = () =>
         setInput({
           ...input,
-          photos: [reader.result],
+          photos: reader.result,
         });
 
     reader.readAsDataURL(file);
@@ -108,7 +107,7 @@ const RoomForm = () => {
         price: 0,
         services: [],
         name: "",
-        photos: [],
+        photos: '',
         description: "",
         rating: 0,
       });
@@ -119,9 +118,31 @@ const RoomForm = () => {
   const handleDelete = (e: string) => {
     setInput({
       ...input,
-      services: input.services && input.services.filter((el) => el !== e),
+      services: input.services && input.services.filter((el:string) => el !== e),
     });
   };
+
+
+  useEffect(()=> {
+    if (input.services?.length <= 4) {
+      setInput({
+        ...input,
+        type: 'Basic'
+      })
+    }
+    else if (input.services?.length > 4 && input.services?.length <= 7) {
+      setInput({
+        ...input,
+        type: 'Standard'
+      })
+    }
+    else if (input.services?.length > 7 && input.services?.length <= 10) {
+      setInput({
+        ...input,
+        type: 'Premium'
+      })
+    }
+  },[input.services])
 
   return (
     <div className={styles.mainContainer}>
@@ -133,24 +154,7 @@ const RoomForm = () => {
           noValidate
           validated={validated}
         >
-          <FloatingLabel label="Type" className="mb-3">
-            <Form.Select
-              onChange={handleSelect}
-              name="type"
-              required
-              defaultValue={""}
-            >
-              <option disabled value={""}>
-                Choose an option
-              </option>
-              {typesInfo.map((el) => (
-                <option value={el} key={el}>
-                  {el}
-                </option>
-              ))}
-            </Form.Select>
-          </FloatingLabel>
-
+          
           <FloatingLabel label="Place" className="mb-3">
             <Form.Select
               name="place"
@@ -264,7 +268,7 @@ const RoomForm = () => {
           <ul className={styles.servicesList}>
             {" "}
             {input.services &&
-              input.services.map((el) => (
+              input.services.map((el:string) => (
                 <li key={el}>
                   {el}
                   <button

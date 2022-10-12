@@ -21,7 +21,7 @@ const HomeCarousel = () => {
           <Carousel.Item>
             <div className='imgContainer'>
               {" "}
-              <img className="d-block w-100" src={el.photos} alt="First $()"style={{width: 1120, height:500}}/>
+              <img className="d-block w-100" src={el.photos.url} alt="First $()"style={{width: 1120, height:500}}/>
             </div>
             <Carousel.Caption style={{paddingBottom:40}}>
               <h3>{el.name}</h3>

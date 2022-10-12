@@ -3,10 +3,14 @@ const mongoose = require('mongoose')
 // const router = express.Router()
 // const { adminSchema, reviewsSchema, roomSchema, userSchema, reservationSchema } = require('../db')
 const { roomSchema, UserClient, UserAdmin } = require('../db')
+const cloudinary = require('../helpers/couldinary');
 
 const addRooms = async ({ type, name, description, place, n_beds, price, services, availability = true, photos = ['ñ'], rating }, idAdmin) => {
     //traemos el admin que está creando la room
     const admin = await UserAdmin.findById(idAdmin)
+    const result = await cloudinary.uploader.upload(photos, {
+        folder: 'rooms'
+    })
     const add = new roomSchema({
         type,
         name,
@@ -17,7 +21,10 @@ const addRooms = async ({ type, name, description, place, n_beds, price, service
         availability,
         rating,
         services: services,
-        photos: photos,
+        photos: {
+            public_id: result.public_id,
+            url: result.secure_url
+        },
         userAdminId: idAdmin
     })
     const addNewSchema = await add.save();
