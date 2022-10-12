@@ -9,8 +9,12 @@ const reservationSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'room'
     },
-    check_in: Date,
+    check_in: {
+    type: Date,
+    min: Date()
+  },
     check_out: Date,
+  
     totalPrice: Number
 }, { versionKey: false });
 
