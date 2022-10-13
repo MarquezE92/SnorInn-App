@@ -115,7 +115,7 @@ export const {logout} = UserSlice.actions
 //sin registro en base de datos
 export const signUpUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/register', async (value, {rejectWithValue}) => {
       try {
-        const json:AxiosResponse = await axios.post('https://snor-inn-api.onrender.com/signup',value)
+        const json:AxiosResponse = await axios.post('/signup',value)
         localStorage.setItem('user', JSON.stringify(json.data))
         return json.data
     } catch (error) {
@@ -128,7 +128,7 @@ export const signUpUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/regi
 //registro en base de datos
 export const signInUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/login', async (value, {rejectWithValue}) => {
     try {
-        const json:AxiosResponse = await axios.post('https://snor-inn-api.onrender.com/login',value)
+        const json:AxiosResponse = await axios.post('/login',value)
         localStorage.setItem('user', JSON.stringify(json.data))
         return json.data
       } catch (error:any) {
@@ -141,7 +141,7 @@ export const signInUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/logi
 
 export const forgetPassword = createAsyncThunk<string, any>('User/forgetPassword', async(value)=>{
     try{
-        const json:AxiosResponse = await axios.post('https://snor-inn-api.onrender.com/forgotPassword', value)
+        const json:AxiosResponse = await axios.post('/forgotPassword', value)
         Swal.fire("Yes!", 'An email to reset your password will be sent', "success");
         return json.data
     }catch(error:any){
@@ -153,7 +153,7 @@ export const forgetPassword = createAsyncThunk<string, any>('User/forgetPassword
 
 export const addFavorite = createAsyncThunk<IRoom,Object>('User/addFavorite', async (value)=>{
     try{
-        const json = await axios.post('https://snor-inn-api.onrender.com/favorites',value)
+        const json = await axios.post('/favorites',value)
         Swal.fire("Great!", "You added this room to your favorites!", "success");
         return json.data
 
@@ -164,7 +164,7 @@ export const addFavorite = createAsyncThunk<IRoom,Object>('User/addFavorite', as
 
 export const payment = createAsyncThunk<IRoom,Object>('User/datapeyment', async (value)=>{
     try{
-        const json = await axios.post('https://snor-inn-api.onrender.com/dataPeyment',value)
+        const json = await axios.post('/dataPeyment',value)
         return json.data
     }catch(error){
         console.log(error)
