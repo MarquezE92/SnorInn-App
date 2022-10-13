@@ -27,6 +27,9 @@ const { addResrevation } = require('../controllers/postReservation');
 const { getRoomsByUserAdmin } = require('../controllers/getRoomByAdminId');
 const { addFavorites } = require('../controllers/postFavorites');
 const { getUserClient } = require('../controllers/getUserClient');
+const { getReservationByRoom } = require('../controllers/getReservationByRoom');
+const { routePostReview } = require('../routes/postReviews');
+
 
 
 //CONDIFURAR LAS RUTAS
@@ -616,10 +619,22 @@ router.get('/reseta/:token', async (req, res) => {
         return res.send("We couldn't reset your password");
     }
 });
+///////////////////////////////////// RUTA FECHAS RESREVADAS x HABITACION ///////////////////////////////////////////
 
+// router.get('/reservationById/:id', async (req, res) => {
+//     const {id} = req.params
+//     try {
+//         const findRoomsByReservationId = await getReservationByRoom(id)
+//         return res.status(200).send(findRoomsByReservationId)
+//     } catch (error) {
+//         return res.status(404).send({ error: error.message})
+//     }
+// });
 
 
 
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
+
+router.post('/reviewsByClient', routePostReview)
 
 module.exports = router;
