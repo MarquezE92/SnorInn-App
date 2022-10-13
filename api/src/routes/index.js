@@ -1,9 +1,9 @@
 const UserClient = require('../models/userClientSchema');
 const UserAdmin = require('../models/userAdminSchema');
 const { v4: uuidv4 } = require('uuid');
-const {getToken, getTokenR, getTokenRData, getTokenData} = require('../config/jwt.config');
-const {getTemplate, getTemplateR,  getTemplatePass, getTemplatePayment, getTemplateAdmin, getTemplateRadmin,
-    sendEmail, sendRecoverEmail, sendNewPasswordEmail, sendEmailReceipt} = require ('../config/mail.config');
+const { getToken, getTokenR, getTokenRData, getTokenData } = require('../config/jwt.config');
+const { getTemplate, getTemplateR, getTemplatePass, getTemplatePayment, getTemplateAdmin, getTemplateRadmin,
+    sendEmail, sendRecoverEmail, sendNewPasswordEmail, sendEmailReceipt } = require('../config/mail.config');
 
 const { Router } = require('express');
 const router = Router();
@@ -11,7 +11,6 @@ const axios = require('axios');
 const { getRooms, addRooms, findByIdRoom } = require('../controllers')
 // const { getRoomsbyFilters } = require('./getRoomByQueryR')
 const express = require('express')
-router.use(express.json())
 const Stripe = require('stripe');
 const cors = require('cors'); // Exporta libreria para que no haya conflictos entre los puertos del FRONTEND y BACKEND
 const { getRoomsbyFilters } = require('../controllers/getRoomByQueryC')
@@ -29,10 +28,14 @@ const { addFavorites } = require('../controllers/postFavorites');
 const { getUserClient } = require('../controllers/getUserClient');
 const { getReservationByRoom } = require('../controllers/getReservationByRoom');
 const { routePostReview } = require('../routes/postReviews');
+const { OAuth2Client } = require('google-auth-library');
+const { db } = require('../models/userClientSchema');
+const jwt = require('jsonwebtoken')
+const secret = 'thisisasecretpassword'
+const bcrypt = require('bcrypt')
+router.use(express.json())
 
-
-
-//CONDIFURAR LAS RUTAS
+//CONFIFURAR LAS RUTAS
 
 
 router.get('/rooms', async (req, res) => { //esta va solo por paginado y asigando por query la pagina a permanecer
@@ -83,8 +86,8 @@ router.get('/find', async (req, res) => {
 
 
 router.post('/rooms/:idAdmin', async (req, res) => {
-// recibo el _id del admin por params
-    const {idAdmin} = req.params
+    // recibo el _id del admin por params
+    const { idAdmin } = req.params
     const { type, name, description, place, n_beds, price, availability, rating, photos, services } = req.body
     // console.log(photos)
     try {
@@ -110,9 +113,9 @@ router.get('/room/:id', async (req, res) => {
 
 router.get('/allRooms', async (req, res) => {
     try {
-        const {name} = req.query
-        if(name){
-            const one = await roomSchema.find({name: {$regex: name, $options: 'i'}})
+        const { name } = req.query
+        if (name) {
+            const one = await roomSchema.find({ name: { $regex: name, $options: 'i' } })
             return res.status(200).send(one)
         }
         const allRooms = await getAllRooms()
@@ -168,7 +171,7 @@ router.put("/rooms/:id", async (req, res) => {
     } catch (error) {
         return res.status(404).send({ error: 'We are sorry, we couldnt update the room' })
     }
-  });
+});
 
 // STRIPE KEY PRIVATE
 const stripe = new Stripe('sk_test_51LpGDXJjFvmrQ5VMHJn0DT1tfOuKTeIz4fwyW0qd5e1deE4HC3Xkt07y9defbZNttmdg8id3zVNox95Y26L1LKVT00pOXoh4ma')
@@ -194,12 +197,12 @@ router.post('/dataPeyment', async (req, res) => {
 
         //envío de mail
         await sendEmailReceipt(email, 'SnorInn reservation receipt', template);
-        
+
         return res.status(200).send(paymentData)
-        
+
 
     } catch (error) {
-        res.status(404).json({message: error.raw.message})
+        res.status(404).json({ message: error.raw.message })
     }
 });
 
@@ -210,29 +213,29 @@ router.post('/reservation', async (req, res) => {
         return res.status(200).send(postReservation)
 
     } catch (error) {
-        return res.status(404).send({ error: error.message})
+        return res.status(404).send({ error: error.message })
     }
 });
 
 //Ruta de get de Habitaciones para el Dashboard del Admin
 router.get('/roomsByAdminId/:id', async (req, res) => {
-    const {id} = req.params
-    
+    const { id } = req.params
+
     try {
         const findRoomsByAdminId = await getRoomsByUserAdmin(id)
         return res.status(200).send(findRoomsByAdminId)
     } catch (error) {
-        return res.status(404).send({ error: error.message})
+        return res.status(404).send({ error: error.message })
     }
 });
 ///////////////////////////////////// GET DashBorad userClient  ///////////////////////////////
 router.get('/userClient/:id', async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
     try {
         const dataClient = await getUserClient(id)
         return res.status(200).json(dataClient)
     } catch (error) {
-        return res.status(404).send({ error: error.message})
+        return res.status(404).send({ error: error.message })
     }
 })
 
@@ -246,7 +249,7 @@ router.post('/favorites', async (req, res) => {
         return res.status(200).send(postFavorites)
 
     } catch (error) {
-        return res.status(404).send({ error: error.message})
+        return res.status(404).send({ error: error.message })
     }
 });
 
@@ -254,28 +257,28 @@ router.post('/favorites', async (req, res) => {
 ///////////////////////////////////// RUTAS LOGIN AND REGISTER USER  ///////////////////////////////
 
 //login con verificación de cuenta activada por mail 
-router.post('/login', async(req, res)=>{
-    try{
-    //obtengo nombre e email del usuario
-        const {email, password} = req.body;
-    //verificar que el usuario exista
-        const user = await UserClient.findOne({email}).populate(["roomFavorites", "reservationId"]) || null;
-        if(user === null) {
+router.post('/login', async (req, res) => {
+    try {
+        //obtengo nombre e email del usuario
+        const { email, password } = req.body;
+        //verificar que el usuario exista
+        const user = await UserClient.findOne({ email }).populate(["roomFavorites", "reservationId"]) || null;
+        if (user === null) {
             return res.status(401).send('You Need to be registered to log in')
         };
-        if(user.status !=='Active') {
+        if (user.status !== 'Active') {
             return res.status(401).send('Pending Account. Please Verify Your Email!');
         };
-        user.isCorrectPassword(password, (err, result)=>{
-            if(!result) return res.status(401).send('Invalid password');
+        user.isCorrectPassword(password, (err, result) => {
+            if (!result) return res.status(401).send('Invalid password');
 
             else {
                 console.log(user);
                 res.json(user);
             }
-        })    
+        })
 
-    } catch(error){
+    } catch (error) {
         console.log(error)
         res.status(500).send('Login failed')
     }
@@ -286,19 +289,19 @@ router.post('/login', async(req, res)=>{
 router.post('/signup', async (req, res) => {
     try {
         //obtengo nombre e email del usuario
-        const {email, password} = req.body;
+        const { email, password } = req.body;
         //verificar que el usuario aún no exista
-        let user = await UserClient.findOne({email}) || null;
-        if(user !== null) {
+        let user = await UserClient.findOne({ email }) || null;
+        if (user !== null) {
             return res.status(401).send('You already have an account, cant register twice')
         };
         //Generar el código para verificar el email
         const confirmationCode = uuidv4();
 
         //crear nuevo usuario
-        user = new UserClient({email, password, confirmationCode});
+        user = new UserClient({ email, password, confirmationCode });
         //Generar un token
-        const token = getToken({email, password, confirmationCode});
+        const token = getToken({ email, password, confirmationCode });
         //Obtener un template
         const template = getTemplate(token);
         //Enviar el email
@@ -317,39 +320,39 @@ router.post('/signup', async (req, res) => {
 router.get('/confirm/:token', async (req, res) => {
     try {
 
-       // Obtener el token
-       const { token } = req.params;
-       
-       // Verificar la data
-       const data = await getTokenData(token);
+        // Obtener el token
+        const { token } = req.params;
 
-       if(data === null) {
+        // Verificar la data
+        const data = await getTokenData(token);
+
+        if (data === null) {
             return res.status(500).send('Error at getting data');
-       }
+        }
 
-       console.log(data);
+        console.log(data);
 
-       const { email, confirmationCode } = data.data;
+        const { email, confirmationCode } = data.data;
 
-       // Verificar existencia del usuario
-       const user = await UserClient.findOne({ email }) || null;
+        // Verificar existencia del usuario
+        const user = await UserClient.findOne({ email }) || null;
 
-       if(user === null) {
+        if (user === null) {
             return res.status(404).send('This User does not exist');
-       }
+        }
 
-       // Verificar el código
-       if(confirmationCode !== user.confirmationCode) {
+        // Verificar el código
+        if (confirmationCode !== user.confirmationCode) {
             return res.status(500).send('Confirmation Code error');
-       }
+        }
 
-       // Actualizar usuario
-       user.status = 'Active';
-       await user.save();
+        // Actualizar usuario
+        user.status = 'Active';
+        await user.save();
 
-       // Redireccionar a la confirmación
-       return res.redirect('http://localhost:3000/confirmedaccount');
-        
+        // Redireccionar a la confirmación
+        return res.redirect('http://localhost:3000/confirmedaccount');
+
     } catch (error) {
         console.log(error);
         return res.send("User couldn't be confirmed");
@@ -359,29 +362,29 @@ router.get('/confirm/:token', async (req, res) => {
 ///////////////////////////////////// RUTAS LOGIN AND REGISTER ADMIN  ////////////////////////////////
 
 // ruta login con verificación de cuenta activada por mail 
-router.post('/loginadmin', async(req, res)=>{
-    try{
-    //obtengo nombre e email del usuario
-        const {email, password} = req.body;
-    //verificar que el usuario exista
-        const user = await UserAdmin.findOne({email}).populate("rooms") || null;
-        if(user === null) {
+router.post('/loginadmin', async (req, res) => {
+    try {
+        //obtengo nombre e email del usuario
+        const { email, password } = req.body;
+        //verificar que el usuario exista
+        const user = await UserAdmin.findOne({ email }).populate("rooms") || null;
+        if (user === null) {
             return res.status(401).send('You Need to be registered to log in')
         };
-        if(user.status !=='Active') {
+        if (user.status !== 'Active') {
             return res.status(401).send('Pending Account. Please Verify Your Email!');
         };
-    //autenticación contraseña
-//        user.isCorrectPassword(password, (err, result)=>{
-//            if(!result) return res.status(401).send('Invalid password');
+        //autenticación contraseña
+        //        user.isCorrectPassword(password, (err, result)=>{
+        //            if(!result) return res.status(401).send('Invalid password');
 
-//            else {
-//                console.log(user);
-                res.json(user);
-//            }
-//        })    
+        //            else {
+        //                console.log(user);
+        res.json(user);
+        //            }
+        //        })    
 
-    } catch(error){
+    } catch (error) {
         console.log(error)
         res.status(500).send('Login failed')
     }
@@ -392,19 +395,19 @@ router.post('/loginadmin', async(req, res)=>{
 router.post('/signupadmin', async (req, res) => {
     try {
         //obtengo nombre e email del usuario
-        const {email, password} = req.body;
+        const { email, password } = req.body;
         //verificar que el usuario aún no exista
-        let user = await UserAdmin.findOne({email}) || null;
-        if(user !== null) {
+        let user = await UserAdmin.findOne({ email }) || null;
+        if (user !== null) {
             return res.status(401).send('You already have an account, cant register twice')
         };
         //Generar el código para verificar el email
         const confirmationCode = uuidv4();
 
         //crear nuevo usuario
-        user = new UserAdmin({email, password, confirmationCode});
+        user = new UserAdmin({ email, password, confirmationCode });
         //Generar un token
-        const token = getToken({email, password, confirmationCode});
+        const token = getToken({ email, password, confirmationCode });
         //Obtener un template
         const template = getTemplateAdmin(token);
         //Enviar el email
@@ -423,39 +426,39 @@ router.post('/signupadmin', async (req, res) => {
 router.get('/confirma/:token', async (req, res) => {
     try {
 
-       // Obtener el token
-       const { token } = req.params;
-       
-       // Verificar la data
-       const data = await getTokenData(token);
+        // Obtener el token
+        const { token } = req.params;
 
-       if(data === null) {
+        // Verificar la data
+        const data = await getTokenData(token);
+
+        if (data === null) {
             return res.status(500).send('Error at getting data');
-       }
+        }
 
-       console.log(data);
+        console.log(data);
 
-       const { email, confirmationCode } = data.data;
+        const { email, confirmationCode } = data.data;
 
-       // Verificar existencia del usuario
-       const user = await UserAdmin.findOne({ email }) || null;
+        // Verificar existencia del usuario
+        const user = await UserAdmin.findOne({ email }) || null;
 
-       if(user === null) {
+        if (user === null) {
             return res.status(404).send('This User does not exist');
-       }
+        }
 
-       // Verificar el código
-       if(confirmationCode !== user.confirmationCode) {
+        // Verificar el código
+        if (confirmationCode !== user.confirmationCode) {
             return res.status(500).send('Confirmation Code error');
-       }
+        }
 
-       // Actualizar usuario
-       user.status = 'Active';
-       await user.save();
+        // Actualizar usuario
+        user.status = 'Active';
+        await user.save();
 
-       // Redireccionar a la confirmación
-       return res.redirect('http://localhost:3000/confirmedaccount');
-        
+        // Redireccionar a la confirmación
+        return res.redirect('http://localhost:3000/confirmedaccount');
+
     } catch (error) {
         console.log(error);
         return res.send("User couldn't be confirmed");
@@ -465,26 +468,26 @@ router.get('/confirma/:token', async (req, res) => {
 ///////////////////////////////////// RUTAS DE RECUPERO DE CONTRASEÑA VIA MAIL USER ////////////////////////
 
 //endpoint para 'Me olvidé la contraseña'
-router.post('/forgotPassword', async (req, res)=> {
+router.post('/forgotPassword', async (req, res) => {
 
     try {//obtengo dirección de mail a donde enviar el mensaje de recupero
-        const {email} = req.body;
-    
+        const { email } = req.body;
+
         // Verificar existencia del usuario
-           const user = await UserClient.findOne({ email }) || null;
-    
-           if(user === null) {
-                return res.status(404).send('This User does not exist');
-           }
-        
+        const user = await UserClient.findOne({ email }) || null;
+
+        if (user === null) {
+            return res.status(404).send('This User does not exist');
+        }
+
         // Generar un token, válido por una hora, para tokenizar la info del usuario
-            const token = getTokenR(email);
+        const token = getTokenR(email);
 
         //Obtener un template
-            const template = getTemplateR(token);
+        const template = getTemplateR(token);
 
         //envío mail
-            await sendRecoverEmail(email, 'SnorInn recover password', template);
+        await sendRecoverEmail(email, 'SnorInn recover password', template);
 
         res.send('Password recovery mail sent')
     } catch (error) {
@@ -497,44 +500,44 @@ router.post('/forgotPassword', async (req, res)=> {
 router.get('/reset/:token', async (req, res) => {
     try {
 
-       // Obtener el token
-       const { token} = req.params;
-       
-       // Verificar la data
-       const data = await getTokenRData(token);
+        // Obtener el token
+        const { token } = req.params;
 
-       if(data === null) {
+        // Verificar la data
+        const data = await getTokenRData(token);
+
+        if (data === null) {
             return res.send('Error at getting data');
-       }
+        }
 
-       console.log(data);
+        console.log(data);
 
-       const email = data.data;
+        const email = data.data;
 
-       console.log(email)
+        console.log(email)
 
-       // Verificar existencia del usuario
-       const user = await UserClient.findOne({ email }) || null;
+        // Verificar existencia del usuario
+        const user = await UserClient.findOne({ email }) || null;
 
-       if(user === null) {
+        if (user === null) {
             return res.send('This User does not exist');
-       }
+        }
 
-       //Generar nueva password
+        //Generar nueva password
         const newPass = uuidv4();
 
-       // Actualizar usuario
-       user.password = newPass;
-       await user.save();
+        // Actualizar usuario
+        user.password = newPass;
+        await user.save();
 
-       //Obtener un template
+        //Obtener un template
         const template = getTemplatePass(newPass);
 
-       // Envío de mail con los datos de la nueva password
-       await sendNewPasswordEmail(email, 'SnorInn new password', template);
+        // Envío de mail con los datos de la nueva password
+        await sendNewPasswordEmail(email, 'SnorInn new password', template);
 
         return res.redirect('http://localhost:3000/paswordsent');
-        
+
     } catch (error) {
         console.log(error);
         return res.send("We couldn't reset your password");
@@ -544,26 +547,26 @@ router.get('/reset/:token', async (req, res) => {
 ///////////////////////////////////// RUTAS DE RECUPERO DE CONTRASEÑA VIA MAIL ADMIN //////////////////////////
 
 //endpoint para 'Me olvidé la contraseña'
-router.post('/forgotPasswordadmin', async (req, res)=> {
+router.post('/forgotPasswordadmin', async (req, res) => {
 
     try {//obtengo dirección de mail a donde enviar el mensaje de recupero
-        const {email} = req.body;
-    
+        const { email } = req.body;
+
         // Verificar existencia del usuario
-           const user = await UserAdmin.findOne({ email }) || null;
-    
-           if(user === null) {
-                return res.status(404).send('This User does not exist');
-           }
-        
+        const user = await UserAdmin.findOne({ email }) || null;
+
+        if (user === null) {
+            return res.status(404).send('This User does not exist');
+        }
+
         // Generar un token, válido por una hora, para tokenizar la info del usuario
-            const token = getTokenR(email);
+        const token = getTokenR(email);
 
         //Obtener un template
-            const template = getTemplateRadmin(token);
+        const template = getTemplateRadmin(token);
 
         //envío mail
-            await sendRecoverEmail(email, 'SnorInn recover password', template);
+        await sendRecoverEmail(email, 'SnorInn recover password', template);
 
         res.send('Password recovery mail sent')
     } catch (error) {
@@ -576,44 +579,44 @@ router.post('/forgotPasswordadmin', async (req, res)=> {
 router.get('/reseta/:token', async (req, res) => {
     try {
 
-       // Obtener el token
-       const { token} = req.params;
-       
-       // Verificar la data
-       const data = await getTokenRData(token);
+        // Obtener el token
+        const { token } = req.params;
 
-       if(data === null) {
+        // Verificar la data
+        const data = await getTokenRData(token);
+
+        if (data === null) {
             return res.send('Error at getting data');
-       }
+        }
 
-       console.log(data);
+        console.log(data);
 
-       const email = data.data;
+        const email = data.data;
 
-       console.log(email)
+        console.log(email)
 
-       // Verificar existencia del usuario
-       const user = await UserAdmin.findOne({ email }) || null;
+        // Verificar existencia del usuario
+        const user = await UserAdmin.findOne({ email }) || null;
 
-       if(user === null) {
+        if (user === null) {
             return res.send('This User does not exist');
-       }
+        }
 
-       //Generar nueva password
+        //Generar nueva password
         const newPass = uuidv4();
 
-       // Actualizar usuario
-       user.password = newPass;
-       await user.save();
+        // Actualizar usuario
+        user.password = newPass;
+        await user.save();
 
-       //Obtener un template
+        //Obtener un template
         const template = getTemplatePass(newPass);
 
-       // Envío de mail con los datos de la nueva password
-       await sendNewPasswordEmail(email, 'SnorInn new password', template);
+        // Envío de mail con los datos de la nueva password
+        await sendNewPasswordEmail(email, 'SnorInn new password', template);
 
         return res.redirect('http://localhost:3000/paswordsent');
-        
+
     } catch (error) {
         console.log(error);
         return res.send("We couldn't reset your password");
@@ -636,5 +639,60 @@ router.get('/reseta/:token', async (req, res) => {
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
 
 router.post('/reviewsByClient', routePostReview)
+
+
+
+
+///////////////////////////////////////////////// RUTA LOGIN GOOGLE ////////////////////////////////////////////////
+
+router.get('/authentificate', async (res, req) => {
+    async function verify(client, token) {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: dot.env.CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+            // Or, if multiple clients access the backend:
+            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        });
+        const payload = ticket.getPayload();
+        return payload
+        // const userid = payload['sub'];
+        // If request specified a G Suite domain:
+        // const domain = payload['hd'];
+    }
+    const client = new OAuth2Client(dot.env.CLIENT_ID);
+    let token = req.query.id_token
+    let response = verify(client, token).catch(console.error);
+    if(response.email_verified){
+        db.collection('UserClient').findOne({email: response.email}).toArray((err, result) => {
+            if(err) throw (err);
+            if(result.length < 1){
+                db.collection('UserClient').insertMany([{
+                    name: response.name,
+                    email: response.email,
+                    password: bcrypt.hashSync(response.at_hash, 8)
+                }]);
+                db.collection('UserClient').findOne({email: response.email}).toArray((err, result) => {
+                    if(e) throw err;
+                    let tkn = jwt.sign({id: result[0]._id}, secret);
+                    res.send({
+                        auth: true,
+                        token: tkn
+                    })
+                })
+            } else {
+                let token = jwt.sing({id: result[0]._id}, secret);
+                res.send({
+                    auth: true,
+                    token: token
+                })
+            }
+        })
+    } else {
+        res.send({
+            auth: false.valueOf,
+            message: 'User unauthorized'
+        })
+    }
+})
 
 module.exports = router;

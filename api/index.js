@@ -12,7 +12,7 @@ const cors = require('cors'); // Exporta libreria para que no haya conflictos en
 
 // INICIALIZACION
 const app = express();
-require('./passport')(passport);
+
 
 // CONFIGURACION DE PUERTO
 app.set('port', process.env.PORT || 3002)
@@ -60,7 +60,6 @@ app.use((req, res, next) => {
     next();
 });
 app.use('/', routes);
-require('./src/routes/passportRoutes')(app, passport);
 app.use((err, req, res, next) => {
     const status = err.status || 500;
     const message = err.message || err;
