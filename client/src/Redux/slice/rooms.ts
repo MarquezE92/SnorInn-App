@@ -9,7 +9,7 @@ export interface IRoom{
     place: string;
     n_beds: number;
     price: number;
-    availability: boolean;
+    unavailableDates: string[];
     name: string;
     photos: any;
     services: any;
@@ -35,7 +35,7 @@ const initialState:IState={
         place: '',
         n_beds: 0,
         price: 0,
-        availability: true,
+        unavailableDates: [],
         name: '',
         photos: '',
         services: [''],
