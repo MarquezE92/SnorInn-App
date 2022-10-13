@@ -16,4 +16,4 @@ const getRoomFilter = async (req, res) => {
     }
 };
 
-module.exports = getRoomFilter;
+module.exports = {getRoomFilter};
