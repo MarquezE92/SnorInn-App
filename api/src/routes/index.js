@@ -31,10 +31,12 @@ const { routePostReview } = require('../routes/postReviews');
 const { routeDelFavorites } = require('../routes/delFavorites');
 const { routePostRooms } = require('../routes/postRooms');
 const { routeGetRoomById } = require('../routes/getRoomById');
-const {routeDeleteRoomById} = require('../routes/deleteRoom');
-const {routePutRoomById} = require('../routes/putRoomById');
-const {routePostReservation} = require('../routes/postReservation')
-const {routeGetRoomByIdAdmin} = require('../routes/getRoomByAdminId'); 
+const { routeDeleteRoomById } = require('../routes/deleteRoom');
+const { routePutRoomById } = require('../routes/putRoomById');
+const { routePostReservation } = require('../routes/postReservation')
+const { routeGetRoomByIdAdmin } = require('../routes/getRoomByAdminId');
+const { routeGetUserClient } = require('../routes/getUserClient');
+const { routePostFavorites } = require('../routes/postFavorites');
 
 
 const { OAuth2Client } = require('google-auth-library');
@@ -56,6 +58,8 @@ router.delete('/room/:id', routeDeleteRoomById);
 router.put("/rooms/:id", routePutRoomById);
 router.post('/reservation', routePostReservation);
 router.get('/roomsByAdminId/:id', routeGetRoomByIdAdmin);
+router.get('/userClient/:id', routeGetUserClient);
+router.post('/favorites', routePostFavorites);
 
 //CONDIFURAR LAS RUTAS
 
@@ -177,34 +181,6 @@ router.post('/dataPeyment', async (req, res) => {
         res.status(404).json({ message: error.raw.message })
     }
 });
-
-
-//Ruta de get de Habitaciones para el Dashboard del Admin
-///////////////////////////////////// GET DashBorad userClient  ///////////////////////////////
-router.get('/userClient/:id', async (req, res) => {
-    const { id } = req.params;
-    try {
-        const dataClient = await getUserClient(id)
-        return res.status(200).json(dataClient)
-    } catch (error) {
-        return res.status(404).send({ error: error.message })
-    }
-})
-
-
-///////////////////////////////////// POST DashBorad userClient  ///////////////////////////////
-
-router.post('/favorites', async (req, res) => {
-    const { roomFavorites, idClient } = req.body
-    try {
-        const postFavorites = await addFavorites(roomFavorites, idClient)
-        return res.status(200).send(postFavorites)
-
-    } catch (error) {
-        return res.status(404).send({ error: error.message })
-    }
-});
-
 
 ///////////////////////////////////// RUTAS LOGIN AND REGISTER USER  ///////////////////////////////
 
@@ -613,25 +589,25 @@ router.get('/authentificate', async (res, req) => {
     const client = new OAuth2Client(CLIENT_ID);
     let token = req.query.id_token
     let response = verify(client, token).catch(console.error);
-    if(response.email_verified){
-        db.collection('UserClient').findOne({email: response.email}).toArray((err, result) => {
-            if(err) throw (err);
-            if(result.length < 1){
+    if (response.email_verified) {
+        db.collection('UserClient').findOne({ email: response.email }).toArray((err, result) => {
+            if (err) throw (err);
+            if (result.length < 1) {
                 db.collection('UserClient').insertMany([{
                     name: response.name,
                     email: response.email,
                     password: bcrypt.hashSync(response.at_hash, 8)
                 }]);
-                db.collection('UserClient').findOne({email: response.email}).toArray((err, result) => {
-                    if(e) throw err;
-                    let tkn = jwt.sign({id: result[0]._id}, secret);
+                db.collection('UserClient').findOne({ email: response.email }).toArray((err, result) => {
+                    if (e) throw err;
+                    let tkn = jwt.sign({ id: result[0]._id }, secret);
                     res.send({
                         auth: true,
                         token: tkn
                     })
                 })
             } else {
-                let token = jwt.sing({id: result[0]._id}, secret);
+                let token = jwt.sing({ id: result[0]._id }, secret);
                 res.send({
                     auth: true,
                     token: token
@@ -645,8 +621,5 @@ router.get('/authentificate', async (res, req) => {
         })
     }
 })
-
-
-
 
 module.exports = router;
