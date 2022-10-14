@@ -73,8 +73,12 @@ font-size: 2.5rem;
     color: inherit;
     margin-bottom: 40px;
 }
+
 .viewLink:hover {
     color: inherit;
 }
 
-
+.starsCard {
+    color: #86cbb8;
+    margin: 0.1rem;
+ }
