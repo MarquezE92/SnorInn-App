@@ -11,7 +11,6 @@ const axios = require('axios');
 const { getRooms, findByIdRoom } = require('../controllers')
 // const { getRoomsbyFilters } = require('./getRoomByQueryR')
 const express = require('express')
-router.use(express.json())
 const Stripe = require('stripe');
 const cors = require('cors'); // Exporta libreria para que no haya conflictos entre los puertos del FRONTEND y BACKEND
 const { getRoomsbyFilters } = require('../controllers/getRoomByQueryC')
@@ -35,7 +34,18 @@ const { routeGetRoomById } = require('../routes/getRoomById');
 const {routeDeleteRoomById} = require('../routes/deleteRoom');
 const {routePutRoomById} = require('../routes/putRoomById');
 const {routePostReservation} = require('../routes/postReservation')
-const {routeGetRoomByIdAdmin} = require('../routes/getRoomByAdminId');
+const {routeGetRoomByIdAdmin} = require('../routes/getRoomByAdminId'); 
+
+
+const { OAuth2Client } = require('google-auth-library');
+const { db } = require('../models/userClientSchema');
+const jwt = require('jsonwebtoken')
+const secret = 'thisisasecretpassword'
+const bcrypt = require('bcrypt')
+require('dotenv').config();
+const {
+    CLIENT_ID
+} = process.env;
 
 
 router.post('/reviewsByClient', routePostReview);
@@ -585,6 +595,58 @@ router.get('/reseta/:token', async (req, res) => {
 
 
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
+
+router.get('/authentificate', async (res, req) => {
+    async function verify(client, token) {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: dot.env.CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+            // Or, if multiple clients access the backend:
+            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        });
+        const payload = ticket.getPayload();
+        return payload
+        // const userid = payload['sub'];
+        // If request specified a G Suite domain:
+        // const domain = payload['hd'];
+    }
+    const client = new OAuth2Client(CLIENT_ID);
+    let token = req.query.id_token
+    let response = verify(client, token).catch(console.error);
+    if(response.email_verified){
+        db.collection('UserClient').findOne({email: response.email}).toArray((err, result) => {
+            if(err) throw (err);
+            if(result.length < 1){
+                db.collection('UserClient').insertMany([{
+                    name: response.name,
+                    email: response.email,
+                    password: bcrypt.hashSync(response.at_hash, 8)
+                }]);
+                db.collection('UserClient').findOne({email: response.email}).toArray((err, result) => {
+                    if(e) throw err;
+                    let tkn = jwt.sign({id: result[0]._id}, secret);
+                    res.send({
+                        auth: true,
+                        token: tkn
+                    })
+                })
+            } else {
+                let token = jwt.sing({id: result[0]._id}, secret);
+                res.send({
+                    auth: true,
+                    token: token
+                })
+            }
+        })
+    } else {
+        res.send({
+            auth: false.valueOf,
+            message: 'User unauthorized'
+        })
+    }
+})
+
+
 
 
 module.exports = router;
