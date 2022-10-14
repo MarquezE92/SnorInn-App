@@ -57,7 +57,8 @@ const UserSlice = createSlice({
         })
         builder.addCase(signUpUser.fulfilled,(state, action)=>{
             state.state = 'fullfiled'
-            state.userInfo = action.payload
+            Swal.fire("Yes!", 'your account was created successfully, now verify your account with the email sent to your email', "success");
+            //state.userInfo = action.payload
             // console.log(action)
         })
         builder.addCase(signUpUser.rejected,(state,action)=>{
@@ -80,19 +81,34 @@ const UserSlice = createSlice({
            console.log(user.roomFavorites)
         })
 
-        builder.addCase(payment.pending, (state)=>{
+        builder.addCase(removeFavorite.pending, (state)=>{
             state.state = 'loading'
         })
-        builder.addCase(payment.fulfilled, (state, action)=>{
+        builder.addCase(removeFavorite.fulfilled, (state, action)=>{
             state.state = 'fullfiled'
             const user = JSON.parse(localStorage.getItem('user')!)
+            console.log(action)
+            if(user){
+                user.roomFavorites = user.roomFavorites.filter((el:any)=>el._id!==action.payload._id)
+                localStorage.setItem('user', JSON.stringify(user))
+            }
+            
+           console.log(user.roomFavorites)
+        })
 
+        builder.addCase(payment_reserv.pending, (state)=>{
+            state.state = 'loading'
+        })
+        builder.addCase(payment_reserv.fulfilled, (state, action)=>{
+            state.state = 'fullfiled'
+            const user = JSON.parse(localStorage.getItem('user')!)
+            console.log(action)
             if(user){
                 user.reservationId = [...user.reservationId, action.payload]
                 localStorage.setItem('user', JSON.stringify(user))
             }
             
-           console.log(user.reservationId)
+           //console.log(user.reservationId)
         })
 
         builder.addCase(signInUser.pending,(state)=>{
@@ -116,7 +132,7 @@ export const {logout} = UserSlice.actions
 export const signUpUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/register', async (value, {rejectWithValue}) => {
       try {
         const json:AxiosResponse = await axios.post('http://localhost:3002/signup',value)
-        localStorage.setItem('user', JSON.stringify(json.data))
+        // localStorage.setItem('user', JSON.stringify(json.data))
         return json.data
     } catch (error) {
         console.log(error)
@@ -162,10 +178,28 @@ export const addFavorite = createAsyncThunk<IRoom,Object>('User/addFavorite', as
     }
 })
 
-export const payment = createAsyncThunk<IRoom,Object>('User/datapeyment', async (value)=>{
+export const removeFavorite = createAsyncThunk<IRoom,Object>('User/RemoveFavorite', async (value)=>{
     try{
-        const json = await axios.post('http://localhost:3002/dataPeyment',value)
+        const json = await axios.delete('http://localhost:3002/favoriteByIdRoom',value)
+        Swal.fire("Great!", "You remove this room to your favorites!", "success");
         return json.data
+
+    }catch(error){
+        console.log(error)
+    }
+})
+
+export const payment_reserv = createAsyncThunk<Object,Object>('User/datapeyment', async (value)=>{
+    try{
+        const res = await axios.post('http://localhost:3002/dataPeyment',value)
+
+        if(res.status===200){
+
+        const json = await axios.post('http://localhost:3002/reservation', value)
+            console.log('llegamos hasta aca')
+            console.log(json.data)
+            return json.data
+        }
     }catch(error){
         console.log(error)
     }

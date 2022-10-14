@@ -4,8 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../Redux/Store/hooks';
 import { useState, useEffect } from "react";
 import {useParams } from 'react-router-dom';
 import { getDetailRoom} from '../../../Redux/slice/rooms';
-import {addFavorite} from '../../../Redux/slice/user'
-import { useSelector } from 'react-redux';
+import {addFavorite, removeFavorite} from '../../../Redux/slice/user'
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap'; 
@@ -63,10 +62,14 @@ useEffect(() => {
 
 const addFav = ()=>{
 	if(user._id !== ''){
-		if(userLocal.roomFavorites.find((el:any)=>el._id === fav.roomFavorites)){
-			alert('YOU ALREADY HAVE THIS ROOM IN YOUR FAVORITES')
-		}else{
+		const room = userLocal.roomFavorites.find((el:any)=>el._id===fav.roomFavorites)
+		console.log(room)
+		if(room>0){
+			console.log('1')
 			dispatch(addFavorite(fav))
+		}else{
+			console.log('2')
+			dispatch(removeFavorite(fav))
 		}
 	}else{
 		alert('YOU NEED TO BE LOGED TO ADD TO FAVORITES')

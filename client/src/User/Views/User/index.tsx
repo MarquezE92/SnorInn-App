@@ -87,7 +87,7 @@ const User = () => {
                       <h3>{room.name}</h3>
                       <div>${room.price} per night</div>
                       <div>{room.n_beds} bed</div>
-                      <img src={room.photos.url}/>
+                      <img src={room.photos}/>
                     </NavLink>
                   </button>
                 ))
