@@ -1,8 +1,8 @@
 const { Router } = require('express');
 const router = Router();
-const {getRoomsbyFilters} = require('../controllers/getRoomByQueryC');
 const express = require('express');
 router.use(express.json());
+const {getRoomsbyFilters} = require('../controllers/getRoomByQueryC');
 
 const getRoomFilter = async (req, res) => {
     const { place } = req.query

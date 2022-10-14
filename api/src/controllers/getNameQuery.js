@@ -5,8 +5,6 @@ const getName = async (name) => {
 
         const foundRoom = await roomSchema.find({name})
         return foundRoom
-}
+};
 
-module.exports = {
-    getName
-}
+module.exports = {getName}
