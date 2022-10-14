@@ -11,9 +11,28 @@ import { useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap'; 
 import { BsFillHeartFill } from "react-icons/bs";
 import Swal from "sweetalert2";
+import { BsFillStarFill } from "react-icons/bs";
+
+interface IReview{
+    email:string;
+    description:string;
+    stars:number
+}
+const reviewsPruebita: IReview[] = [{email: "prueba1@gmail.com", description: "I loved this room", stars: 5}, {email: "prueba2@gmail.com", description: "Buuu", stars: 1}]
+
+const stars = (s:number):number[]=> {
+	let star = 1;
+	let repeate: number[] = [1]
+	while(star < s) {
+		repeate.push(star);
+		++star
+	}
+	return repeate
+}
 
 const RoomDetail = ()=> {
 	const [modal, setModal] = useState(false);
+	const [modal2, setModal2] = useState(false);
 
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch()
@@ -33,6 +52,9 @@ const RoomDetail = ()=> {
 	}
 	const handleModal = () => {
 		setModal(!modal)
+	  }
+	const handleModal2 = () => {
+		setModal2(!modal2)
 	  }
 
 useEffect(() => {
@@ -60,6 +82,7 @@ return (
 	<div className={styles.photosDiv}>
 		<img src={rooms.photos.url} alt="A beautiful room... maybe?" />
 		<Button onClick={() => handleModal()} variant="dark">Description</Button>
+		<Button onClick={() => handleModal2()} variant="dark" className={styles.reviewBtn}>Reviews</Button>
 	</div>
 	<div className={styles.infoContainer}>
 	 <div className={styles.principalInfo}>
@@ -83,7 +106,7 @@ return (
 	 		 		))}
 	 </div>
 	 <div>
-	 	<h1>Rating: {rooms.rating}☆</h1>
+	 	<h1>Rating: {stars(rooms.rating).map(st=> <BsFillStarFill className={styles.star}/>)}</h1>
 		
 	 	<div className={styles.reserveContainer}>
 			<div className={styles.price}>
@@ -106,6 +129,24 @@ return (
         </Modal.Body>
         </Modal>
 
+    <Modal show={modal2} onHide={() => handleModal2()}  size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered>
+        <Modal.Header closeButton>
+        	<Modal.Title>Reviews</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className={styles.modalBody}>
+        {
+            reviewsPruebita.map(rev=>(
+            		<>
+                  <h3>{rev.email} {stars(rev.stars).map(st=> <BsFillStarFill className={styles.star}/>)}</h3>
+									<p>- "{rev.description}" </p>
+								</>                
+            	))
+          }    
+        </Modal.Body>         
+         
+    </Modal>
 	</div>
 	</div>
 	</div>

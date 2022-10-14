@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import styles from './index.module.css';
+import { BsFillStarFill } from "react-icons/bs";
 
 type Props = {
     _id: string;
@@ -13,6 +14,16 @@ type Props = {
 	
 };
 
+const stars = (s:number):number[]=> {
+	let star = 1;
+	let repeate: number[] = [1]
+	while(star < s) {
+		repeate.push(star);
+		++star
+	}
+	return repeate
+};
+
 const Card = ({photos, name, rating, n_beds, services, price, _id}:Props)=> {
 
 
@@ -23,7 +34,7 @@ return (
 	 <div className={styles.secondColumnDiv}>
 	  <div className={styles.upperSection}>
 	   <div id={styles.place}>{name}</div>
-	   <div>☆ {rating}</div>
+	   <div>{stars(rating).map(st=> <BsFillStarFill className={styles.starsCard}/>)}</div>
 	  </div>
 	  <div className={styles.middleSection}>
 	   <div className={styles.beds}>{n_beds} Beds</div>
