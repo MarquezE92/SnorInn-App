@@ -28,7 +28,8 @@ const { getRoomsByUserAdmin } = require('../controllers/getRoomByAdminId');
 const { addFavorites } = require('../controllers/postFavorites');
 const { getUserClient } = require('../controllers/getUserClient');
 const { getReservationByRoom } = require('../controllers/getReservationByRoom');
-const { routePostReview } = require('../routes/postReviews');
+const { routePostReview } = require('../routes/postReviews'); 
+const { routeDelFavorites } = require('../routes/delFavorites');
 
 
 
@@ -635,6 +636,7 @@ router.get('/reseta/:token', async (req, res) => {
 
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
 
-router.post('/reviewsByClient', routePostReview)
+router.post('/reviewsByClient', routePostReview);
+router.delete('/favoriteByIdRoom', routeDelFavorites);
 
 module.exports = router;
