@@ -3,7 +3,8 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import styles from "./checkoutform.module.css";
 import { RootState } from "../../Redux/Store/store";
 import { useSelector } from "react-redux";
-import {useAppSelector} from '../../Redux/Store/hooks';
+import {useAppSelector, useAppDispatch} from '../../Redux/Store/hooks';
+import { payment_reserv } from "../../Redux/slice/user";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -28,9 +29,9 @@ const CheckutForm = () => {
   const stripe: any = useStripe();
   const elements: any = useElements();
   const rooms = useSelector((state: RootState) => state.rooms.Room);
-  console.log(rooms)
+  const dispatch = useAppDispatch()
   const user:IUserInfo = useAppSelector(state=>state.users.userInfo);
-  console.log(user)
+  
 
   //-----------PARA EL CALENDARIO
   const [openDate, setOpenDate] = useState(false);
@@ -84,25 +85,35 @@ const CheckutForm = () => {
       card: elements.getElement(CardElement),
     });
     if (!error) {
-      try{
+      // try{
         const { id } = paymentMethod;
         const { email, _id } = user;
-        const { data } = await axios.post("http://localhost:3002/dataPeyment", {
-          id,
-          amount: Number(rooms.price + "00")*nigths,
-          email,
-          userId: _id,
-          roomId: rooms._id,
-          check_in: dates[0].startDate,
-          check_out: dates[0].endDate,
-          dates: getDatesInRange(dates[0].startDate,dates[0].endDate)
-        });
-        
-        Swal.fire("Great!", "Your payment was processed correctly. You'll receive your receipt via mail.", "success");
-        navigate("/rooms", { replace: true });
-      }catch(error:any){
-        Swal.fire("Oh No!", error.response.data.message, "error")
-      }
+        // const json = await axios.post("http://localhost:3002/dataPeyment", {
+        //   id,
+        //   amount: Number(rooms.price + "00")*nigths,
+        //   email,
+        //   userId: _id,
+        //   roomId: rooms._id,
+        //   check_in: dates[0].startDate,
+        //   check_out: dates[0].endDate,
+        //   dates: getDatesInRange(dates[0].startDate,dates[0].endDate)
+        // });
+      //   console.log(json)
+      //   Swal.fire("Great!", "Your payment was processed correctly. You'll receive your receipt via mail.", "success");
+      //   navigate("/rooms", { replace: true });
+      // }catch(error:any){
+      //   Swal.fire("Oh No!", error.response.data.message, "error")
+      // }
+      dispatch(payment_reserv({
+        id,
+        amount: Number(rooms.price + "00")*nigths,
+        email,
+        userId: _id,
+        roomId: rooms._id,
+        check_in: dates[0].startDate,
+        check_out: dates[0].endDate,
+        dates: getDatesInRange(dates[0].startDate,dates[0].endDate)
+      }))
     } else {Swal.fire("Oh No!", "Something is wrong with yout card", "error");}
   };
 
