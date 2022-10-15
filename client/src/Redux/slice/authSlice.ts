@@ -87,7 +87,7 @@ export const signUpAdmin = createAsyncThunk<IAdminInfo, Partial<IUser>>('Admin/r
     try {
         const json:AxiosResponse = await axios.post('/signupadmin',value)
         console.log(value)
-        Swal.fire("Good job!", "Your account was created succesfuly!", "success");
+        Swal.fire("Good job!", "Your account was created succesfuly! Now don't forget to verify your account with the email we sent you", "success");
         localStorage.setItem('admin', JSON.stringify(json.data))
         console.log(json.data)
         return json.data
