@@ -18,6 +18,7 @@ import { AuthRoutes } from "./routes/authRoutes";
 import PaswordSentMessage from "./Shared/LoginUser/PasswordRestore/PaswordSentMessage";
 import User from "./User/Views/User";
 import Edit from "./Admin/Views/Dashboard/Edit";
+import AddReview from "./User/Views/User/AddReview/AddReview";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route element={<PrivateRoutes/>}>
           <Route path="/user" element={<User />} />
           <Route path="/rooms/reserve/:id" element={<Stripe />} />
+          <Route path="/reviewForm/:id" element={<AddReview />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
