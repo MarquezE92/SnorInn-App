@@ -60,7 +60,6 @@
 	border: 1px solid rgba(0, 0, 0, 0.471);
 	border-radius: 30px;
 	cursor: pointer;
-	margin: 50px;
 	padding: 30px;
 	margin: 40px;
 	background:#adddd0a1;
@@ -90,4 +89,55 @@
 .roomCard img {
 	width: 200px;
 	height: 200px;
+}
+
+.reservationContainer {
+	margin-top: 1rem;
+	display: flex;
+	justify-content: space-between;
+	border-radius: 1.3rem;
+	border: 0.1rem solid rgba(0, 0, 0, 0.484);
+	height: 7rem;
+	width: 24rem;
+	padding: 1rem;
+	
+}
+
+.reservationContainer:hover {
+	background-color:#adddd0a1;
+}
+
+.viewIcon {
+	height: 4rem;
+	width: 5rem;
+	background-color: white;
+	padding: 0.2rem;
+	border-radius: 1rem;
+}
+
+.linksContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.reviewBtn {
+	margin-top: 0.4rem;
+	background-color: #212529;
+	color: white;
+	border-color: #373b3e;
+	border-radius: 0.5rem;
+	padding: 0.1rem 0.3rem;
+	font-weight: 500;
+	text-decoration: none;
+}
+
+.reviewBtn:hover {
+	background-color: #424649;
+	color: white;
+}
+
+.infoContainer {
+	font-size: 1.2rem;
 }
