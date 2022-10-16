@@ -303,14 +303,14 @@ router.post('/loginadmin', async (req, res) => {
             return res.status(401).send('Pending Account. Please Verify Your Email!');
         };
         //autenticación contraseña
-        //        user.isCorrectPassword(password, (err, result)=>{
-        //            if(!result) return res.status(401).send('Invalid password');
+                user.isCorrectPassword(password, (err, result)=>{
+                    if(!result) return res.status(401).send('Invalid password');
 
-        //            else {
+                    else {
         //                console.log(user);
         res.json(user);
-        //            }
-        //        })    
+                    }
+                })    
 
     } catch (error) {
         console.log(error)

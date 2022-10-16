@@ -4,6 +4,7 @@ import { useAppSelector } from "../../../Redux/Store/hooks";
 import { RootState } from "../../../Redux/Store/store";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { BsFillBinocularsFill } from "react-icons/bs";
 
 interface Iroom {
   availability: boolean;
@@ -67,11 +68,16 @@ const User = () => {
           >
             {user.reservationId?.length
               ? user.reservationId.map((reservation: Ireserve) => (
-                  <div>
-                    <div>Check in: {reservation.check_in.slice(0, 10)}</div>
-                    <div>Check out: {reservation.check_out.slice(0, 10)}</div>
-                    <div>${reservation.totalPrice}</div>
-                    <Link to={`/rooms/${reservation.roomId}`}>View Room</Link>
+                  <div className={styles.reservationContainer}>
+                    <div className={styles.linksContainer}>
+                      <Link to={`/rooms/${reservation.roomId}`}><BsFillBinocularsFill className={styles.viewIcon}/></Link>
+                      <Link to={`/reviewForm/${reservation._id}`} className={styles.reviewBtn}>Add review</Link>
+                    </div>
+                    <div className={styles.infoContainer}>
+                      <div>🡺 Check in: {reservation.check_in.slice(0, 10)}</div>
+                      <div>🡸 Check out: {reservation.check_out.slice(0, 10)}</div>
+                      <div>Total amount: ${reservation.totalPrice}</div>
+                    </div>
                   </div>
                 ))
               : "You have no reservations yet"}
@@ -87,7 +93,7 @@ const User = () => {
                       <h3>{room.name}</h3>
                       <div>${room.price} per night</div>
                       <div>{room.n_beds} bed</div>
-                      <img src={room.photos}/>
+                      <img src={room.photos.url}/>
                     </NavLink>
                   </button>
                 ))

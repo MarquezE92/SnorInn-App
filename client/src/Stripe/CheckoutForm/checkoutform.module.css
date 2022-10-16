@@ -69,12 +69,30 @@
 .button:hover {
     color: white;
     background: #ADDDD0;
+    border: 0.1rem solid rgba(0, 0, 0, 0.276);
 }
 
 .headerSearchText {
-    border: 0.1rem solid rgba(0, 0, 0, 0.476);
-  color: rgba(0, 0, 0, 0.376);
-  padding: 0.1rem;
+  border: 0.1rem solid rgba(0, 0, 0, 0.476);
+  border-radius: 0.3rem;
+  color: rgba(0, 0, 0, 0.576);
+  padding: 0.3rem;
   cursor: pointer;
+
 }
 
+.headerSearchText:hover {
+    background-color: #ADDDD0;
+    color: white;
+    font-weight: bolder;
+    border: 0.1rem solid rgba(0, 0, 0, 0.276);
+}
+
+.calendarContainer {
+    position: relative;
+}
+
+.date {
+    position: absolute;
+    top: -20rem;
+}

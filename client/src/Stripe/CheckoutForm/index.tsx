@@ -25,6 +25,11 @@ interface IUserInfo{
     roomFavorites:Object[]
 }
 
+interface IDatesRange {
+  dates: string[];
+  nigths: number
+}
+
 const CheckutForm = () => {
   const stripe: any = useStripe();
   const elements: any = useElements();
@@ -43,13 +48,14 @@ const CheckutForm = () => {
     },
   ]);
 
-  let nigths = 0;
+  
 
   const handleDate = (e:any)=> {
     setDates([e.selection])
   }
 
-    const getDatesInRange = (startDate:Date, endDate:Date):string[] => {
+    const getDatesInRange = (startDate:Date, endDate:Date): IDatesRange=> {
+    let nigths = 0;
     const start = new Date(startDate);
     const end = new Date(endDate);
 
@@ -63,18 +69,10 @@ const CheckutForm = () => {
       nigths+=1;
     }
 
-    return dates;
+    return {dates, nigths};
   };
 
-  const isNotAvailable = () => {
-    const alldates = getDatesInRange(dates[0].startDate,dates[0].endDate)
-    const isFound = rooms.unavailableDates.some((date) =>
-      alldates.includes(date)
-    );
 
-    return isFound;
-  };
- 
   //--------------------------------------------------------
   const navigate = useNavigate();
 
@@ -106,13 +104,13 @@ const CheckutForm = () => {
       // }
       dispatch(payment_reserv({
         id,
-        amount: Number(rooms.price + "00")*nigths,
+        amount: Number(rooms.price + "00")*getDatesInRange(dates[0].startDate,dates[0].endDate).nigths,
         email,
         userId: _id,
         roomId: rooms._id,
         check_in: dates[0].startDate,
         check_out: dates[0].endDate,
-        dates: getDatesInRange(dates[0].startDate,dates[0].endDate)
+        dates: getDatesInRange(dates[0].startDate,dates[0].endDate).dates
       }))
     } else {Swal.fire("Oh No!", "Something is wrong with yout card", "error");}
   };
@@ -140,7 +138,7 @@ const CheckutForm = () => {
         )}
   {//------------------------------CALENDARIO RESERVAS
   }
-        <div>
+        <div className={styles.calendarContainer}>
           <span
                   onClick={() => setOpenDate(!openDate)}
                   className={styles.headerSearchText}
@@ -156,13 +154,10 @@ const CheckutForm = () => {
                     ranges={dates}
                     className={styles.date}
                     minDate={new Date()}
+                    disabledDates={rooms.unavailableDates?.map(date=> new Date(date))}
                   />
                 )}
         </div>
-
-        {
-          isNotAvailable() && <div>Date range not available</div>
-        }
 
         <div className={styles.cardDiv}>
           <CardElement />
