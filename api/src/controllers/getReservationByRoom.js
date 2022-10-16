@@ -6,6 +6,4 @@ const getReservationByRoom = async (_id) => {
     return foundRoomById
 };
 
-module.exports = {
-    getReservationByRoom
-};
+module.exports = {getReservationByRoom};
