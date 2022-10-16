@@ -38,6 +38,7 @@ const { routeGetRoomByIdAdmin } = require('../routes/getRoomByAdminId');
 const { routeGetUserClient } = require('../routes/getUserClient');
 const { routePostFavorites } = require('../routes/postFavorites');
 const { routeGetResrevationByRommId } = require('../routes/getReservationByIdRoom');
+const { routeGetReservationById } = require('../routes/getReservationbyId')
 
 const { OAuth2Client } = require('google-auth-library');
 const { db } = require('../models/userClientSchema');
@@ -54,7 +55,8 @@ const {
 router.get('/room/:id', routeGetRoomById);
 router.get('/roomsByAdminId/:id', routeGetRoomByIdAdmin);
 router.get('/userClient/:id', routeGetUserClient);
-router.get('/reservationById/:id', routeGetResrevationByRommId);
+router.get('/reservationByRoomId/:id', routeGetResrevationByRommId);
+router.get('/reservationById/:id', routeGetReservationById)
 router.post('/reviewsByClient', routePostReview);
 router.post('/rooms/:idAdmin', routePostRooms);
 router.post('/reservation', routePostReservation);
