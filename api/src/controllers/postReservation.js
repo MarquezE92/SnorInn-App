@@ -10,7 +10,7 @@ const addResrevation = async ({ userId, roomId, check_in, check_out, dates, amou
         roomId,
         check_in,
         check_out,
-        totalPrice: amount
+        totalPrice: amount/100
     })
     const addNewSchema = await add.save()
     //findRoom.availability = false
