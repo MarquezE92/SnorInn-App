@@ -57,7 +57,6 @@ const AdminSlice = createSlice({
         })
         builder.addCase(signUpAdmin.fulfilled,(state, action)=>{
             state.state = 'fullfiled'
-            state.AdminInfo = action.payload
             // console.log(action)
         })
         builder.addCase(signUpAdmin.rejected,(state,action)=>{
@@ -88,7 +87,7 @@ export const signUpAdmin = createAsyncThunk<IAdminInfo, Partial<IUser>>('Admin/r
         const json:AxiosResponse = await axios.post('http://localhost:3002/signupadmin',value)
         console.log(value)
         Swal.fire("Good job!", "Your account was created succesfuly! Now don't forget to verify your account with the email we sent you", "success");
-        localStorage.setItem('admin', JSON.stringify(json.data))
+       
         console.log(json.data)
         return json.data
     } catch (error:any) {

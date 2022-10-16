@@ -57,7 +57,7 @@ const UserSlice = createSlice({
         })
         builder.addCase(signUpUser.fulfilled,(state, action)=>{
             state.state = 'fullfiled'
-            Swal.fire("Yes!", 'your account was created successfully, now verify your account with the email sent to your email', "success");
+            
             //state.userInfo = action.payload
             // console.log(action)
         })
@@ -135,10 +135,12 @@ export const {logout} = UserSlice.actions
 export const signUpUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/register', async (value, {rejectWithValue}) => {
       try {
         const json:AxiosResponse = await axios.post('http://localhost:3002/signup',value)
+        Swal.fire("Yes!", 'your account was created successfully, now verify your account with the email sent to your email', "success");
         // localStorage.setItem('user', JSON.stringify(json.data))
         return json.data
-    } catch (error) {
+    } catch (error:any) {
         console.log(error)
+        Swal.fire("Ups!", (error.response.data), "error");
         return rejectWithValue(error)
     }
 }
