@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-
+import { Iinput } from '../../User/Views/User/AddReview/AddReview';
 
 export interface IRoom{
     _id: string;
@@ -10,11 +10,12 @@ export interface IRoom{
     n_beds: number;
     price: number;
     unavailableDates: string[];
+    reservationId:Object[],
     name: string;
     photos: any;
     services: any;
     rating: number;
-    reviews: Object;
+    reviews: Object[];
     description: string;
 }
 
@@ -36,11 +37,12 @@ const initialState:IState={
         n_beds: 0,
         price: 0,
         unavailableDates: [],
+        reservationId:[],
         name: '',
         photos: '',
         services: [''],
         rating: 0,
-        reviews: {},
+        reviews: [],
         description: ''
     },
 }
@@ -140,6 +142,10 @@ export const roomSlice = createSlice({
 
         builder.addCase(getDetailRoom.fulfilled,(state, action)=>{
             state.Room = action.payload
+        });
+        builder.addCase(addReview.fulfilled,(state, action)=>{
+            state.Room.reviews = [...state.Room.reviews, action.payload]
+            console.log(state.Room.reviews)
         });
 
         builder.addCase(editRoom.fulfilled,(state, action)=>{
@@ -244,6 +250,14 @@ export const deleteRoom = createAsyncThunk<IRoom,any>('rooms/deleteRoom', async 
 })
 
 
+export const addReview = createAsyncThunk<any, Iinput>('rooms/addReview', async (value)=>{
+    try{
+        const json = await axios.post('http://localhost:3002/reviewsByClient', value)
+        return json.data
+    }catch(error){
+        console.log(error)
+    }
+})
 
 
 

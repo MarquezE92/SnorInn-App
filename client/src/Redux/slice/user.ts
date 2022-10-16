@@ -2,7 +2,6 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import axios, { AxiosResponse } from 'axios'
 import { IRoom } from './rooms';
 import Swal from "sweetalert2";
-import { redirect } from 'react-router-dom';
 
 
 
@@ -193,7 +192,7 @@ export const removeFavorite = createAsyncThunk<any,Object>('User/RemoveFavorite'
     }
 })
 
-export const payment_reserv = createAsyncThunk<Object,Object>('User/datapeyment', async (value)=>{
+export const payment_reserv = createAsyncThunk<Object,Object>('User/payment_reserv', async (value)=>{
     try{
         const res = await axios.post('http://localhost:3002/dataPeyment',value)
 
