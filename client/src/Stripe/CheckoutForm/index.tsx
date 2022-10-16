@@ -72,15 +72,7 @@ const CheckutForm = () => {
     return {dates, nigths};
   };
 
-  const isNotAvailable = () => {
-    const alldates = getDatesInRange(dates[0].startDate,dates[0].endDate).dates
-    const isFound = rooms.unavailableDates.some((date) =>
-      alldates.includes(date)
-    );
 
-    return isFound;
-  };
- 
   //--------------------------------------------------------
   const navigate = useNavigate();
 
@@ -149,7 +141,7 @@ const CheckutForm = () => {
         )}
   {//------------------------------CALENDARIO RESERVAS
   }
-        <div>
+        <div className={styles.calendarContainer}>
           <span
                   onClick={() => setOpenDate(!openDate)}
                   className={styles.headerSearchText}
@@ -165,13 +157,10 @@ const CheckutForm = () => {
                     ranges={dates}
                     className={styles.date}
                     minDate={new Date()}
+                    disabledDates={rooms.unavailableDates?.map(date=> new Date(date))}
                   />
                 )}
         </div>
-
-        {
-          isNotAvailable() && <div>Date range not available</div>
-        }
 
         <div className={styles.cardDiv}>
           <CardElement />
