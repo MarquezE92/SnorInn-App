@@ -2,6 +2,7 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import axios, { AxiosResponse } from 'axios'
 import { IRoom } from './rooms';
 import Swal from "sweetalert2";
+import { redirect } from 'react-router-dom';
 
 
 
@@ -78,31 +79,34 @@ const UserSlice = createSlice({
                 localStorage.setItem('user', JSON.stringify(user))
             }
             
-           console.log(user.roomFavorites)
         })
 
         builder.addCase(removeFavorite.pending, (state)=>{
             state.state = 'loading'
         })
+        builder.addCase(removeFavorite.rejected, (state)=>{
+            state.state = 'rejected'
+            
+        })
         builder.addCase(removeFavorite.fulfilled, (state, action)=>{
             state.state = 'fullfiled'
-            const user = JSON.parse(localStorage.getItem('user')!)
-            console.log(action)
-            if(user){
-                user.roomFavorites = user.roomFavorites.filter((el:any)=>el._id!==action.payload._id)
-                localStorage.setItem('user', JSON.stringify(user))
-            }
+            // const user = JSON.parse(localStorage.getItem('user')!)
+            // //console.log(action)
+            // if(user){
+            //     //user.roomFavorites = user.roomFavorites.filter((el:any)=>el._id!==action.payload._id)
+            //     localStorage.setItem('user', JSON.stringify(user))
+            // }
             
-           console.log(user.roomFavorites)
+          
         })
 
         builder.addCase(payment_reserv.pending, (state)=>{
             state.state = 'loading'
+            console.log(state.state)
         })
         builder.addCase(payment_reserv.fulfilled, (state, action)=>{
             state.state = 'fullfiled'
             const user = JSON.parse(localStorage.getItem('user')!)
-            console.log(action)
             if(user){
                 user.reservationId = [...user.reservationId, action.payload]
                 localStorage.setItem('user', JSON.stringify(user))
@@ -178,7 +182,7 @@ export const addFavorite = createAsyncThunk<IRoom,Object>('User/addFavorite', as
     }
 })
 
-export const removeFavorite = createAsyncThunk<IRoom,Object>('User/RemoveFavorite', async (value)=>{
+export const removeFavorite = createAsyncThunk<any,Object>('User/RemoveFavorite', async (value)=>{
     try{
         const json = await axios.delete('http://localhost:3002/favoriteByIdRoom',value)
         Swal.fire("Great!", "You remove this room to your favorites!", "success");
@@ -197,7 +201,7 @@ export const payment_reserv = createAsyncThunk<Object,Object>('User/datapeyment'
 
         const json = await axios.post('http://localhost:3002/reservation', value)
             console.log('llegamos hasta aca')
-            console.log(json.data)
+            Swal.fire("Great!", "Your payment was processed correctly. You'll receive your receipt via mail.", "success");
             return json.data
         }
     }catch(error){
