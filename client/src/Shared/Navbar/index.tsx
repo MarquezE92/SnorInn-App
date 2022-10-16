@@ -70,7 +70,7 @@ const NavBar = () => {
                   </NavLink> : <NavLink to="/user" className={styles.NavLink}>
                     Profile
                   </NavLink>
-                }
+                } 
                   
                 </button>
                 <form onSubmit={() => handleLogout()}>
