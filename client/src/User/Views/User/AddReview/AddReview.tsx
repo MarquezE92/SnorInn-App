@@ -4,9 +4,11 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import styles from "./addReview.module.css"
+import { useAppDispatch, useAppSelector } from "../../../../Redux/Store/hooks";
+import {addReview, IRoom} from '../../../../Redux/slice/rooms'
 
-interface Iinput {
-  adminId: string;
+export interface Iinput {
+  userAdminId: string;
   userId: string;
   reservationId: string;
   stars: number;
@@ -17,13 +19,18 @@ interface Iinput {
 const AddReview = ()=> {
 
 	const {id} = useParams();
+  const dispatch = useAppDispatch()
+  const rooms = useAppSelector(state=>state.rooms.Rooms)
+  const user = JSON.parse(localStorage.getItem('user')!)
 
+  var room:any = rooms.filter((el:IRoom)=>el.reservationId.includes(id!))
+ 
 	const [input, setInput] = useState<Iinput>({
-		adminId: "",
-		userId: "",
+		userAdminId: `${room[0].userAdminId}`,
+		userId: `${user._id}`,
 		reservationId: `${id}`,
 		stars: 0,
-		roomId: "",
+		roomId: `${room[0]._id}`,
 		comment: ""
 	}) 
 
@@ -31,7 +38,7 @@ const AddReview = ()=> {
 
 	const handleSubmit = (e:any)=>{
 		e.preventDefault();
-
+    dispatch(addReview(input))
 	};
 
 	const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -51,7 +58,7 @@ const AddReview = ()=> {
 
 	useEffect(()=> {
 
-	},)
+	},[])
 
 	return(
 		<div className={styles.formContainer}>
@@ -106,7 +113,7 @@ const AddReview = ()=> {
               Please comment us your experience.
             </Form.Control.Feedback>
           </FloatingLabel>
-          <Button type="submit" variant="dark">
+          <Button type="submit" variant="dark" onClick={handleSubmit}>
             Submit
           </Button>
         </Form>

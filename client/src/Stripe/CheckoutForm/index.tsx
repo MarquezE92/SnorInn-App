@@ -5,7 +5,6 @@ import { RootState } from "../../Redux/Store/store";
 import { useSelector } from "react-redux";
 import {useAppSelector, useAppDispatch} from '../../Redux/Store/hooks';
 import { payment_reserv } from "../../Redux/slice/user";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 // Para el calendario
@@ -86,24 +85,8 @@ const CheckutForm = () => {
       // try{
         const { id } = paymentMethod;
         const { email, _id } = user;
-        // const json = await axios.post("http://localhost:3002/dataPeyment", {
-        //   id,
-        //   amount: Number(rooms.price + "00")*nigths,
-        //   email,
-        //   userId: _id,
-        //   roomId: rooms._id,
-        //   check_in: dates[0].startDate,
-        //   check_out: dates[0].endDate,
-        //   dates: getDatesInRange(dates[0].startDate,dates[0].endDate)
-        // });
-      //   console.log(json)
-      //   Swal.fire("Great!", "Your payment was processed correctly. You'll receive your receipt via mail.", "success");
-      //   navigate("/rooms", { replace: true });
-      // }catch(error:any){
-      //   Swal.fire("Oh No!", error.response.data.message, "error")
-      // }
-      dispatch(payment_reserv({
-        id,
+        const res = dispatch(payment_reserv({
+          id,
         amount: Number(rooms.price + "00")*getDatesInRange(dates[0].startDate,dates[0].endDate).nigths,
         email,
         userId: _id,
@@ -112,7 +95,12 @@ const CheckutForm = () => {
         check_out: dates[0].endDate,
         dates: getDatesInRange(dates[0].startDate,dates[0].endDate).dates
       }))
-    } else {Swal.fire("Oh No!", "Something is wrong with yout card", "error");}
+ 
+      if((await res).meta.requestStatus==='fulfilled'){
+        navigate("/rooms", { replace: true });
+      }
+      
+    } else {Swal.fire("Oh No!", error.response.data.message, "error");}
   };
 
   return (
@@ -154,7 +142,7 @@ const CheckutForm = () => {
                     ranges={dates}
                     className={styles.date}
                     minDate={new Date()}
-                    disabledDates={rooms.unavailableDates?.map(date=> new Date(date))}
+                    disabledDates={rooms.unavailableDates?.map((date)=> new Date(date))}
                   />
                 )}
         </div>

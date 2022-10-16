@@ -37,36 +37,37 @@ const RoomDetail = ()=> {
 	const dispatch = useAppDispatch()
 	const {id} = useParams(); 
 	const rooms = useAppSelector((state) => state.rooms.Room);
-	const userLocal = JSON.parse(localStorage.getItem('user')!)
 	const user = useAppSelector(state=>state.users.userInfo)
-
+	
 	const [fav, setFav]= useState({
 		roomFavorites:id,
 		idClient: user._id
 	})
-
-
+	
+	
 	const handlePay = () => {
 		navigate(`/rooms/reserve/${id}`, {replace:true})
 	}
 	const handleModal = () => {
 		setModal(!modal)
-	  }
+	}
 	const handleModal2 = () => {
 		setModal2(!modal2)
-	  }
-
-useEffect(() => {
-    dispatch(getDetailRoom(id));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-const addFav = ()=>{
-	if(user._id !== ''){
-		const room = userLocal.roomFavorites.find((el:any)=>el._id===fav.roomFavorites)
+	}
+	
+	useEffect(() => {
+		dispatch(getDetailRoom(id));
+	}, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+	
+	const addFav = ()=>{
+		const userLocal = JSON.parse(localStorage.getItem('user')!)
+		if(user._id !== ''){
+			const room = userLocal.roomFavorites.find((el:any)=>el._id===fav.roomFavorites)
 		console.log(room)
-		if(room>0){
+		if( room == undefined ){
 			console.log('1')
 			dispatch(addFavorite(fav))
+			const userLocal = JSON.parse(localStorage.getItem('user')!)
 		}else{
 			console.log('2')
 			dispatch(removeFavorite(fav))
