@@ -8,25 +8,25 @@ const { getTemplate, getTemplateR, getTemplatePass, getTemplatePayment, getTempl
 const { Router } = require('express');
 const router = Router();
 const axios = require('axios');
-const { getRooms, findByIdRoom } = require('../controllers')
 // const { getRoomsbyFilters } = require('./getRoomByQueryR')
 const express = require('express')
 const Stripe = require('stripe');
 const cors = require('cors'); // Exporta libreria para que no haya conflictos entre los puertos del FRONTEND y BACKEND
+const { getRooms, findByIdRoom } = require('../controllers')
 const { getRoomsbyFilters } = require('../controllers/getRoomByQueryC')
 const filtersByQuery = require('../controllers/filtersByQuery')
 const { getName } = require('../controllers/getNameQuery')
 const { getAllRooms } = require('../controllers/getAllRooms')
 const { sortByPrice } = require('../controllers/orderByPrice')
 const { sortByRating } = require('../controllers/orderByRating')
-const { deleteRoom } = require('../controllers/deleteById');
-const { roomSchema } = require('../db');
-const { putRoom } = require('../controllers/putRoomById');
-const { addResrevation } = require('../controllers/postReservation');
-const { getRoomsByUserAdmin } = require('../controllers/getRoomByAdminId');
-const { addFavorites } = require('../controllers/postFavorites');
-const { getUserClient } = require('../controllers/getUserClient');
-const { getReservationByRoom } = require('../controllers/getReservationByRoom');
+//const { deleteRoom } = require('../controllers/deleteById');
+//const { roomSchema } = require('../db');
+//const { putRoom } = require('../controllers/putRoomById');
+//const { addResrevation } = require('../controllers/postReservation');
+//const { getRoomsByUserAdmin } = require('../controllers/getRoomByAdminId');
+//const { addFavorites } = require('../controllers/postFavorites');
+//const { getUserClient } = require('../controllers/getUserClient');
+//const { getReservationByRoom } = require('../controllers/getReservationByRoom');
 const { routePostReview } = require('../routes/postReviews');
 const { routeDelFavorites } = require('../routes/delFavorites');
 const { routePostRooms } = require('../routes/postRooms');
@@ -37,7 +37,7 @@ const { routePostReservation } = require('../routes/postReservation')
 const { routeGetRoomByIdAdmin } = require('../routes/getRoomByAdminId');
 const { routeGetUserClient } = require('../routes/getUserClient');
 const { routePostFavorites } = require('../routes/postFavorites');
-
+const { routeGetResrevationByRommId } = require('../routes/getReservationByIdRoom');
 
 const { OAuth2Client } = require('google-auth-library');
 const { db } = require('../models/userClientSchema');
@@ -50,16 +50,19 @@ const {
 } = process.env;
 
 
-router.post('/reviewsByClient', routePostReview);
-router.delete('/favoriteByIdRoom', routeDelFavorites);
-router.post('/rooms/:idAdmin', routePostRooms);
+
 router.get('/room/:id', routeGetRoomById);
-router.delete('/room/:id', routeDeleteRoomById);
-router.put("/rooms/:id", routePutRoomById);
-router.post('/reservation', routePostReservation);
 router.get('/roomsByAdminId/:id', routeGetRoomByIdAdmin);
 router.get('/userClient/:id', routeGetUserClient);
+router.get('/reservationById/:id', routeGetResrevationByRommId);
+router.post('/reviewsByClient', routePostReview);
+router.post('/rooms/:idAdmin', routePostRooms);
+router.post('/reservation', routePostReservation);
 router.post('/favorites', routePostFavorites);
+router.put("/rooms/:id", routePutRoomById);
+router.delete('/favoriteByIdRoom', routeDelFavorites);
+router.delete('/room/:id', routeDeleteRoomById);
+
 
 //CONDIFURAR LAS RUTAS
 
@@ -306,14 +309,14 @@ router.post('/loginadmin', async (req, res) => {
             return res.status(401).send('Pending Account. Please Verify Your Email!');
         };
         //autenticación contraseña
-                user.isCorrectPassword(password, (err, result)=>{
-                    if(!result) return res.status(401).send('Invalid password');
+        user.isCorrectPassword(password, (err, result) => {
+            if (!result) return res.status(401).send('Invalid password');
 
-                    else {
-        //                console.log(user);
-        res.json(user);
-                    }
-                })    
+            else {
+                //                console.log(user);
+                res.json(user);
+            }
+        })
 
     } catch (error) {
         console.log(error)
@@ -556,17 +559,7 @@ router.get('/reseta/:token', async (req, res) => {
         return res.send("We couldn't reset your password");
     }
 });
-///////////////////////////////////// RUTA FECHAS RESREVADAS x HABITACION ///////////////////////////////////////////
 
-// router.get('/reservationById/:id', async (req, res) => {
-//     const {id} = req.params
-//     try {
-//         const findRoomsByReservationId = await getReservationByRoom(id)
-//         return res.status(200).send(findRoomsByReservationId)
-//     } catch (error) {
-//         return res.status(404).send({ error: error.message})
-//     }
-// });
 
 
 
