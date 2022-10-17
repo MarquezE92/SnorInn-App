@@ -57,7 +57,7 @@ const Login = () => {
       const decoded:any = jwt_decode(credentialResponse.credential);
       const email = decoded.email
       console.log(email);
-      dispatch(signInUser({email: email, google: true}));
+      dispatch(signInUser({email: email, google: true, password: "UserGoogle"}));
   };
 
   return (

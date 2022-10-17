@@ -17,7 +17,7 @@ const userClientSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+    //    required: true,
         unique: false
     },
     //-----------------Para tener un atributo que refleje el estado de la confirmación de registro via mail
