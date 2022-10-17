@@ -23,6 +23,7 @@ const roomSchema = mongoose.Schema({
     },
     rating: Number,
     reviews: [{
+        default: 0,
         type: mongoose.Schema.Types.ObjectId,
         ref: 'roomReviewsSchema'
     }],

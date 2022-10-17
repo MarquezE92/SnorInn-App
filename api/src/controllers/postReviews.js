@@ -19,7 +19,7 @@ const addReview = async ({userId, reservationId, roomId, stars, comment}) => {
         const getRoomsReview = await ReviewRoom.find({roomId})
         let preRating = Number(getRooms.rating)*getRoomsReview.length
         preRating+= Number(stars)
-        getRooms.rating = Math.round(preRating/(getRoomsReview.length + 1))
+        getRooms.rating = Math.ceil(preRating/(getRoomsReview.length + 1))
         getRooms.reviews = getRooms.reviews.concat(addNewReview._id);
     await getRooms.save();
     return addNewSchema
