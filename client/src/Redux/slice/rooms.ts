@@ -186,7 +186,7 @@ export type Query ={
 
 export const getRoomsByPage = createAsyncThunk<IRoom[]>('rooms/getRoomsByPage', async ()=>{
     try{
-        const json = await axios.get(`http://localhost:3002/allrooms`)
+        const json = await axios.get(`https://snor-inn-api.onrender.com/allrooms`)
         return json.data
     }catch(error){
         console.log(error)
@@ -195,7 +195,7 @@ export const getRoomsByPage = createAsyncThunk<IRoom[]>('rooms/getRoomsByPage', 
 
 export const getRoomsByPlace = createAsyncThunk<IRoom[],Partial<Query>>('rooms/getRoomsByPlace', async (value)=>{
 
-    const url = `http://localhost:3002/rooms`
+    const url = `https://snor-inn-api.onrender.com/rooms`
     if(value.place){
         const json = await axios.get(url+`/${value.place}`)
             
@@ -206,7 +206,7 @@ export const getRoomsByPlace = createAsyncThunk<IRoom[],Partial<Query>>('rooms/g
 
 export const getRoomsByName = createAsyncThunk<IRoom[],any>('rooms/getRoomsByName', async (value)=>{
     
-    const url = `http://localhost:3002/allrooms`
+    const url = `https://snor-inn-api.onrender.com/allrooms`
         const json = await axios.get(url+`${value? `?name=${value}`:''}`)
         return json.data
     
@@ -214,9 +214,9 @@ export const getRoomsByName = createAsyncThunk<IRoom[],any>('rooms/getRoomsByNam
 
 export const getRoomsByAllQuery = createAsyncThunk<IRoom[],Partial<Query>>('rooms/getRoomsByAllQuery', async (value)=>{
     
-    //const url = `http://localhost:3002/rooms`
+    //const url = `https://snor-inn-api.onrender.com/rooms`
     if(value.place){
-        const json = await axios.get(`http://localhost:3002/rooms/${value.place}?n_beds=${value.n_beds}&type=${value.type}`)
+        const json = await axios.get(`https://snor-inn-api.onrender.com/rooms/${value.place}?n_beds=${value.n_beds}&type=${value.type}`)
         return json.data.docs
     }
     
@@ -225,7 +225,7 @@ export const getRoomsByAllQuery = createAsyncThunk<IRoom[],Partial<Query>>('room
 export const getDetailRoom = createAsyncThunk<IRoom, any>('room/getDetailRoom', async (_id) => {
     
     try{
-        const json = await axios.get(`http://localhost:3002/room/${_id}`)
+        const json = await axios.get(`https://snor-inn-api.onrender.com/room/${_id}`)
         return json.data
     }catch(error){
         console.log(error)
@@ -234,7 +234,7 @@ export const getDetailRoom = createAsyncThunk<IRoom, any>('room/getDetailRoom', 
 
 export const createRoom = createAsyncThunk<IRoom,Partial<IRoom>>('rooms/createRoom', async (value)=>{
     try{
-        const json = await axios.post(`http://localhost:3002/rooms/${value.userAdminId}`,value)
+        const json = await axios.post(`https://snor-inn-api.onrender.com/rooms/${value.userAdminId}`,value)
         console.log(value)
         return json.data
     }catch(error){
@@ -244,7 +244,7 @@ export const createRoom = createAsyncThunk<IRoom,Partial<IRoom>>('rooms/createRo
 
 export const editRoom = createAsyncThunk<IRoom,Partial<IRoom>>('rooms/editRoom', async (value)=>{
     try{
-        const json = await axios.put(`http://localhost:3002/rooms/${value._id}`, value)
+        const json = await axios.put(`https://snor-inn-api.onrender.com/rooms/${value._id}`, value)
         return json.data
     }catch(error){
         console.log(error)
@@ -253,7 +253,7 @@ export const editRoom = createAsyncThunk<IRoom,Partial<IRoom>>('rooms/editRoom',
 
 export const deleteRoom = createAsyncThunk<IRoom,any>('rooms/deleteRoom', async (_id)=>{
     try{
-        await axios.delete(`http://localhost:3002/room/${_id}`)
+        await axios.delete(`https://snor-inn-api.onrender.com/room/${_id}`)
         return _id
     }catch(error){
         console.log(error)
@@ -264,7 +264,7 @@ export const deleteRoom = createAsyncThunk<IRoom,any>('rooms/deleteRoom', async 
 
 export const addReview = createAsyncThunk<any, Iinput>('rooms/addReview', async (value)=>{
     try{
-        const json = await axios.post('http://localhost:3002/reviewsByClient', value)
+        const json = await axios.post('https://snor-inn-api.onrender.com/reviewsByClient', value)
         return json.data
     }catch(error:any){
         Swal.fire("Oh No!", error.response.data.error, "error");
@@ -274,7 +274,7 @@ export const addReview = createAsyncThunk<any, Iinput>('rooms/addReview', async 
 
 export const getReview = createAsyncThunk<any, string>('rooms/getReview', async (value)=>{
     try{
-        const json = await axios.get('http://localhost:3002/reviewsByClient')
+        const json = await axios.get('https://snor-inn-api.onrender.com/reviewsByClient')
         return json.data
     }catch(error){
         console.log(error)

@@ -15,7 +15,7 @@ const AdminDashboard = () => {
   const admin = useAppSelector((state: RootState) => state.admin.AdminInfo._id);
   const rooms = async () => {
     const info = await axios.get(
-      `http://localhost:3002/roomsByAdminId/${admin}`
+      `https://snor-inn-api.onrender.com/roomsByAdminId/${admin}`
     );
 
     setData(info.data);
