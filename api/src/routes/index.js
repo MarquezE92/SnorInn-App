@@ -20,7 +20,7 @@ const { getAllRooms } = require('../controllers/getAllRooms')
 const { sortByPrice } = require('../controllers/orderByPrice')
 const { sortByRating } = require('../controllers/orderByRating')
 //const { deleteRoom } = require('../controllers/deleteById');
-//const { roomSchema } = require('../db');
+const { roomSchema } = require('../db');
 //const { putRoom } = require('../controllers/putRoomById');
 //const { addResrevation } = require('../controllers/postReservation');
 //const { getRoomsByUserAdmin } = require('../controllers/getRoomByAdminId');
@@ -119,6 +119,7 @@ router.get('/allRooms', async (req, res) => {
     try {
         const { name } = req.query
         if (name) {
+            console.log(name)
             const one = await roomSchema.find({ name: { $regex: name, $options: 'i' } })
             return res.status(200).send(one)
         }

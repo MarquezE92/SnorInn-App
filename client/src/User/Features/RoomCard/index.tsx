@@ -63,7 +63,7 @@ const jump=()=>{
  
        { Object.keys(currentRooms).length ?
 
-       currentRooms?.map((el) => {
+       currentRooms?.map((el:any , index) => {
           return (
             <>
               <Card
@@ -74,7 +74,7 @@ const jump=()=>{
                 rating={el.rating}
                 n_beds={el.n_beds}
                 price={el.price}
-                key={el._id}
+                key={index}
               />
             </>
           );

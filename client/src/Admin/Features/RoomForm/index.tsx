@@ -215,23 +215,6 @@ const RoomForm = () => {
               ))}
             </Form.Select>
           </FloatingLabel>
-          <FloatingLabel label="Rating" className="mb-3">
-            <Form.Select
-              name="rating"
-              onChange={handleSelect}
-              required
-              defaultValue={""}
-            >
-              <option disabled value={""}>
-                Choose an option
-              </option>
-              {ratingInfo.map((el) => (
-                <option value={el} key={el}>
-                  {el}
-                </option>
-              ))}
-            </Form.Select>
-          </FloatingLabel>
           <FloatingLabel label="Price" className="mb-3">
             <Form.Control
               value={input.price}

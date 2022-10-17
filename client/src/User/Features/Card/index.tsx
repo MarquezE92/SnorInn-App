@@ -34,7 +34,7 @@ return (
 	 <div className={styles.secondColumnDiv}>
 	  <div className={styles.upperSection}>
 	   <div id={styles.place}>{name}</div>
-	   <div>{stars(rating).map(st=> <BsFillStarFill className={styles.starsCard}/>)}</div>
+	   <div>{stars(rating).map((st, index)=> <BsFillStarFill className={styles.starsCard} key={index}/>)}</div>
 	  </div>
 	  <div className={styles.middleSection}>
 	   <div className={styles.beds}>{n_beds} Beds</div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ChangeEvent } from "react";
 import { useAppDispatch } from "../../Redux/Store/hooks";
 import { signUpUser } from "../../Redux/slice/user";
-import Swal from "sweetalert2";
+
 
 const SignUpUser = () => {
   interface Login {
