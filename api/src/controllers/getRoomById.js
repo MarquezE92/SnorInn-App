@@ -1,12 +1,9 @@
-const { Router } = require('express');
-const router = Router();
-const express = require('express');
-router.use(express.json());
-const {roomSchema} = require('../db')
+const mongoose = require('mongoose');
+const { roomSchema } = require('../db')
 
 const findByIdRoom = async (id) => {
-    const find = await roomSchema.findById(id)
+    const find = await roomSchema.findById(id).populate('reviews')
     return find
 };
 
-module.exports = {findByIdRoom}
+module.exports = { findByIdRoom }
