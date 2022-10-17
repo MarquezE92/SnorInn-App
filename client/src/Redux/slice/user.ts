@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { IRoom } from './rooms';
 import Swal from "sweetalert2";
 import { redirect } from 'react-router-dom';
@@ -90,12 +90,11 @@ const UserSlice = createSlice({
         })
         builder.addCase(removeFavorite.fulfilled, (state, action)=>{
             state.state = 'fullfiled'
-            // const user = JSON.parse(localStorage.getItem('user')!)
-            // //console.log(action)
-            // if(user){
-            //     //user.roomFavorites = user.roomFavorites.filter((el:any)=>el._id!==action.payload._id)
-            //     localStorage.setItem('user', JSON.stringify(user))
-            // }
+            const user = JSON.parse(localStorage.getItem('user')!)
+            if(user){
+                user.roomFavorites = user.roomFavorites.filter((el:any)=>el._id!==action.payload._id)
+                localStorage.setItem('user', JSON.stringify(user))
+            }
             
           
         })
@@ -183,9 +182,11 @@ export const addFavorite = createAsyncThunk<IRoom,Object>('User/addFavorite', as
     }
 })
 
-export const removeFavorite = createAsyncThunk<any,Object>('User/RemoveFavorite', async (value)=>{
+export const removeFavorite = createAsyncThunk<IRoom,Object>('User/removeFavorite', async (value)=>{
     try{
-        const json = await axios.post('/dataPeyment',value)
+        const json = await axios.put('http://localhost:3002/favoriteByIdRoom',value)
+        Swal.fire("Great!", "You remove this room to your favorites!", "success");
+        console.log(json.data)
         return json.data
 
     }catch(error){
@@ -204,7 +205,8 @@ export const payment_reserv = createAsyncThunk<Object,Object>('User/datapeyment'
             Swal.fire("Great!", "Your payment was processed correctly. You'll receive your receipt via mail.", "success");
             return json.data
         }
-    }catch(error){
+    }catch(error:any){
+        Swal.fire("Oh No!", error, "success");
         console.log(error)
     }
 })

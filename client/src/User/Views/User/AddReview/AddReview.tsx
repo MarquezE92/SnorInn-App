@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import styles from "./addReview.module.css";
 import { useAppDispatch, useAppSelector } from "../../../../Redux/Store/hooks";
-import {addReview, IRoom} from '../../../../Redux/slice/rooms';
+import {addReview, IRoom, getRoomsByPage} from '../../../../Redux/slice/rooms';
 import {useNavigate} from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content'
@@ -20,17 +20,22 @@ interface Iinput {
 }
 
 const AddReview = ()=> {
-
-	const {id} = useParams();
+  
+  const {id} = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const MySwal = withReactContent(Swal)
   const rooms = useAppSelector(state=>state.rooms.Rooms);
   const user = JSON.parse(localStorage.getItem('user')!);
-
+  
+  var room:any = rooms.filter((el:IRoom)=>el.reservationId.includes(id!))
+  
+  useEffect(()=> {
+    dispatch(getRoomsByPage())
+  },[])
+  
 	const [input, setInput] = useState<Iinput>({
-		adminId: "",
-		userId: "",
+    userId: `${user._id}`,
 		reservationId: `${id}`,
 		stars: 0,
 		roomId: "",
@@ -69,9 +74,6 @@ const AddReview = ()=> {
   };
 
 
-	useEffect(()=> {
-
-	},)
 
 	return(
 		<div className={styles.formContainer}>

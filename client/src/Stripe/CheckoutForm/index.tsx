@@ -115,7 +115,7 @@ const CheckutForm = () => {
         navigate("/rooms", { replace: true });
       }
       
-    } else {Swal.fire("Oh No!", "Something is wrong with yout card", "error");}
+    } else {Swal.fire("Oh No!", error.message, "error");}
   };
 
   return (
