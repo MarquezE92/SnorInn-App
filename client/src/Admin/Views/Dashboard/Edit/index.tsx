@@ -21,31 +21,31 @@ const Edit = () => {
   const bedsInfo = beds;
   const placesInfo = places;
   const ratingInfo = rating;
-  const {id} = useParams(); 
+  const { id } = useParams();
   const rooms = useAppSelector((state) => state.rooms.Room);
-  const idAdmin = useAppSelector((state: RootState) => state.admin.AdminInfo._id);
+  const idAdmin = useAppSelector(
+    (state: RootState) => state.admin.AdminInfo._id
+  );
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  
 
   const [openModal, setOpenModal] = useState(false);
-  const [input, setInput] = useState<Partial<IRoom>>({
+  const [input, setInput] = useState<any>({
     _id: id,
-    type: "",
-    name: "",
-    n_beds: 0,
-    price: rooms.price,
-    services: [],
-    place: "",
-    photos: '',
-    description: "",
-    rating: 0,
+    services: rooms.services
   });
   const [validated, setValidated] = useState(false);
 
   const handleModal = () => {
     setOpenModal(!openModal);
+  };
+
+  const handleDelete = (e: string) => {
+    setInput({
+      ...input,
+      services: input.services && input.services.filter((el:string) => el !== e),
+    });
   };
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -101,40 +101,18 @@ const Edit = () => {
   };
 
   const handleSubmit = (e: FormEvent<any>) => {
-    e.preventDefault();
-    if (e.currentTarget.checkValidity() === false) {
-      e.stopPropagation();
-      setValidated(true);
-    } else {
+       e.preventDefault()
       dispatch(editRoom(input));
-      setInput({
-        type: "",
-        place: "",
-        n_beds: 0,
-        price: 0,
-        services: [],
-        name: "",
-        photos: '',
-        description: "",
-        rating: 0,
-      });
       Swal.fire("Good job!", "Your room was edited!", "success");
-      setTimeout(()=> navigate('/dashboard', {replace:false}), 2200) 
-    }
+      setTimeout(() => navigate("/dashboard", { replace: false }), 2200);
   };
 
-  const handleDelete = (e: string) => {
-    setInput({
-      ...input,
-      services: input.services && input.services.filter((el:string) => el !== e),
-    });
-  };
 
 
   useEffect(() => {
     dispatch(getDetailRoom(id));
+    console.log(rooms.name);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
 
   useEffect(()=> {
     if (input.services?.length <= 4) {
@@ -156,9 +134,6 @@ const Edit = () => {
       })
     }
   },[input.services])
-
-
-
   return (
     <div className={styles.mainContainer}>
       <div className={styles.mainDiv}>
@@ -169,14 +144,8 @@ const Edit = () => {
           noValidate
           validated={validated}
         >
-
           <FloatingLabel label="Place" className="mb-3">
-            <Form.Select
-              name="place"
-              onChange={handleSelect}
-              required
-              defaultValue={""}
-            >
+            <Form.Select name="place" onChange={handleSelect} defaultValue={""}>
               <option disabled value={""}>
                 {rooms.place}
               </option>
@@ -194,7 +163,6 @@ const Edit = () => {
               value={input.name}
               name="name"
               onChange={handleChangeInput}
-              required
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
@@ -207,7 +175,6 @@ const Edit = () => {
               name="photos"
               onChange={handlePhotos}
               accept=".jpg, .jpeg, .png, .gif"
-              required
             />
           </Form.Group>
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -232,7 +199,6 @@ const Edit = () => {
             <Form.Select
               name="rating"
               onChange={handleSelect}
-              required
               defaultValue={""}
             >
               <option disabled value={""}>
@@ -253,14 +219,12 @@ const Edit = () => {
               type="number"
               min={"1"}
               max={"1000000"}
-              required
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
               Please provide a price.
             </Form.Control.Feedback>
           </FloatingLabel>
-
           <FloatingLabel label="Services">
             <Form.Select
               onChange={handleServicesSelect}
@@ -294,8 +258,7 @@ const Edit = () => {
                   </button>
                 </li>
               ))}
-          </ul>
-
+          </ul>      
           <Button
             variant="secondary"
             className={styles.descriptionButton}
