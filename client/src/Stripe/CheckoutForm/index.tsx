@@ -100,7 +100,7 @@ const CheckutForm = () => {
         navigate("/rooms", { replace: true });
       }
       
-    } else {Swal.fire("Oh No!", error.response.data.message, "error");}
+    } else {Swal.fire("Oh No!", error.message, "error");}
   };
 
   return (

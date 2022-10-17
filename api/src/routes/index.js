@@ -62,7 +62,7 @@ router.post('/rooms/:idAdmin', routePostRooms);
 router.post('/reservation', routePostReservation);
 router.post('/favorites', routePostFavorites);
 router.put("/rooms/:id", routePutRoomById);
-router.delete('/favoriteByIdRoom', routeDelFavorites);
+router.put('/favoriteByIdRoom', routeDelFavorites);
 router.delete('/room/:id', routeDeleteRoomById);
 
 
