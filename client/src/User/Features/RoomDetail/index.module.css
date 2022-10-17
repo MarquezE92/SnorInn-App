@@ -122,3 +122,11 @@
  .star {
  	color: #309177;
  }
+
+ .modalHeader {
+ 	background-color: #ADDDD0;
+ }
+
+ .comment {
+ 	font-size: 1.2rem;
+ }

@@ -12,12 +12,6 @@ import { BsFillHeartFill } from "react-icons/bs";
 import Swal from "sweetalert2";
 import { BsFillStarFill } from "react-icons/bs";
 
-interface IReview{
-    email:string;
-    description:string;
-    stars:number
-}
-const reviewsPruebita: IReview[] = [{email: "prueba1@gmail.com", description: "I loved this room", stars: 5}, {email: "prueba2@gmail.com", description: "Buuu", stars: 1}]
 
 const stars = (s:number):number[]=> {
 	let star = 1;
@@ -125,7 +119,7 @@ return (
 	 <Modal show={modal} onHide={() => handleModal()}  size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered>
-        <Modal.Header closeButton>
+        <Modal.Header className={styles.modalHeader} closeButton>
           <Modal.Title>Room description</Modal.Title>
         </Modal.Header>
         <Modal.Body className={styles.modalBody}>
@@ -136,15 +130,15 @@ return (
     <Modal show={modal2} onHide={() => handleModal2()}  size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered>
-        <Modal.Header closeButton>
+        <Modal.Header className={styles.modalHeader} closeButton>
         	<Modal.Title>Reviews</Modal.Title>
         </Modal.Header>
         <Modal.Body className={styles.modalBody}>
         {
-            reviewsPruebita.map(rev=>(
+            rooms.reviews.map(rev=>(
             		<>
-                  <h3>{rev.email} {stars(rev.stars).map(st=> <BsFillStarFill className={styles.star}/>)}</h3>
-									<p>- "{rev.description}" </p>
+                  <h4>{user.email} {stars(rev.stars).map(st=> <BsFillStarFill className={styles.star}/>)}</h4>
+									<p className={styles.comment}>- "{rev.comment}" </p>
 								</>                
             	))
           }    
