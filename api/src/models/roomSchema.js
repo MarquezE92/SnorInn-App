@@ -24,7 +24,7 @@ const roomSchema = mongoose.Schema({
     rating: Number,
     reviews: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'reviews'
+        ref: 'roomReviewsSchema'
     }],
     userAdminId: {
         type: mongoose.Schema.Types.ObjectId,
