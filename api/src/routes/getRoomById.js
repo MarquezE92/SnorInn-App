@@ -5,14 +5,13 @@ router.use(express.json());
 const { findByIdRoom } = require('../controllers/getRoomById');
 
 const routeGetRoomById = async (req, res) => {
-    const id = req.params.id
-    console.log(id)
+    const { id } = req.params
     try {
-        const findRoom = await findByIdRoom(req.params.id)
-        return res.status(200).send(findRoom)
+        const findRoom = await findByIdRoom(id)
+        return res.status(200).json(findRoom)
     } catch (error) {
-        return res.status(404).send({ error: 'We are sorry, we couldnt find the room' })
+        return res.status(404).send({ error: error.message })
     }
 };
 
-module.exports = {routeGetRoomById};
+module.exports = { routeGetRoomById };
