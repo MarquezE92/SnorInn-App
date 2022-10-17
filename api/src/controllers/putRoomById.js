@@ -5,7 +5,7 @@ const cloudinary = require('../helpers/couldinary');
 const putRoom = async (id, body) => {
   const room = await roomSchema.findById(id);
 
-    if (body.photos !== '') {
+    if (body.photos) {
       const imgId = room.photos.public_id;
       if (imgId) {
         await cloudinary.uploader.destroy(imgId);

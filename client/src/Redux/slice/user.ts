@@ -9,7 +9,7 @@ import { redirect } from 'react-router-dom';
 export interface IUser{
     email:string;
     password:string;
-    isAdmin:Boolean
+    google: boolean;
 }
 
 const user = JSON.parse(localStorage.getItem('user')!)
@@ -150,8 +150,10 @@ export const signInUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/logi
     try {
         const json:AxiosResponse = await axios.post('/login',value)
         localStorage.setItem('user', JSON.stringify(json.data))
+        console.log(value)
         return json.data
       } catch (error:any) {
+        console.log(value)
         console.log(error)
         Swal.fire("Ups!", (error.response.data), "error");
         return rejectWithValue(error)
