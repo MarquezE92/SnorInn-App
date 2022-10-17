@@ -70,13 +70,13 @@ const User = () => {
               ? user.reservationId.map((reservation: Ireserve) => (
                   <div className={styles.reservationContainer}>
                     <div className={styles.linksContainer}>
-                      <Link to={`/rooms/${reservation.roomId}`}><BsFillBinocularsFill className={styles.viewIcon}/></Link>
-                      <Link to={`/reviewForm/${reservation._id}`} className={styles.reviewBtn}>Add review</Link>
+                      <Link to={`/rooms/${reservation?.roomId}`}><BsFillBinocularsFill className={styles.viewIcon}/></Link>
+                      <Link to={`/reviewForm/${reservation?._id}`} className={styles.reviewBtn}>Add review</Link>
                     </div>
                     <div className={styles.infoContainer}>
-                      <div>🡺 Check in: {reservation.check_in.slice(0, 10)}</div>
-                      <div>🡸 Check out: {reservation.check_out.slice(0, 10)}</div>
-                      <div>Total amount: ${reservation.totalPrice}</div>
+                      <div>🡺 Check in: {reservation?.check_in.slice(0, 10)}</div>
+                      <div>🡸 Check out: {reservation?.check_out.slice(0, 10)}</div>
+                      <div>Total amount: ${reservation?.totalPrice}</div>
                     </div>
                   </div>
                 ))

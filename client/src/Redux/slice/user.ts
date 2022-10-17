@@ -206,7 +206,7 @@ export const payment_reserv = createAsyncThunk<Object,Object>('User/datapeyment'
             return json.data
         }
     }catch(error:any){
-        Swal.fire("Oh No!", error, "success");
+        Swal.fire("Oh No!", "Your card was declined", "error");
         console.log(error)
     }
 })
