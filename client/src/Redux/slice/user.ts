@@ -2,7 +2,7 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { IRoom } from './rooms';
 import Swal from "sweetalert2";
-import { redirect } from 'react-router-dom';
+
 
 
 
@@ -196,11 +196,11 @@ export const removeFavorite = createAsyncThunk<IRoom,Object>('User/removeFavorit
 
 export const payment_reserv = createAsyncThunk<Object,Object>('User/datapeyment', async (value)=>{
     try{
-        const res = await axios.post('http://localhost:3002/dataPeyment',value)
+        const res = await axios.post('https://snor-inn-api.onrender.com/dataPeyment',value)
 
         if(res.status===200){
 
-        const json = await axios.post('http://localhost:3002/reservation', value)
+        const json = await axios.post('https://snor-inn-api.onrender.com/reservation', value)
             console.log('llegamos hasta aca')
             Swal.fire("Great!", "Your payment was processed correctly. You'll receive your receipt via mail.", "success");
             return json.data

@@ -1,8 +1,15 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
+import axios from 'axios';
 import Swal from 'sweetalert2';
-import { Iinput } from '../../User/Views/User/AddReview/AddReview';
 
+interface Iinput {
+    adminId: string;
+    userId: string;
+    reservationId: string;
+    stars: number;
+    roomId: string;
+    comment: string;
+  }
 interface IReviews {
     comment: string;
     reservationId: string;
@@ -262,7 +269,7 @@ export const deleteRoom = createAsyncThunk<IRoom,any>('rooms/deleteRoom', async 
 
 export const addReview = createAsyncThunk<any, Iinput>('rooms/addReview', async (value)=>{
     try{
-        const json = await axios.post('http://localhost:3002/reviewsByClient', value)
+        const json = await axios.post('https://snor-inn-api.onrender.com/reviewsByClient', value)
         return json.data
     }catch(error:any){
         Swal.fire("Oh No!", error.response.data.error, "error");
@@ -272,7 +279,7 @@ export const addReview = createAsyncThunk<any, Iinput>('rooms/addReview', async 
 
 export const getReview = createAsyncThunk<any, string>('rooms/getReview', async (value)=>{
     try{
-        const json = await axios.get('http://localhost:3002/reviewsByClient')
+        const json = await axios.get('https://snor-inn-api.onrender.com/reviewsByClient')
         return json.data
     }catch(error){
         console.log(error)
