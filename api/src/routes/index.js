@@ -40,7 +40,7 @@ const { routePostFavorites } = require('../routes/postFavorites');
 const { routeGetResrevationByRommId } = require('../routes/getReservationByIdRoom');
 const { routeGetReservationById } = require('../routes/getReservationbyId')
 
-const { OAuth2Client } = require('google-auth-library');
+/*const { OAuth2Client } = require('google-auth-library');
 const { db } = require('../models/userClientSchema');
 const jwt = require('jsonwebtoken')
 const secret = 'thisisasecretpassword'
@@ -48,7 +48,7 @@ const bcrypt = require('bcrypt')
 require('dotenv').config();
 const {
     CLIENT_ID
-} = process.env;
+} = process.env;*/
 
 
 
@@ -184,19 +184,24 @@ router.post('/dataPeyment', async (req, res) => {
 
 
     } catch (error) {
+        console.log(error)
         res.status(404).json({ message: error.raw.message })
     }
 });
 
 ///////////////////////////////////// RUTAS LOGIN AND REGISTER USER  ///////////////////////////////
 
-//login con verificación de cuenta activada por mail 
+//login con verificación de cuenta activada por mail || LOGIN GOOGLE
 router.post('/login', async (req, res) => {
     try {
         //obtengo nombre e email del usuario
-        const { email, password } = req.body;
+        const { email, password = p, google } = req.body;
+
         //verificar que el usuario exista
-        const user = await UserClient.findOne({ email }).populate(["roomFavorites", "reservationId"]) || null;
+        let user = await UserClient.findOne({ email }).populate(["roomFavorites", "reservationId"]) || null;
+
+        if (!google) {
+        
         if (user === null) {
             return res.status(401).send('You Need to be registered to log in')
         };
@@ -208,9 +213,16 @@ router.post('/login', async (req, res) => {
 
             else {
                 console.log(user);
-                res.json(user);
+                return res.json(user);
             }
         })
+    } else {
+        if(user === null) {
+            user = new UserClient({ email, password: p});
+            user.save()
+        }
+        return res.json(user)
+    }
 
     } catch (error) {
         console.log(error)
@@ -562,7 +574,7 @@ router.get('/reseta/:token', async (req, res) => {
 
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
 
-router.get('/authentificate', async (res, req) => {
+/*router.get('/authentificate', async (res, req) => {
     async function verify(client, token) {
         const ticket = await client.verifyIdToken({
             idToken: token,
@@ -611,5 +623,5 @@ router.get('/authentificate', async (res, req) => {
         })
     }
 })
-
+*/
 module.exports = router;
