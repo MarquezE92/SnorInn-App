@@ -3,10 +3,11 @@ const { roomSchema, ReviewRoom, UserClient, Reservation } = require('../db');
 
 const addReview = async ({userId, reservationId, roomId, stars, comment}) => {
     const getRooms = await roomSchema.findById(roomId)
-    const validate = await ReviewRoom.find({userId})
+  //  const validate = await ReviewRoom.find({userId})
     const getReservation =await Reservation.find({_id: reservationId, userId, roomId})
+    
     if(!getReservation.length) throw new Error('You do not have a reservation, you need it');
-    if(validate.length) throw new Error('you had a coment in this room');
+   // if(validate.length) throw new Error('you had a coment in this room');
     const addNewReview = new ReviewRoom({
         userId,
         reservationId,
