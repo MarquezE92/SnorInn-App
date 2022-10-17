@@ -2,6 +2,15 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { Iinput } from '../../User/Views/User/AddReview/AddReview';
 
+interface IReviews {
+    comment: string;
+    reservationId: string;
+    roomId: string;
+    stars: number;
+    userId: string;
+    _id: string
+}
+
 export interface IRoom{
     _id: string;
     userAdminId:string;
@@ -15,7 +24,7 @@ export interface IRoom{
     photos: any;
     services: any;
     rating: number;
-    reviews: Object[];
+    reviews: IReviews[];
     description: string;
 }
 
