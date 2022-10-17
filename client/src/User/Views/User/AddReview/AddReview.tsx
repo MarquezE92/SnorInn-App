@@ -3,7 +3,12 @@ import { useParams } from 'react-router-dom';
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import styles from "./addReview.module.css"
+import styles from "./addReview.module.css";
+import { useAppDispatch, useAppSelector } from "../../../../Redux/Store/hooks";
+import {addReview, IRoom} from '../../../../Redux/slice/rooms';
+import {useNavigate} from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content'
 
 interface Iinput {
   adminId: string;
@@ -17,6 +22,11 @@ interface Iinput {
 const AddReview = ()=> {
 
 	const {id} = useParams();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const MySwal = withReactContent(Swal)
+  const rooms = useAppSelector(state=>state.rooms.Rooms);
+  const user = JSON.parse(localStorage.getItem('user')!);
 
 	const [input, setInput] = useState<Iinput>({
 		adminId: "",
@@ -31,7 +41,17 @@ const AddReview = ()=> {
 
 	const handleSubmit = (e:any)=>{
 		e.preventDefault();
-
+    if(input.stars && input.comment) {
+      dispatch(addReview(input))
+      setTimeout(()=>{navigate(`/rooms/${room[0]._id}`, {replace:true})}, 1000);
+    } else {
+      return MySwal.fire({
+            title: <strong>Ups!</strong>,
+            html: <i>Your review is not complete until you rate and leave a comment.</i>,
+            icon: 'error'
+          })
+    }
+    
 	};
 
 	const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
