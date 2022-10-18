@@ -57,13 +57,10 @@ const RoomDetail = ()=> {
 		const userLocal = JSON.parse(localStorage.getItem('user')!)
 		if(user._id !== ''){
 			const room = userLocal.roomFavorites.find((el:any)=>el._id===fav.roomFavorites)
-		console.log(room)
 		if( room == undefined ){
-			console.log('1')
 			dispatch(addFavorite(fav))
 			const userLocal = JSON.parse(localStorage.getItem('user')!)
 		}else{
-			console.log('2')
 			dispatch(removeFavorite(fav))
 		}
 	}else{

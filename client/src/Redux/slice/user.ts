@@ -56,7 +56,6 @@ const UserSlice = createSlice({
     extraReducers:(builder)=>{
         builder.addCase(signUpUser.pending,(state)=>{
             state.state = 'loading'
-            console.log(state.state)
         })
         builder.addCase(signUpUser.fulfilled,(state, action)=>{
             state.state = 'fullfiled'
@@ -66,7 +65,6 @@ const UserSlice = createSlice({
         })
         builder.addCase(signUpUser.rejected,(state,action)=>{
             state.state = 'rejected'
-            console.log(action)
         })
 
         builder.addCase(addFavorite.pending, (state)=>{
@@ -190,7 +188,6 @@ export const removeFavorite = createAsyncThunk<IRoom,Object>('User/removeFavorit
     try{
         const json = await axios.put('https://snor-inn-api.onrender.com/favoriteByIdRoom',value)
         Swal.fire("Great!", "You remove this room to your favorites!", "success");
-        console.log(json.data)
         return json.data
 
     }catch(error){
@@ -210,7 +207,7 @@ export const payment_reserv = createAsyncThunk<Object,Object>('User/payment_rese
             return json.data
         }
     }catch(error:any){
-        console.log(error.response.data.message)
+        console.log(error)
         Swal.fire("Oh No!", error.response.data.message, "error");
     }
 })
