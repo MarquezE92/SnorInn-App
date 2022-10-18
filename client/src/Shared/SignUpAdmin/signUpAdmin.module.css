@@ -94,4 +94,11 @@
     cursor: pointer;
    }
 
+   .icon {
+    position: absolute;
+    top: 19rem;
+    left: 50.5rem;
+    cursor: pointer;
+   }
+
   
