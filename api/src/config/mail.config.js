@@ -51,7 +51,7 @@ let transporter = nodemailer.createTransport({
             <h2>To confirm your account, press the link below</h2>
             
             <a
-                href="http://localhost:3002/confirm/${ token }"
+                href="https://snor-inn-api.onrender.com/confirm/${ token }"
                 target="_blank"
             >Confirm Account</a>
         </div>
@@ -70,7 +70,7 @@ let transporter = nodemailer.createTransport({
             <h2>To reset your password, click the link below</h2>
             
             <a
-                href="http://localhost:3002/reset/${token}"
+                href="https://snor-inn-api.onrender.com/reset/${token}"
                 target="_blank"
             >Reset</a>
             <h2>And we will send you a mail with a new password</h2>
@@ -179,7 +179,7 @@ const getTemplateAdmin = (token) => {
             <h2>To confirm your account, press the link below</h2>
             
             <a
-                href="http://localhost:3002/confirma/${ token }"
+                href="https://snor-inn-api.onrender.com/confirma/${ token }"
                 target="_blank"
             >Confirm Account</a>
         </div>
@@ -198,7 +198,7 @@ const getTemplateAdmin = (token) => {
             <h2>To reset your password, click the link below</h2>
             
             <a
-                href="http://localhost:3002/reseta/${token}"
+                href="https://snor-inn-api.onrender.com/reseta/${token}"
                 target="_blank"
             >Reset</a>
             <h2>And we will send you a mail with a new password</h2>
