@@ -4,7 +4,7 @@ import styles from "./checkoutform.module.css";
 import { RootState } from "../../Redux/Store/store";
 import { useSelector } from "react-redux";
 import {useAppSelector, useAppDispatch} from '../../Redux/Store/hooks';
-import { payment_reserv } from "../../Redux/slice/user";
+import { payment_reserv, loading } from "../../Redux/slice/user";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 // Para el calendario
@@ -12,6 +12,7 @@ import { DateRange } from "react-date-range";
 import { format } from "date-fns";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
+import { Loader } from "../../loader/loader";
 
 interface IUserInfo{
     confimationCode:string;
@@ -35,7 +36,7 @@ const CheckutForm = () => {
   const rooms = useSelector((state: RootState) => state.rooms.Room);
   const dispatch = useAppDispatch()
   const user:IUserInfo = useAppSelector(state=>state.users.userInfo);
-  
+  var Loading = useAppSelector(state=>state.users.Loading)
 
   //-----------PARA EL CALENDARIO
   const [openDate, setOpenDate] = useState(false);
@@ -77,6 +78,7 @@ const CheckutForm = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    dispatch(loading(true))
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardElement),
@@ -87,55 +89,64 @@ const CheckutForm = () => {
         const { email, _id } = user;
         const res = dispatch(payment_reserv({
           id,
-        amount: Number(rooms.price + "00")*getDatesInRange(dates[0].startDate,dates[0].endDate).nigths,
-        email,
+          amount: Number(rooms.price + "00")*getDatesInRange(dates[0].startDate,dates[0].endDate).nigths,
+          email,
         userId: _id,
         roomId: rooms._id,
         check_in: dates[0].startDate,
         check_out: dates[0].endDate,
         dates: getDatesInRange(dates[0].startDate,dates[0].endDate).dates
       }))
- 
-      if((await res).meta.requestStatus==='fulfilled'){
+      
+      if((await res).payload !== undefined){
+        dispatch(loading(false))
         navigate("/rooms", { replace: true });
+      }else{
+        dispatch(loading(false))
       }
       
-    } else {Swal.fire("Oh No!", error.message, "error");}
+    } else {
+      dispatch(loading(false))
+      Swal.fire("Oh No!", error.message, "error");}
   };
 
   return (
-    <div className={styles.mainDiv}>
+
+    <>
+      
+        {Loading && <Loader/>}
+        <div className={styles.mainDiv}>
       <form onSubmit={handleSubmit} className={styles.form}>
         <h2>{rooms.name}</h2>
         {rooms ? (
           <div className={styles.roomContainer}>
-            <div className={styles.imageDiv}>
-              <img src={rooms.photos.url} alt=''/>
-            </div>
+          <div className={styles.imageDiv}>
+          <img src={rooms.photos.url} alt=''/>
+          </div>
             <div className={styles.infoContainer}>
               <section>
-                <h3>{rooms.place}</h3>
+              <h3>{rooms.place}</h3>
               </section>
               <div className={styles.price}>
-                Price per night: <br />${rooms.price} ARS
+              Price per night: <br />${rooms.price} ARS
               </div>
-            </div>
-          </div>
-        ) : (
-          <div>Loading...</div>
-        )}
-  {//------------------------------CALENDARIO RESERVAS
-  }
-        <div className={styles.calendarContainer}>
-          <span
+              </div>
+              </div>
+              ) : (
+                <div>Loading...</div>
+                )}
+                {//------------------------------CALENDARIO RESERVAS
+                }
+                <div className={styles.calendarContainer}>
+                <span
                   onClick={() => setOpenDate(!openDate)}
                   className={styles.headerSearchText}
-                >{`${format(dates[0].startDate, "MM/dd/yyyy")} to ${format(
-                  dates[0].endDate,
-                  "MM/dd/yyyy"
-                )}`}</span>
-          {openDate && (
-                  <DateRange
+                  >{`${format(dates[0].startDate, "MM/dd/yyyy")} to ${format(
+                    dates[0].endDate,
+                    "MM/dd/yyyy"
+                    )}`}</span>
+                  {openDate && (
+                    <DateRange
                     editableDateInputs={true}
                     onChange={handleDate}
                     moveRangeOnFirstSelection={false}
@@ -144,18 +155,22 @@ const CheckutForm = () => {
                     minDate={new Date()}
                     disabledDates={rooms.unavailableDates?.map((date)=> new Date(date))}
                   />
-                )}
+                  )}
         </div>
-
+        
         <div className={styles.cardDiv}>
-          <CardElement />
+        <CardElement />
         </div>
         <button type="submit" className={styles.button}>
-          Reserve
+        Reserve
         </button>
       </form>
-    </div>
-  );
-};
+      </div>
+    
+    
+    </>
+    );
+  };
 
-export default CheckutForm;
+  export default CheckutForm;
+  

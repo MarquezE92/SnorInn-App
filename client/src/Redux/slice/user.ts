@@ -35,7 +35,7 @@ const initialState={
         _id: '',
     },
     state:'initial',
-    Msg:''
+    Loading:false
 }
 
 
@@ -48,6 +48,9 @@ const UserSlice = createSlice({
         logout:(state)=>{
             localStorage.clear()
             state.userInfo = initialState;
+        },
+        loading:(state, action)=>{
+            state.Loading = action.payload
         }
     },
     extraReducers:(builder)=>{
@@ -100,12 +103,14 @@ const UserSlice = createSlice({
 
         builder.addCase(payment_reserv.pending, (state)=>{
             state.state = 'loading'
-            console.log(state.state)
+        })
+        builder.addCase(payment_reserv.rejected, (state)=>{
+            state.state = 'rejected'
         })
         builder.addCase(payment_reserv.fulfilled, (state, action)=>{
             state.state = 'fullfiled'
             const user = JSON.parse(localStorage.getItem('user')!)
-            if(user){
+            if(user && action.payload!==undefined){
                 user.reservationId = [...user.reservationId, action.payload]
                 localStorage.setItem('user', JSON.stringify(user))
             }
@@ -128,7 +133,7 @@ const UserSlice = createSlice({
 })
 
 export default UserSlice.reducer
-export const {logout} = UserSlice.actions
+export const {logout, loading} = UserSlice.actions
 
 //sin registro en base de datos
 export const signUpUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/register', async (value, {rejectWithValue}) => {
@@ -150,11 +155,8 @@ export const signInUser = createAsyncThunk<IUserInfo, Partial<IUser>>('User/logi
     try {
         const json:AxiosResponse = await axios.post('http://localhost:3002/login',value)
         localStorage.setItem('user', JSON.stringify(json.data))
-        console.log(value)
         return json.data
       } catch (error:any) {
-        console.log(value)
-        console.log(error)
         Swal.fire("Ups!", (error.response.data), "error");
         return rejectWithValue(error)
       }
@@ -199,17 +201,17 @@ export const removeFavorite = createAsyncThunk<IRoom,Object>('User/removeFavorit
 export const payment_reserv = createAsyncThunk<Object,Object>('User/payment_reserv', async (value)=>{
     try{
         const res = await axios.post('http://localhost:3002/dataPeyment',value)
+        console.log(res)
+   
+            if(res.status===200){
+                const json:AxiosResponse = await axios.post('http://localhost:3002/reservation', value)
+                Swal.fire("Great!", "Your payment was processed correctly. You'll receive your receipt via mail.", "success");
+                return json.data
+            }
 
-        if(res.status===200){
-
-        const json = await axios.post('http://localhost:3002/reservation', value)
-            console.log('llegamos hasta aca')
-            Swal.fire("Great!", "Your payment was processed correctly. You'll receive your receipt via mail.", "success");
-            return json.data
-        }
     }catch(error:any){
-        Swal.fire("Oh No!", "Your card was declined", "error");
-        console.log(error)
+        console.log(error.response.data.message)
+        Swal.fire("Oh No!", error.response.data.message, "error");
     }
 })
 
