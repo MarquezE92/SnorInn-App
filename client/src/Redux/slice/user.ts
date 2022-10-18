@@ -207,7 +207,7 @@ export const payment_reserv = createAsyncThunk<Object,Object>('User/payment_rese
             return json.data
         }
     }catch(error:any){
-        console.log(error.response.data.message)
+        console.log(error)
         Swal.fire("Oh No!", error.response.data.message, "error");
     }
 })
