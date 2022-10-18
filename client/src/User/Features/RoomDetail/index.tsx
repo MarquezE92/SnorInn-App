@@ -9,7 +9,6 @@ import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap'; 
 import { BsFillHeartFill } from "react-icons/bs";
-import Swal from "sweetalert2";
 import { BsFillStarFill } from "react-icons/bs";
 
 
@@ -57,7 +56,7 @@ const RoomDetail = ()=> {
 		const userLocal = JSON.parse(localStorage.getItem('user')!)
 		if(user._id !== ''){
 			const room = userLocal.roomFavorites.find((el:any)=>el._id===fav.roomFavorites)
-		if( room == undefined ){
+		if( room === undefined ){
 			dispatch(addFavorite(fav))
 			const userLocal = JSON.parse(localStorage.getItem('user')!)
 		}else{

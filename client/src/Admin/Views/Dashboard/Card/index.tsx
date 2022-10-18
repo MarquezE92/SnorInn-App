@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppDispatch } from "../../../../Redux/Store/hooks";
 import styles from "./card.module.css";
-import { BsFillXSquareFill } from "react-icons/bs";
+import { BsFillTrashFill } from "react-icons/bs";
 import { deleteRoom } from "../../../../Redux/slice/rooms";
 import { NavLink } from "react-router-dom";
 import {useState} from 'react'
@@ -31,14 +31,14 @@ const CardAdmin = ({ _id, name, photos }: Props) => {
   return (
     <>
     <div className={styles.cardContainer}>
-      <div className={styles.name}>{name} </div>
+    <h3 className={styles.name}>{name} </h3>
       <div className={styles.delete}>
         <button onClick={() => handleModal()}>
-          <BsFillXSquareFill />
+          <BsFillTrashFill />
         </button>
       </div>
       <div className={styles.imgDiv}>
-        <img src={photos} />
+        <img src={photos} alt=''/>
       </div>
       <button className={styles.editButton}>
         <NavLink to={`/put/${_id}`}>Edit</NavLink>
