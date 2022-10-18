@@ -40,18 +40,6 @@ const { routePostFavorites } = require('../routes/postFavorites');
 const { routeGetResrevationByRommId } = require('../routes/getReservationByIdRoom');
 const { routeGetReservationById } = require('../routes/getReservationbyId')
 
-/*const { OAuth2Client } = require('google-auth-library');
-const { db } = require('../models/userClientSchema');
-const jwt = require('jsonwebtoken')
-const secret = 'thisisasecretpassword'
-const bcrypt = require('bcrypt')
-require('dotenv').config();
-const {
-    CLIENT_ID
-} = process.env;*/
-
-
-
 router.get('/room/:id', routeGetRoomById);
 router.get('/roomsByAdminId/:id', routeGetRoomByIdAdmin);
 router.get('/userClient/:id', routeGetUserClient);
@@ -66,7 +54,7 @@ router.put('/favoriteByIdRoom', routeDelFavorites);
 router.delete('/room/:id', routeDeleteRoomById);
 
 
-//CONDIFURAR LAS RUTAS
+//CONFIGURAR LAS RUTAS
 
 
 router.get('/rooms', async (req, res) => { //esta va solo por paginado y asigando por query la pagina a permanecer
@@ -156,7 +144,7 @@ router.get('/orderByRating', async (req, res) => {
 
 
 // STRIPE KEY PRIVATE
-const stripe = new Stripe('sk_test_51LpGDXJjFvmrQ5VMHJn0DT1tfOuKTeIz4fwyW0qd5e1deE4HC3Xkt07y9defbZNttmdg8id3zVNox95Y26L1LKVT00pOXoh4ma')
+const stripe = new Stripe(process.env.STRIP)
 router.post('/dataPeyment', async (req, res) => {
     const { id, amount, email } = req.body
     try {
@@ -574,54 +562,4 @@ router.get('/reseta/:token', async (req, res) => {
 
 ///////////////////////////////////// RUTA FILTRO NUMERO DE CAMAS Y PLACE ///////////////////////////////////////////
 
-/*router.get('/authentificate', async (res, req) => {
-    async function verify(client, token) {
-        const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: dot.env.CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-            // Or, if multiple clients access the backend:
-            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-        });
-        const payload = ticket.getPayload();
-        return payload
-        // const userid = payload['sub'];
-        // If request specified a G Suite domain:
-        // const domain = payload['hd'];
-    }
-    const client = new OAuth2Client(CLIENT_ID);
-    let token = req.query.id_token
-    let response = verify(client, token).catch(console.error);
-    if (response.email_verified) {
-        db.collection('UserClient').findOne({ email: response.email }).toArray((err, result) => {
-            if (err) throw (err);
-            if (result.length < 1) {
-                db.collection('UserClient').insertMany([{
-                    name: response.name,
-                    email: response.email,
-                    password: bcrypt.hashSync(response.at_hash, 8)
-                }]);
-                db.collection('UserClient').findOne({ email: response.email }).toArray((err, result) => {
-                    if (e) throw err;
-                    let tkn = jwt.sign({ id: result[0]._id }, secret);
-                    res.send({
-                        auth: true,
-                        token: tkn
-                    })
-                })
-            } else {
-                let token = jwt.sing({ id: result[0]._id }, secret);
-                res.send({
-                    auth: true,
-                    token: token
-                })
-            }
-        })
-    } else {
-        res.send({
-            auth: false.valueOf,
-            message: 'User unauthorized'
-        })
-    }
-})
-*/
 module.exports = router;
