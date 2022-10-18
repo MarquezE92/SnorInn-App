@@ -19,6 +19,7 @@ import PaswordSentMessage from "./Shared/LoginUser/PasswordRestore/PaswordSentMe
 import User from "./User/Views/User";
 import Edit from "./Admin/Views/Dashboard/Edit";
 import AddReview from "./User/Views/User/AddReview/AddReview";
+import Contact from "./Shared/Contact/Contact"
 
 function App() {
   return (
@@ -38,7 +39,7 @@ function App() {
         <Route path="/rooms/:id" element={<RoomDetail />} />
 
         <Route path="/about" element={<AboutUs />} />
-        
+        <Route path="/contact" element={<Contact/>} />
         
         <Route element={<AuthRoutes/>}>
           <Route path="/dashboard" element={<AdminDashboard />} />
