@@ -25,7 +25,7 @@ const SignUpAdmin = () => {
     password: "",
   });
   
-
+  const [pass, setPass] = useState<string>("")
 
 
 
@@ -35,6 +35,10 @@ const SignUpAdmin = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  const handlePass = (e: ChangeEvent<HTMLInputElement>)=> {
+    setPass(e.target.value)
+  }
 
   // const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
   //   const { name, value } = e.target;
@@ -52,8 +56,14 @@ const SignUpAdmin = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-      dispatch(signUpAdmin(input));
+      if(input.password !== pass) {
+        Swal.fire("Ups!", "The passwords don't match", "error");
+
+      } else {
+        dispatch(signUpAdmin(input));
       setInput({ email: "", password: ""});
+      setPass("")
+      }
   };
 
   return (
@@ -82,6 +92,17 @@ const SignUpAdmin = () => {
             name="password"
             value={input.password}
             onChange={handleInput}
+          />
+          <label className={styles.subtitle} htmlFor="password">
+            Verify Password
+          </label>
+          <input
+            className={(pass === input.password)? styles.input : styles.wrong}
+            type="password"
+            id="password2"
+            name="password2"
+            value={pass}
+            onChange={handlePass}
           />
           <input className={styles.buttonModal} type="submit" value="Sign up" />
         </form>
