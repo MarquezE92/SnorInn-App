@@ -10,6 +10,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import jwt_decode from "jwt-decode";
 import { GoogleLogin } from "@react-oauth/google";
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
 const SignUpUser = () => {
   interface Login {
