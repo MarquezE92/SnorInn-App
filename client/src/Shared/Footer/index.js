@@ -46,11 +46,11 @@ const Footer = () => {
             <Link to="/about">About us</Link>
           </div>
           <div className={styles.infoItem}>
+            <Link to="/contact">Contact</Link>
+          </div>
+          {/* <div className={styles.infoItem}>
             <Link>Faq</Link>
-          </div>
-          <div className={styles.infoItem}>
-            <Link>Contact</Link>
-          </div>
+          </div> */}
         </div>
         <div className={styles.imgContainer}>
           <div className={styles.imgDiv}>
