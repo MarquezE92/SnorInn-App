@@ -67,7 +67,7 @@ app.use((err, req, res, next) => {
     console.error(err);
     res.status(status).send(message);
 });
-app.use(cors({origin: 'https://snor-inn.vercel.app/'}));
+app.use(cors({origin: 'http://localhost:3000'}));
 
 
 // SERVIDOR ESCUCHANDO EN 
