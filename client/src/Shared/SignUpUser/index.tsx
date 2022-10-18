@@ -3,8 +3,10 @@ import styles from "./signUpUser.module.css";
 import { useState } from "react";
 import { ChangeEvent } from "react";
 import { useAppDispatch } from "../../Redux/Store/hooks";
-import { signUpUser } from "../../Redux/slice/user";
+import { signInUser, signUpUser } from "../../Redux/slice/user";
 import Swal from "sweetalert2";
+import jwt_decode from "jwt-decode";
+import { GoogleLogin } from "@react-oauth/google";
 
 const SignUpUser = () => {
   interface Login {
@@ -59,6 +61,14 @@ const SignUpUser = () => {
   }
   };
 
+  
+  const handleGoogle = (credentialResponse: any) => {
+    const decoded:any = jwt_decode(credentialResponse.credential);
+    const email = decoded.email
+    console.log(email);
+    dispatch(signInUser({email: email, google: true, password: "UserGoogle"}));
+};
+
   return (
     <div className={styles.principalContainer}>
       <div className={styles.mainDiv}>
@@ -86,7 +96,7 @@ const SignUpUser = () => {
             value={input.password}
             onChange={handleInput}
           />
-          <label className={styles.subtitle} htmlFor="password">
+          <label className={styles.subtitle} htmlFor="password2">
             Verify Password
           </label>
           <input
@@ -99,10 +109,14 @@ const SignUpUser = () => {
           />
           <input className={styles.buttonModal} type="submit" value="Sign up" />
         </form>
-        <h2 className={styles.title}>or use one of these options</h2>
+        <h2 className={styles.title}>or use this option </h2>
         <div className={styles.imageContainer}>
-          <button className={styles.cardImg}>gmail</button>
-          <button className={styles.cardImg}>facebook</button>
+        <GoogleLogin
+                onSuccess={handleGoogle}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
         </div>
       </div>
     </div>

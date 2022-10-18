@@ -14,6 +14,7 @@ import { RootState } from "../../../../Redux/Store/store";
 import { useParams } from "react-router-dom";
 import { getDetailRoom } from "../../../../Redux/slice/rooms";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Edit = () => {
   const servicesInfo = services;
@@ -22,10 +23,7 @@ const Edit = () => {
   const placesInfo = places;
   const ratingInfo = rating;
   const { id } = useParams();
-  const rooms = useAppSelector((state) => state.rooms.Room);
-  const idAdmin = useAppSelector(
-    (state: RootState) => state.admin.AdminInfo._id
-  );
+  const [rooms, setRooms] = useState<any>({});
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -33,9 +31,18 @@ const Edit = () => {
   const [openModal, setOpenModal] = useState(false);
   const [input, setInput] = useState<any>({
     _id: id,
-    services: rooms.services
   });
   const [validated, setValidated] = useState(false);
+
+  const room: any = async () => {
+    const info = await axios.get(`http://localhost:3002/room/${id}`);
+    console.log(info.data);
+    setRooms(info.data);
+    setInput({
+      ...input,
+      services: info.data.services,
+    });
+  };
 
   const handleModal = () => {
     setOpenModal(!openModal);
@@ -44,7 +51,8 @@ const Edit = () => {
   const handleDelete = (e: string) => {
     setInput({
       ...input,
-      services: input.services && input.services.filter((el:string) => el !== e),
+      services:
+        input.services && input.services.filter((el: string) => el !== e),
     });
   };
 
@@ -101,39 +109,37 @@ const Edit = () => {
   };
 
   const handleSubmit = (e: FormEvent<any>) => {
-       e.preventDefault()
-      dispatch(editRoom(input));
-      Swal.fire("Good job!", "Your room was edited!", "success");
-      setTimeout(() => navigate("/dashboard", { replace: false }), 2200);
+    e.preventDefault();
+    dispatch(editRoom(input));
+    Swal.fire("Good job!", "Your room was edited!", "success");
+    setTimeout(() => navigate("/dashboard", { replace: false }), 2200);
   };
-
-
 
   useEffect(() => {
     dispatch(getDetailRoom(id));
-    console.log(rooms.name);
+    room();
+    console.log(rooms);
+    console.log(rooms.services);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(()=> {
+  useEffect(() => {
     if (input.services?.length <= 4) {
       setInput({
         ...input,
-        type: 'Basic'
-      })
-    }
-    else if (input.services?.length > 4 && input.services?.length <= 7) {
+        type: "Basic",
+      });
+    } else if (input.services?.length > 4 && input.services?.length <= 7) {
       setInput({
         ...input,
-        type: 'Standard'
-      })
-    }
-    else if (input.services?.length > 7 && input.services?.length <= 10) {
+        type: "Standard",
+      });
+    } else if (input.services?.length > 7 && input.services?.length <= 10) {
       setInput({
         ...input,
-        type: 'Premium'
-      })
+        type: "Premium",
+      });
     }
-  },[input.services])
+  }, [input.services]);
   return (
     <div className={styles.mainContainer}>
       <div className={styles.mainDiv}>
@@ -211,7 +217,7 @@ const Edit = () => {
               ))}
             </Form.Select>
           </FloatingLabel>
-          <FloatingLabel label="Price" className="mb-3">
+          <FloatingLabel label={`Price: ${rooms.price}`} className="mb-3">
             <Form.Control
               value={input.price}
               name="price"
@@ -246,7 +252,7 @@ const Edit = () => {
           <ul className={styles.servicesList}>
             {" "}
             {input.services &&
-              input.services.map((el:string) => (
+              input.services.map((el: string) => (
                 <li key={el}>
                   {el}
                   <button
@@ -258,7 +264,7 @@ const Edit = () => {
                   </button>
                 </li>
               ))}
-          </ul>      
+          </ul>
           <Button
             variant="secondary"
             className={styles.descriptionButton}

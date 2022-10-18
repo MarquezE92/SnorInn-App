@@ -69,7 +69,7 @@ const Login = () => {
         </button>
         {user === "Admin" ? (
           <div className={styles.mainDiv}>
-            <h2 className={styles.title}>Sign in or Sign up as Client</h2>
+            <h2 className={styles.title}>Sign in as Client</h2>
             <form className={styles.form}>
               <label className={styles.subtitle} htmlFor="email">
                 Email
@@ -124,7 +124,7 @@ const Login = () => {
           </div>
         ) : (
           <div className={styles.mainDiv}>
-            <h2 className={styles.title}>Sign in or Sign up as Admin</h2>
+            <h2 className={styles.title}>Sign in as Admin</h2>
             <form className={styles.form}>
               <label className={styles.subtitle} htmlFor="email">
                 Email
