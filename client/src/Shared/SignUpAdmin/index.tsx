@@ -5,9 +5,8 @@ import { ChangeEvent } from "react";
 import { useAppDispatch } from "../../Redux/Store/hooks";
 import { signUpAdmin } from "../../Redux/slice/authSlice";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import { BsFillArrowDownCircleFill, BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import { error } from "console";
+
 
 
 
@@ -18,7 +17,6 @@ const SignUpAdmin = () => {
   }
 
   const dispatch = useAppDispatch();
-  const MySwal = withReactContent(Swal);
 
   const [input, setInput] = useState<SignUp>({
     email: "",
@@ -77,7 +75,8 @@ const SignUpAdmin = () => {
   return (
     <div className={styles.principalContainer}>
       <div className={styles.mainDiv}>
-        <h2 className={styles.title}>Do you have a room to rent? work with us <BsFillArrowDownCircleFill/></h2>
+        <h2 className={styles.title}>Do you have a room to rent? work with us </h2>
+        <BsFillArrowDownCircleFill/>
         <form className={styles.form} onSubmit={handleSubmit}>
           <label className={styles.subtitle} htmlFor="email">
             Email
@@ -102,7 +101,7 @@ const SignUpAdmin = () => {
             onChange={handleInput}
           />
           <div className={styles.icon} onClick={toggleVisibility}>{iconVisibility}</div>
-          <label className={styles.subtitle} htmlFor="password">
+          <label className={styles.subtitle} htmlFor="password2">
             Verify Password
           </label>
           <input
@@ -116,11 +115,6 @@ const SignUpAdmin = () => {
          
           <input className={styles.buttonModal} type="submit" value="Sign up" />
         </form>
-        <h2 className={styles.title}>or use one of these options</h2>
-        <div className={styles.imageContainer}>
-          <button className={styles.cardImg}>gmail</button>
-          <button className={styles.cardImg}>facebook</button>
-        </div>
       </div>
     </div>
   );
