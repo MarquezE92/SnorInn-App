@@ -112,3 +112,9 @@
     height: 50px;
    }
 
+   .icon {
+    position: absolute;
+    top: 18.2rem;
+    left: 50.5rem;
+    cursor: pointer;
+   }
