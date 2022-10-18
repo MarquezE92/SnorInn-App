@@ -7,6 +7,7 @@ import { signInUser, signUpUser } from "../../Redux/slice/user";
 import Swal from "sweetalert2";
 import jwt_decode from "jwt-decode";
 import { GoogleLogin } from "@react-oauth/google";
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
 const SignUpUser = () => {
   interface Login {
@@ -24,6 +25,17 @@ const SignUpUser = () => {
   });
 
   const [pass, setPass] = useState<string>("");
+
+  const [visibility, setVisibility] = useState<boolean>(false);
+
+  const iconVisibility = visibility? (<BsFillEyeSlashFill/>) : (<BsFillEyeFill/>);
+
+  const passwordType = visibility? ("text") : ("password");
+
+  const toggleVisibility = ()=> {
+    setVisibility(!visibility)
+  };
+
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput({
@@ -90,18 +102,19 @@ const SignUpUser = () => {
           </label>
           <input
             className={styles.input}
-            type="password"
+            type= {passwordType}
             id="password"
             name="password"
             value={input.password}
             onChange={handleInput}
           />
+          <div className={styles.icon} onClick={toggleVisibility}>{iconVisibility}</div>
           <label className={styles.subtitle} htmlFor="password2">
             Verify Password
           </label>
           <input
             className={(pass === input.password)? styles.input : styles.wrong}
-            type="password"
+            type= {passwordType}
             id="password2"
             name="password2"
             value={pass}

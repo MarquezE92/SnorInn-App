@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../Redux/Store/hooks";
 import { signUpAdmin } from "../../Redux/slice/authSlice";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { BsFillArrowDownCircleFill } from "react-icons/bs";
+import { BsFillArrowDownCircleFill, BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { error } from "console";
 
 
@@ -27,7 +27,11 @@ const SignUpAdmin = () => {
   
   const [pass, setPass] = useState<string>("")
 
+  const [visibility, setVisibility] = useState<boolean>(false);
 
+  const iconVisibility = visibility? (<BsFillEyeSlashFill/>) : (<BsFillEyeFill/>);
+
+  const passwordType = visibility? ("text") : ("password");
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput({
@@ -38,7 +42,11 @@ const SignUpAdmin = () => {
 
   const handlePass = (e: ChangeEvent<HTMLInputElement>)=> {
     setPass(e.target.value)
-  }
+  };
+
+  const toggleVisibility = ()=> {
+    setVisibility(!visibility)
+  };
 
   // const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
   //   const { name, value } = e.target;
@@ -88,23 +96,25 @@ const SignUpAdmin = () => {
           </label>
           <input
             className={styles.input}
-            type="password"
+            type= {passwordType}
             id="password"
             name="password"
             value={input.password}
             onChange={handleInput}
           />
+          <div className={styles.icon} onClick={toggleVisibility}>{iconVisibility}</div>
           <label className={styles.subtitle} htmlFor="password2">
             Verify Password
           </label>
           <input
             className={(pass === input.password)? styles.input : styles.wrong}
-            type="password"
+            type= {passwordType}
             id="password2"
             name="password2"
             value={pass}
             onChange={handlePass}
           />
+         
           <input className={styles.buttonModal} type="submit" value="Sign up" />
         </form>
         

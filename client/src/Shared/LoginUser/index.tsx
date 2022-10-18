@@ -9,6 +9,7 @@ import { signInAdmin } from "../../Redux/slice/authSlice";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { GoogleLogin } from "@react-oauth/google";
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -21,6 +22,16 @@ const Login = () => {
   const [user, setUser] = useState("Admin");
 
   const navigate = useNavigate();
+
+  const [visibility, setVisibility] = useState<boolean>(false);
+
+  const iconVisibility = visibility? (<BsFillEyeSlashFill/>) : (<BsFillEyeFill/>);
+
+  const passwordType = visibility? ("text") : ("password");
+
+  const toggleVisibility = ()=> {
+    setVisibility(!visibility)
+  };
 
   const handleModal = () => {
     setModal(!modal);
@@ -87,12 +98,13 @@ const Login = () => {
               </label>
               <input
                 className={styles.input}
-                type="password"
+                type= {passwordType}
                 id="password"
                 name="password"
                 value={input.password}
                 onChange={handleInput}
               />
+              <div className={styles.icon} onClick={toggleVisibility}>{iconVisibility}</div>
               <div
                 className={styles.buttonModal}
                 onClick={() => () => handleModal()}
