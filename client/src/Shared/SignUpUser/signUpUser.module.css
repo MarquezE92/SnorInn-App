@@ -74,6 +74,17 @@
     font-size: 1rem;
   }
 
+.wrong {
+    height: 44px;
+    width: 80%;
+    background-color: rgba(137, 8, 0, 0.107);
+    border-radius: .5rem;
+    padding: 0 1rem;
+    border: 2px solid rgba(137, 8, 0, 0.307);
+    font-size: 1rem;
+}
+
+
 .imageContainer {
     display: flex;
     width: 80%;

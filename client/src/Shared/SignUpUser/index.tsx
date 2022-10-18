@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ChangeEvent } from "react";
 import { useAppDispatch } from "../../Redux/Store/hooks";
 import { signUpUser } from "../../Redux/slice/user";
-
+import Swal from "sweetalert2";
 
 const SignUpUser = () => {
   interface Login {
@@ -21,12 +21,18 @@ const SignUpUser = () => {
     isAdmin: false,
   });
 
+  const [pass, setPass] = useState<string>("");
+
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
   };
+
+  const handlePass = (e: ChangeEvent<HTMLInputElement>)=> {
+    setPass(e.target.value)
+  }
 
   // const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
   //   const { name, value } = e.target;
@@ -43,8 +49,14 @@ const SignUpUser = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+      if(input.password !== pass) {
+        Swal.fire("Ups!", "The passwords don't match", "error");
+
+      } else {
     dispatch(signUpUser(input));
     setInput({ email: "", password: "", isAdmin: false});
+    setPass("")
+  }
   };
 
   return (
@@ -73,6 +85,17 @@ const SignUpUser = () => {
             name="password"
             value={input.password}
             onChange={handleInput}
+          />
+          <label className={styles.subtitle} htmlFor="password">
+            Verify Password
+          </label>
+          <input
+            className={(pass === input.password)? styles.input : styles.wrong}
+            type="password"
+            id="password2"
+            name="password2"
+            value={pass}
+            onChange={handlePass}
           />
           <input className={styles.buttonModal} type="submit" value="Sign up" />
         </form>
