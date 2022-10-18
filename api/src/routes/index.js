@@ -144,7 +144,7 @@ router.get('/orderByRating', async (req, res) => {
 
 
 // STRIPE KEY PRIVATE
-const stripe = new Stripe(process.env.STRIP)
+const stripe = new Stripe(process.env.STRIPE)
 router.post('/dataPeyment', async (req, res) => {
     const { id, amount, email } = req.body
     try {
