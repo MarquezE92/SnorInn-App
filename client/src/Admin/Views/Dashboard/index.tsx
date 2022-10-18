@@ -10,8 +10,7 @@ import CardAdmin from "./Card";
 const AdminDashboard = () => {
   const [data, setData] = useState<any>({});
 
-
-  const adminInfo = useAppSelector((state: RootState) => state.users.userInfo)
+  const adminInfo = JSON.parse(localStorage.getItem('admin')!);
   const admin = useAppSelector((state: RootState) => state.admin.AdminInfo._id);
   const rooms = async () => {
     const info = await axios.get(
@@ -37,8 +36,7 @@ const AdminDashboard = () => {
               className={styles.img}
             />
             <div className={styles.info}>
-              <span>{adminInfo.email}</span>
-              <p>Admin :D</p>
+              <p>{adminInfo.email}</p>
             </div>
             <Link to="/create">Create a room</Link>
           </div>
