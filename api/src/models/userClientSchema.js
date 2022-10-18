@@ -5,11 +5,6 @@ const saltRound = 10;
 
 const userClientSchema = mongoose.Schema({
 
-    //  local:{
-    //isAdmin: {
-    //type: Boolean,
-    // default: false
-    //},
     email: {
         type: String,
         required: true,
@@ -17,7 +12,7 @@ const userClientSchema = mongoose.Schema({
     },
     password: {
         type: String,
-    //    required: true,
+        //    required: true,
         unique: false
     },
     //-----------------Para tener un atributo que refleje el estado de la confirmación de registro via mail
@@ -31,49 +26,7 @@ const userClientSchema = mongoose.Schema({
         type: String,
         unique: true
     },
-    // },
-
-
     token: { type: String },
-   /* facebook:{
-        email: String,
-        password: String,
-        id: String,
-        token: String
-
-    },
-    //--------------------------Para guardar el código que identifique la confirmación del registro
-    confirmationCode: {
-        type: String,
-        unique: true
-    },
-    // },
-    /* facebook:{
-         email: String,
-         password: String,
-         id: String,
-         token: String
-     },
-     google: {
-         email: String,
-         password: String,
-         id: String,
-         token: String*/
-    // }
-    // username: String,
-    // password: String,
-    // firstname: String,
-    // lasrname: String,
-    // age: Number,
-    // email: String,
-    // address: String,
-    // rating: Number,
-//----------------------------- Array de habitaciones creadas por el Admin, se agrega temporalmente
-    // rooms: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'room'
-    // }],
-//----------------------------------------------------------
     reservationId: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'reservation'
