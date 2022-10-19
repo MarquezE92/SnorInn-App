@@ -25,11 +25,11 @@ const Login = () => {
 
   const [visibility, setVisibility] = useState<boolean>(false);
 
-  const iconVisibility = visibility? (<BsFillEyeSlashFill/>) : (<BsFillEyeFill/>);
+  const iconVisibility = visibility ? (<BsFillEyeSlashFill />) : (<BsFillEyeFill />);
 
-  const passwordType = visibility? ("text") : ("password");
+  const passwordType = visibility ? ("text") : ("password");
 
-  const toggleVisibility = ()=> {
+  const toggleVisibility = () => {
     setVisibility(!visibility)
   };
 
@@ -43,20 +43,20 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmitUser = (e: FormEvent) => {
+  const handleSubmitUser = async (e: FormEvent) => {
     e.preventDefault();
-    dispatch(signInUser(input));
-    console.log("holi");
-    setTimeout(() => {
+    const response = await dispatch(signInUser(input));
+    console.log(response);
+    if ((response).type === 'User/login/fulfilled') {
       navigate("/user");
-    }, 1000);
+    }
   };
-  const handleSubmitAdmin = (e: FormEvent) => {
+  const handleSubmitAdmin = async (e: FormEvent) => {
     e.preventDefault();
-    dispatch(signInAdmin(input));
-    setTimeout(() => {
+    const response = await dispatch(signInAdmin(input));
+    if ((response).type === 'Admin/login/fulfilled') {
       navigate("/dashboard");
-    }, 1000);
+    }
   };
 
   const handleState = () => {
@@ -65,10 +65,10 @@ const Login = () => {
   };
 
   const handleGoogle = (credentialResponse: any) => {
-      const decoded:any = jwt_decode(credentialResponse.credential);
-      const email = decoded.email
-      console.log(email);
-      dispatch(signInUser({email: email, google: true, password: "UserGoogle"}));
+    const decoded: any = jwt_decode(credentialResponse.credential);
+    const email = decoded.email
+    console.log(email);
+    dispatch(signInUser({ email: email, google: true, password: "UserGoogle" }));
   };
 
   return (
@@ -98,7 +98,7 @@ const Login = () => {
               </label>
               <input
                 className={styles.input}
-                type= {passwordType}
+                type={passwordType}
                 id="password"
                 name="password"
                 value={input.password}
