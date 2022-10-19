@@ -183,7 +183,7 @@ router.post('/dataPeyment', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         //obtengo nombre e email del usuario
-        const { email, password = p, google } = req.body;
+        const { email, password, google } = req.body;
 
         //verificar que el usuario exista
         let user = await UserClient.findOne({ email }).populate(["roomFavorites", "reservationId"]) || null;
@@ -206,7 +206,7 @@ router.post('/login', async (req, res) => {
         })
     } else {
         if(user === null) {
-            user = new UserClient({ email, password: p});
+            user = new UserClient({ email, password});
             user.save()
         }
         return res.json(user)

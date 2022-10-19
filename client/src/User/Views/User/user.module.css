@@ -181,3 +181,15 @@
 	height: 1.5rem;
 	width: 1.5rem;
 }
+
+.emptyMsg {
+	border: 0.1rem solid rgba(0, 0, 0, 0.484);
+	padding: 1rem;
+	height: 4rem;
+
+}
+
+#favOnly {
+	margin-top: auto;
+	margin-bottom: auto;
+}
