@@ -4,7 +4,7 @@ import { useAppSelector } from "../../../Redux/Store/hooks";
 import { RootState } from "../../../Redux/Store/store";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { BsFillBinocularsFill } from "react-icons/bs";
+import { BsFillBinocularsFill, BsFillCaretLeftFill, BsFillCaretRightFill } from "react-icons/bs";
 
 interface Iroom {
   availability: boolean;
@@ -34,6 +34,25 @@ const User = () => {
   const user = JSON.parse(localStorage.getItem('user')!);
   const [render, setRender] = useState("");
 
+  const totalReservations: Ireserve[] = user.reservationId;
+  const lastReservation: number = totalReservations.length;
+  const pages: number = Math.ceil(lastReservation/5);
+  const lastReservations: Ireserve[] = (totalReservations.length > 5) ?
+        totalReservations.slice(((pages-1)*5), lastReservation) :
+        totalReservations;
+  
+
+
+  const [currentPage, setCurrentPage] = useState(pages-1);
+  const [reservations, setReservations] = useState(lastReservations);
+
+  const handlePageClick = (p:number)=>{
+    if(p < pages && p >= 0) {
+      setCurrentPage(p);
+    setReservations(totalReservations.slice((p*5),(p*5)+5))
+    }
+    
+  }
 
   return (
     <div className={styles.mainDiv}>
@@ -66,8 +85,12 @@ const User = () => {
               render === "Reservations" ? styles.render : styles.noRender
             }
           >
-            {user.reservationId?.length
-              ? user.reservationId.map((reservation: Ireserve) => (
+            <div className={styles.arrowContainer}>
+              <BsFillCaretLeftFill onClick={()=>handlePageClick(currentPage -1)} className={currentPage? styles.activated : styles.deactivated}/>
+              <BsFillCaretRightFill onClick={()=>handlePageClick(currentPage +1)} className={(currentPage === (pages-1))? styles.deactivated : styles.activated}/>
+            </div>
+            {reservations?.length
+              ? reservations.map((reservation: Ireserve) => (
                   <div className={styles.reservationContainer}>
                     <div className={styles.linksContainer}>
                       <Link to={`/rooms/${reservation?.roomId}`}><BsFillBinocularsFill className={styles.viewIcon}/></Link>
