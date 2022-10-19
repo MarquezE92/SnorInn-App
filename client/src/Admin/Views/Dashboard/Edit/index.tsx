@@ -2,41 +2,46 @@ import React, { ChangeEvent, FormEvent, useEffect } from "react";
 import { useState } from "react";
 import styles from "./edit.module.css";
 import { useAppDispatch } from "../../../../Redux/Store/hooks";
-import { IRoom, editRoom } from "../../../../Redux/slice/rooms";
+import {editRoom } from "../../../../Redux/slice/rooms";
 import { beds, services, types, places, rating } from "./constants";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { useAppSelector } from "../../../../Redux/Store/hooks";
-import { RootState } from "../../../../Redux/Store/store";
 import { useParams } from "react-router-dom";
 import { getDetailRoom } from "../../../../Redux/slice/rooms";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Edit = () => {
   const servicesInfo = services;
-  const typesInfo = types;
   const bedsInfo = beds;
   const placesInfo = places;
-  const ratingInfo = rating;
   const { id } = useParams();
-  const rooms = useAppSelector((state) => state.rooms.Room);
-  const idAdmin = useAppSelector(
-    (state: RootState) => state.admin.AdminInfo._id
-  );
+ 
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const [rooms, setRooms] = useState<any>({});
   const [openModal, setOpenModal] = useState(false);
   const [input, setInput] = useState<any>({
     _id: id,
-    services: rooms.services
   });
   const [validated, setValidated] = useState(false);
 
+
+
+  const room: any = async () => {
+    const info = await axios.get(`http://localhost:3002/room/${id}`);
+    console.log(info.data);
+    setRooms(info.data);
+    setInput({
+      ...input,
+      services: info.data.services,
+    });
+  };
   const handleModal = () => {
     setOpenModal(!openModal);
   };
@@ -111,7 +116,7 @@ const Edit = () => {
 
   useEffect(() => {
     dispatch(getDetailRoom(id));
-    console.log(rooms.name);
+    room();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(()=> {
@@ -195,23 +200,7 @@ const Edit = () => {
               ))}
             </Form.Select>
           </FloatingLabel>
-          <FloatingLabel label="Rating" className="mb-3">
-            <Form.Select
-              name="rating"
-              onChange={handleSelect}
-              defaultValue={""}
-            >
-              <option disabled value={""}>
-                {rooms.rating}
-              </option>
-              {ratingInfo.map((el) => (
-                <option value={el} key={el}>
-                  {el}
-                </option>
-              ))}
-            </Form.Select>
-          </FloatingLabel>
-          <FloatingLabel label="Price" className="mb-3">
+          <FloatingLabel label={`Price: ${rooms.price}`} className="mb-3">
             <Form.Control
               value={input.price}
               name="price"
