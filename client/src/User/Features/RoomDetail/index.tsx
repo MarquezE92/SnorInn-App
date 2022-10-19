@@ -32,6 +32,7 @@ const RoomDetail = ()=> {
 	const {id} = useParams(); 
 	const rooms = useAppSelector((state) => state.rooms.Room);
 	const user = useAppSelector(state=>state.users.userInfo)
+	const admin = useAppSelector(state=>state.admin.AdminInfo._id)
 	
 	const [fav, setFav]= useState({
 		roomFavorites:id,
@@ -91,7 +92,7 @@ return (
 		<div className={styles.placeAndFav}>
 			<h1 className={styles.place}>{rooms.name}</h1>
 			{
-				user.isAdmin ? 
+				admin !== ''? 
 				<></>:
 				<button onClick={addFav} className={styles.fav}><BsFillHeartFill className={styles.favIcon}/></button>
 			}
