@@ -64,6 +64,9 @@ export const roomSlice = createSlice({
         setRooms :(state, action:PayloadAction<IRoom[]>)=>{
             state.Rooms = action.payload
         },
+        emptyRooms :(state)=>{
+            state.Room = initialState.Room
+        },
 
         setEmptyRooms :(state)=>{
             state.RoomsQuery = []
@@ -172,7 +175,7 @@ export const roomSlice = createSlice({
     }
 })
 
-export const {setRooms, setEmptyRooms, setDetailRoom, addCreatedRoom, sortRoomsByPrice, sortRoomsByRating, setNameRooms /*setRoomsByAllQuery*/} = roomSlice.actions
+export const {setRooms, setEmptyRooms, setDetailRoom, addCreatedRoom, sortRoomsByPrice, sortRoomsByRating, setNameRooms, emptyRooms} = roomSlice.actions
 export default roomSlice.reducer
 
 
