@@ -103,7 +103,7 @@ const User = () => {
                     </div>
                   </div>
                 ))
-              : "You have no reservations yet"}
+              : <div className={styles.emptyMsg}>You have no reservations yet</div>}
           </div>
           <div
             className={render === "Favorites" ? styles.render : styles.noRender}
@@ -120,7 +120,7 @@ const User = () => {
                     </NavLink>
                   </button>
                 ))
-              : <h2>You have no favorite room yet</h2>}
+              : <div className={styles.emptyMsg} id={styles.favOnly}>You have no favorite room yet</div>}
           </div>
         </div>
       </div>
