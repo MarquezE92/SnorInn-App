@@ -179,8 +179,8 @@ export const addFavorite = createAsyncThunk<IRoom,Object>('User/addFavorite', as
         Swal.fire("Great!", "You added this room to your favorites!", "success");
         return json.data
 
-    }catch(error){
-        console.log(error)
+    }catch(error:any){
+        Swal.fire("Ups!", (error.response.data), "error");
     }
 })
 

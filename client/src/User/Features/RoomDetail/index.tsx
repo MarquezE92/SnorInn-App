@@ -11,6 +11,7 @@ import { Modal } from 'react-bootstrap';
 import { BsFillHeartFill } from "react-icons/bs";
 import { BsFillStarFill } from "react-icons/bs";
 import { Loader } from '../../../loader/loader';
+import Swal from 'sweetalert2';
 
 
 const stars = (s: number): number[] => {
@@ -73,7 +74,7 @@ const RoomDetail = () => {
 				dispatch(removeFavorite(fav))
 			}
 		} else {
-			alert('YOU NEED TO BE LOGED TO ADD TO FAVORITES')
+			Swal.fire("Ups!","You need to be logged to add to favorites", "error");
 		}
 	}
 
