@@ -46,7 +46,6 @@ const Login = () => {
   const handleSubmitUser = async (e: FormEvent) => {
     e.preventDefault();
     const response = await dispatch(signInUser(input));
-    console.log(response);
     if ((response).type === 'User/login/fulfilled') {
       navigate("/user");
     }
@@ -160,6 +159,7 @@ const Login = () => {
                 value={input.password}
                 onChange={handleInput}
               />
+               <div className={styles.icon} onClick={toggleVisibility}>{iconVisibility}</div>
               <div
                 className={styles.buttonModal}
                 onClick={() => () => handleModal()}

@@ -33,6 +33,8 @@
 }
 .subtitle {
     padding: 10px 30px;
+    width: 100%;
+    text-align: center;
 }
 
 .buttonModal {
@@ -85,10 +87,15 @@
 }
 
    .icon {
-    position: absolute;
-    top: 19rem;
-    left: 50.5rem;
+    display: flex;
+    align-items: center;
     cursor: pointer;
+    margin-left: auto;
    }
 
+   .iconContainer{
+    display: flex;
+    justify-content: center;
+    width: 80%;
+   }
   
