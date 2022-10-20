@@ -89,9 +89,12 @@ const SignUpAdmin = () => {
             value={input.email}
             onChange={handleInput}
           />
+          <div className={styles.iconContainer}>
           <label className={styles.subtitle} htmlFor="password">
             Password
           </label>
+            <div className={styles.icon} onClick={toggleVisibility}>{iconVisibility}</div>
+          </div>
           <input
             className={styles.input}
             type= {passwordType}
@@ -100,7 +103,6 @@ const SignUpAdmin = () => {
             value={input.password}
             onChange={handleInput}
           />
-          <div className={styles.icon} onClick={toggleVisibility}>{iconVisibility}</div>
           <label className={styles.subtitle} htmlFor="password2">
             Verify Password
           </label>
