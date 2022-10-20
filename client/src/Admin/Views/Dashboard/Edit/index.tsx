@@ -34,7 +34,7 @@ const Edit = () => {
 
 
   const room: any = async () => {
-    const info = await axios.get(`http://localhost:3002/room/${id}`);
+    const info = await axios.get(`https://snor-inn-api.onrender.com/room/${id}`);
     console.log(info.data);
     setRooms(info.data);
     setInput({
