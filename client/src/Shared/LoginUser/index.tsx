@@ -153,7 +153,7 @@ const Login = () => {
               </label>
               <input
                 className={styles.input}
-                type="password"
+                type={passwordType}
                 id="password"
                 name="password"
                 value={input.password}
